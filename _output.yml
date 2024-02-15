@@ -8,8 +8,4 @@ bookdown::gitbook:
       collapse: section
     edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
     download: ["pdf", "epub"]
-bookdown::pdf_book:
-  keep_tex: true
-bookdown::html_book:
-  css: toc.css
 

@@ -1,5 +1,5 @@
 --- 
-title: "Late Night Bayes ☾"
+title: "Late Night Bayes"
 author: "Brenden Eum"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
