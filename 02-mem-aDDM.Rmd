@@ -3,7 +3,7 @@
 (TL;DR) I tried to incorporate the effects of working memory (mem-) into the Attentional Drift-Diffusion-Model (aDDM) by allowing the drift rate parameter to scale with the number of previous exposures to the chosen stimulus in the session. This was an attempt to (1) improve the accuracy of response time predictions from the aDDM and (2) model shorter response times with repeated exposures. It didn't work, but at least now I know what not to try next ¯\\_(ツ)_/¯.
 
 <center>
-![](images/mem-aDDM-rt-results.PNG)
+![](images/mem-aDDM-rt-results.PNG){width=60%}
 </center>
 
 ## Introduction
@@ -11,7 +11,7 @@
 In value-based decisions, there are different ways that familiarity with a stimulus might affect decisions over time. Adopting intuition from Signal Detection Theory, repeated exposure to a stimulus might reduce the variance of the value signal. When it comes to sequential sampling models, we can model this in two ways. The obvious approach would be to reduce the noise parameter as a function of stimulus exposure time. However, previous studies have shown that response times decrease with repeated exposure to a stimulus in an experiment (a wonderful report written by Trinity Pruitt when she was rotating through the Rangel Lab in 2021, or [@agranov2017]). A reduced noise parameter can only serve to increase response times, therefore this adjustment to the model would likely fail to account for behavior. Similarly, I believe the extension of the DDM used in [@agranov2017] fails to account for the effects of repeated exposure on parameters of the DDM.
 
 <center>
-![](images/mem-aDDM-fasterRTs.PNG)
+![](images/mem-aDDM-fasterRTs.PNG){width=30%}
 Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number of times a stimulus is seen in [@smith2018] and in [@eum2022].\
 </center>
 
@@ -20,7 +20,7 @@ Instead, I hypothesize that familiarity with a stimulus will affect the drift ra
 I also think this will make different RT predictions depending on the value difference. Since value differences integrate over time, the lack of evidence in a difficult decision compounds over time. This means that a larger drift rate parameter will reduce response times by more in difficult choices than in easy choices. This may remedy problems that the aDDM has with fitting RT distributions across value differences (see below).
 
 <center>
-![](images/mem-aDDM-aDDM_rt_pred.PNG)
+![](images/mem-aDDM-aDDM_rt_pred.PNG){width=30%}
 </center>
 
 
@@ -48,12 +48,12 @@ library(ggplot2)
 library(hrbrthemes)
 library(runjags)
 library(brms)
-library(cmdstanr)
+#library(cmdstanr)
 library(data.table)
 library(plotrix)
 library(grid)
 library(gridExtra)
-set_cmdstan_path("D:/Program Files/R-4.0.2/library/cmdstan-2.24.1") #gotta do this everytime :\
+#set_cmdstan_path("D:/Program Files/R-4.0.2/library/cmdstan-2.24.1") #gotta do this everytime :\
 ```
 
 #### Read-in data and calculations
@@ -146,18 +146,18 @@ burnin = floor(iterations/2)
 Here, I take previous exposure as the sum of total fixation time to either option in previous trials.
 
 ```{r cache=TRUE}
-reg.exp.both <- brm(
-  RT ~ difficulty+PreviousExposureBoth + (1+difficulty+PreviousExposureBoth|SubjectNumber),
-  data=data,
-  family=gaussian,
-  chains=chainscores,
-  cores=chainscores,
-  iter=iterations,
-  warmup=burnin,
-  seed=seed,
-  backend='cmdstan',
-  refresh=0
-)
+#reg.exp.both <- brm(
+#  RT ~ difficulty+PreviousExposureBoth + (1+difficulty+PreviousExposureBoth|SubjectNumber),
+#  data=data,
+#  family=gaussian,
+#  chains=chainscores,
+#  cores=chainscores,
+#  iter=iterations,
+#  warmup=burnin,
+#  seed=seed,
+#  refresh=0
+#)
+reg.exp.both = lm(RT ~ difficulty+PreviousExposureBoth + (1+difficulty+PreviousExposureBoth|SubjectNumber), data=data)
 reg.exp.both
 ```
 
@@ -168,18 +168,18 @@ The results don't look very promising. It doesn't seem like previous exposure to
 Here, I take previous exposure as the total fixation time to the chosen option in previous trials.
 
 ```{r cache=TRUE}
-reg.exp.chosen <- brm(
-  RT ~ difficulty+PreviousExposureChosen + (1+difficulty+PreviousExposureChosen|SubjectNumber),
-  data=data,
-  family=gaussian,
-  chains=chainscores,
-  cores=chainscores,
-  iter=iterations,
-  warmup=burnin,
-  seed=seed,
-  backend='cmdstan',
-  refresh=0
-)
+#reg.exp.chosen <- brm(
+#  RT ~ difficulty+PreviousExposureChosen + (1+difficulty+PreviousExposureChosen|SubjectNumber),
+#  data=data,
+#  family=gaussian,
+#  chains=chainscores,
+#  cores=chainscores,
+#  iter=iterations,
+#  warmup=burnin,
+#  seed=seed,
+#  refresh=0
+#)
+reg.exp.chosen = lm(RT ~ difficulty+PreviousExposureChosen + (1+difficulty+PreviousExposureChosen|SubjectNumber), data=data)
 reg.exp.chosen
 ```
 
@@ -190,19 +190,19 @@ The results don't look very promising. It doesn't seem like previous exposure to
 Here, I take previous encounters as the number of times the subject has encountered both options before.
 
 ```{r cache=TRUE}
-reg.enc.both <- brm(
-  RT ~ difficulty+PreviousEncounterBoth + (1+difficulty+PreviousEncounterBoth|SubjectNumber),
-  data=data,
-  family=gaussian,
-  chains=chainscores,
-  cores=chainscores,
-  iter=iterations,
-  warmup=burnin,
-  seed=seed,
-  save_pars = save_pars(all = TRUE), #for LOO CV later
-  backend='cmdstan',
-  refresh=0
-)
+#reg.enc.both <- brm(
+#  RT ~ difficulty+PreviousEncounterBoth + (1+difficulty+PreviousEncounterBoth|SubjectNumber),
+#  data=data,
+#  family=gaussian,
+#  chains=chainscores,
+#  cores=chainscores,
+#  iter=iterations,
+#  warmup=burnin,
+#  seed=seed,
+#  save_pars = save_pars(all = TRUE), #for LOO CV later
+#  refresh=0
+#)
+reg.enc.both = lm(RT ~ difficulty+PreviousEncounterBoth + (1+difficulty+PreviousEncounterBoth|SubjectNumber), data=data)
 reg.enc.both
 ```
 
@@ -213,19 +213,19 @@ Interestingly, previous encounters with both options is negatively correlated wi
 Here, I take previous encounters as the number of times the subject has encountered the chosen option before.
 
 ```{r cache=TRUE}
-reg.enc.chosen <- brm(
-  RT ~ difficulty+PreviousEncounterChosen + (1+difficulty+PreviousEncounterChosen|SubjectNumber),
-  data=data,
-  family=gaussian,
-  chains=chainscores,
-  cores=chainscores,
-  iter=iterations,
-  warmup=burnin,
-  seed=seed,
-  save_pars = save_pars(all = TRUE), #for LOO CV later
-  backend='cmdstan',
-  refresh=0
-)
+#reg.enc.chosen <- brm(
+#  RT ~ difficulty+PreviousEncounterChosen + (1+difficulty+PreviousEncounterChosen|SubjectNumber),
+#  data=data,
+#  family=gaussian,
+#  chains=chainscores,
+#  cores=chainscores,
+#  iter=iterations,
+#  warmup=burnin,
+#  seed=seed,
+#  save_pars = save_pars(all = TRUE), #for LOO CV later
+#  refresh=0
+#)
+reg.enc.chosen = lm(RT ~ difficulty+PreviousEncounterChosen + (1+difficulty+PreviousEncounterChosen|SubjectNumber), data=data)
 reg.enc.chosen
 ```
 
@@ -238,12 +238,14 @@ So now we have two potential ways in which working memory might affect response 
 We are comparing the expected log pointwise predictive density (ELPD) of the "chosen" model compared to the "both" model. For this, we should look at the elpd_loo. The better model has the higher elpd_loo.
 
 ```{r model-comparison, cache=TRUE, warnings=FALSE}
-loo1 <- loo(reg.enc.both)
-loo2 <- loo(reg.enc.chosen)
+#loo1 <- loo(reg.enc.both)
+#loo2 <- loo(reg.enc.chosen)
 
-comparison <- loo_compare(loo1,loo2)
-print(comparison, simplify=FALSE, digits=3)
+#comparison <- loo_compare(loo1,loo2)
+#print(comparison, simplify=FALSE, digits=3)
 ```
+
+[I ran these at some point in the past, but I didn't want to have to rerun the MCMC algorithms when I reknit the book again. I've commented out all the analyses using Bayesian heirarchical modeling and used OLS instead. This means there's no need to use ELPD, but I've left the written analyses in from a long time ago so you can see what the results were.]
 
 It looks like previous encounters with the chosen option slightly outperforms previous encounters with both options. 
 
@@ -272,7 +274,7 @@ Bias is $x(0)=x_0$. Drift is $\mu(t)=\mu_i$ for $t_i \leq t < t_{i+1}$. Response
 
 Following [@lombardi2021], we can rewrite drift rate when two conditions hold: (1) when it is constant in discrete time intervals, and (2) when stopping time is explicitly known. We rewrite it:
 
-
+\begin{equation}
 \begin{aligned}
 
 \mu(t) &= \sum_{i=0}^{n-1} \mu_i 1_{[t_i,t_{i+1})} \\
@@ -304,6 +306,7 @@ Following [@lombardi2021], we can rewrite drift rate when two conditions hold: (
 &= \frac{1}{\tau} \sum_{i=0}^{n-1} \mu_i (t_{i+1}-t_i)
 
 \end{aligned}
+\end{equation}
 
 
 Here, $\mu_i$ is constant across each time interval $(t_{i+1}-t_i)$. The drift rate in the aDDM can be written as:
@@ -583,26 +586,26 @@ monitor = c(
   "theta_mu", "theta_pr", "theta" # attentional discounting
 ) 
 
-# run the fitting
-set.seed(seed)
-results <- run.jags(
-  model="temp/mem-aDDM_memaDDM.txt", 
-  monitor=monitor, 
-  data=dat, 
-  n.chains=3, 
-  inits=list(inits1,inits2,inits3),
-  plots = TRUE, 
-  method="parallel", 
-  module="wiener", 
-  burnin=15000, sample=5000 #burnin=25000 sample=10000
-) 
-
-memFit <- add.summary(results)
-
-save(memFit, file="temp/mem-aDDM_memaDDMfit.RData")
-
-# Convergence reached?
-memFit$psrf$mpsrf
+# # run the fitting
+# set.seed(seed)
+# results <- run.jags(
+#   model="temp/mem-aDDM_memaDDM.txt", 
+#   monitor=monitor, 
+#   data=dat, 
+#   n.chains=3, 
+#   inits=list(inits1,inits2,inits3),
+#   plots = TRUE, 
+#   method="parallel", 
+#   module="wiener", 
+#   burnin=15000, sample=5000 #burnin=25000 sample=10000
+# ) 
+# 
+# memFit <- add.summary(results)
+# 
+# save(memFit, file="temp/mem-aDDM_memaDDMfit.RData")
+# 
+# # Convergence reached?
+# memFit$psrf$mpsrf
 ```
 
 Looks like we're in the clear.
@@ -754,7 +757,7 @@ cat( "model {
 
 Use odd trials as training data. At the end, check whether all distributions have converged with Gelman-Rubin statistics. 
 
-```{r fit_aDDM, cache=TRUE}
+```{r fit_aDDM, eval=FALSE}
 # initial guesses
 inits1 <- dump.format(list( 
   d_mu=0.2, d_pr=0.05,
@@ -791,14 +794,14 @@ monitor = c(
 # run the fitting
 set.seed(seed)
 results <- run.jags(
-  model="temp/mem-aDDM_aDDM.txt", 
-  monitor=monitor, 
-  data=dat, 
-  n.chains=3, 
+  model="temp/mem-aDDM_aDDM.txt",
+  monitor=monitor,
+  data=dat,
+  n.chains=3,
   inits=list(inits1,inits2,inits3),
-  plots = TRUE, 
-  method="parallel", 
-  module="wiener", 
+  plots = TRUE,
+  method="parallel",
+  module="wiener",
   burnin=15000, sample=5000
 )
 
@@ -986,9 +989,9 @@ mem.sim.trial <- function(b, d, g, t, s, vL, vR, pe, prFirstLeft, firstFix, midd
 
 ### Out-of-sample predictions
 
-I want two plots, each with 3 lines. One plot for choices. One plot for RTs. One line will show true out-of-sample data. One line will show mem-aDDM predictions for those exact same trials. One line will show aDDM predictions for those exact same trials. Run 20 simulations.
+Simulate
 
-```{r cache=TRUE}
+```{r, eval=FALSE}
 simCount = 20
 set.seed(seed)
 
@@ -1106,6 +1109,16 @@ for (sub in sort(unique(test$subject))) {
   }
 }
 mem.sim <- na.omit(mem.sim)
+
+save(mem.sim, file="temp/mem-aDDM_sim.RData")
+
+```
+
+I want two plots, each with 3 lines. One plot for choices. One plot for RTs. One line will show true out-of-sample data. One line will show mem-aDDM predictions for those exact same trials. One line will show aDDM predictions for those exact same trials. Run 20 simulations.
+
+```{r}
+
+load(file="temp/mem-aDDM_sim.RData")
 
 pdata.real <- test %>%
   group_by(subject, vDiff) %>%

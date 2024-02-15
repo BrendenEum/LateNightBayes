@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Decision Classification Boundaries | Late Night Bayes ☾</title>
+  <meta name="description" content="A collection of reports about my side projects." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Decision Classification Boundaries | Late Night Bayes ☾" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A collection of reports about my side projects." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Decision Classification Boundaries | Late Night Bayes ☾" />
+  
+  <meta name="twitter:description" content="A collection of reports about my side projects." />
+  
+
+<meta name="author" content="Brenden Eum" />
+
+
+<meta name="date" content="2024-02-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="mem-aDDM.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Brenden Eum</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a></li>
+<li class="chapter" data-level="2" data-path="dcb.html"><a href="dcb.html"><i class="fa fa-check"></i><b>2</b> Decision Classification Boundaries</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="dcb.html"><a href="dcb.html#simulated-perceptual-data-1"><i class="fa fa-check"></i><b>2.1</b> Simulated, perceptual data</a></li>
+<li class="chapter" data-level="2.2" data-path="dcb.html"><a href="dcb.html#perceptual-data-ddm"><i class="fa fa-check"></i><b>2.2</b> Perceptual data, DDM</a></li>
+<li class="chapter" data-level="2.3" data-path="dcb.html"><a href="dcb.html#perceptual-data-slider"><i class="fa fa-check"></i><b>2.3</b> Perceptual data, slider</a></li>
+<li class="chapter" data-level="2.4" data-path="dcb.html"><a href="dcb.html#value-based-data-ddm"><i class="fa fa-check"></i><b>2.4</b> Value-based data, DDM</a></li>
+<li class="chapter" data-level="2.5" data-path="dcb.html"><a href="dcb.html#value-based-data-addm"><i class="fa fa-check"></i><b>2.5</b> Value-based data, aDDM</a></li>
+<li class="chapter" data-level="2.6" data-path="dcb.html"><a href="dcb.html#discussion"><i class="fa fa-check"></i><b>2.6</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="mem-aDDM.html"><a href="mem-aDDM.html"><i class="fa fa-check"></i><b>3</b> mem-aDDM</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="mem-aDDM.html"><a href="mem-aDDM.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="mem-aDDM.html"><a href="mem-aDDM.html#warning"><i class="fa fa-check"></i><b>3.2</b> Warning</a></li>
+<li class="chapter" data-level="3.3" data-path="mem-aDDM.html"><a href="mem-aDDM.html#methods"><i class="fa fa-check"></i><b>3.3</b> Methods</a></li>
+<li class="chapter" data-level="3.4" data-path="mem-aDDM.html"><a href="mem-aDDM.html#how-should-drift-change"><i class="fa fa-check"></i><b>3.4</b> How should drift change?</a></li>
+<li class="chapter" data-level="3.5" data-path="mem-aDDM.html"><a href="mem-aDDM.html#mem-addm"><i class="fa fa-check"></i><b>3.5</b> mem-aDDM</a></li>
+<li class="chapter" data-level="3.6" data-path="mem-aDDM.html"><a href="mem-aDDM.html#addm"><i class="fa fa-check"></i><b>3.6</b> aDDM</a></li>
+<li class="chapter" data-level="3.7" data-path="mem-aDDM.html"><a href="mem-aDDM.html#compare-predictions"><i class="fa fa-check"></i><b>3.7</b> Compare predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="memDDM.html"><a href="memDDM.html"><i class="fa fa-check"></i><b>4</b> memDDM</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="memDDM.html"><a href="memDDM.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="memDDM.html"><a href="memDDM.html#methods-1"><i class="fa fa-check"></i><b>4.2</b> Methods</a></li>
+<li class="chapter" data-level="4.3" data-path="memDDM.html"><a href="memDDM.html#behavioral-results"><i class="fa fa-check"></i><b>4.3</b> Behavioral Results</a></li>
+<li class="chapter" data-level="4.4" data-path="memDDM.html"><a href="memDDM.html#fit-with-pyddm"><i class="fa fa-check"></i><b>4.4</b> Fit with PyDDM</a></li>
+<li class="chapter" data-level="4.5" data-path="memDDM.html"><a href="memDDM.html#simulations"><i class="fa fa-check"></i><b>4.5</b> Simulations</a></li>
+<li class="chapter" data-level="4.6" data-path="memDDM.html"><a href="memDDM.html#compare-simulations-and-data"><i class="fa fa-check"></i><b>4.6</b> Compare simulations and data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="addmvariants.html"><a href="addmvariants.html"><i class="fa fa-check"></i><b>5</b> aDDM Variants in Aversive Choice</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Late Night Bayes ☾</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dcb" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Decision Classification Boundaries<a href="dcb.html#dcb" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>(TL;DR) Glickman, Moran, and Usher’s (2022) Decision Classification Boundaries perform (1) outstandingly well with simulated, perceptual data; (2) decently well with impatient subjects in perceptual tasks; and (3) unsurprisingly poor with subjects in value-based tasks.</p>
+<p><img src="images/dcb-collapsingbounds.gif" style="width:60.0%" /></p>
+<p>This notebook is a test of the methods from <span class="citation">(<a href="#ref-glickman2022">Glickman, Moran, and Usher 2022</a>)</span>. I would like to see if their algorithm that dynamically estimates collapsing bounds (Decision Classification Boundary, DCB) works with perceptual data from an upcoming belief tracking project and value-based data from <span class="citation">(<a href="#ref-eum2022">Eum, Dolbier, and Rangel 2022</a>)</span>.</p>
+<div id="simulated-perceptual-data" class="section level4 unnumbered hasAnchor">
+<h4>Simulated, perceptual data<a href="dcb.html#simulated-perceptual-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>First, I will simulate data for two cyborgs using a DDM. Their task will be to select from two streams of rectangles whichever stream has the taller average height (see <span class="citation">(<a href="#ref-tsetsos2016">Tsetsos et al. 2016</a>)</span> or <span class="citation">(<a href="#ref-glickman2022">Glickman, Moran, and Usher 2022</a>)</span>). The first cyborg will utilize fixed decision boundaries; the second cyborg will utilize collapsing boundaries (Weibull function, per tradition). I will test if the DCB algorithm can recover the decision boundaries for both cyborgs.</p>
+</div>
+<div id="real-perceptual-data" class="section level4 unnumbered hasAnchor">
+<h4>Real, perceptual data<a href="dcb.html#real-perceptual-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Second, I will use preliminary data collected for my upcoming slider task. The task is again for subjects to select from two streams of rectangles which stream has the taller average height. I think it would be interesting to see if DCB works with both (1) accumulated evidence and (2) location of the slider.</p>
+</div>
+<div id="real-value-based-data" class="section level4 unnumbered hasAnchor">
+<h4>Real, value-based data<a href="dcb.html#real-value-based-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Third, I will read in the data from <span class="citation">(<a href="#ref-eum2022">Eum, Dolbier, and Rangel 2022</a>)</span>. I will only use trials from the visible condition. This will be interesting since there isn’t a stream of varying evidence. It’s just a single value comparison that accumulates over time. If we use an aDDM, then there will be some variation in evidence over time based on fixation data.</p>
+</div>
+<div id="heres-a-quick-summary-of-what-dcb-does" class="section level4 unnumbered hasAnchor">
+<h4>Here’s a quick summary of what DCB does:<a href="dcb.html#heres-a-quick-summary-of-what-dcb-does" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ol style="list-style-type: decimal">
+<li>Discretize your time-dimension.</li>
+<li>Consider a single trial. At any time during that trial, the sequence of stimuli has provided a stream of evidence in favor of one of the actions. In the case of perceptual tasks, we can take the sum of evidence over time and come up with a metric for “accumulated evidence” at any given time point. This might be a bit trickier in value-based decision tasks.</li>
+<li>At any given point in time, agents have three potential actions (continue sampling, choose left, choose right). If we consider one point in time, then we can look at the distributions of actions along a single dimension, accumulated evidence.</li>
+<li>Each trial yields one point along this accumulated evidence dimension. The points are labeled by the action taken at that time during that trial. This allows for supervised separation by linear discriminant analysis (LDA).</li>
+<li>The boundary separation curves approximate decision boundaries over time.</li>
+</ol>
+<center>
+<img src="images/dcb-example.PNG" style="width:30.0%" />
+</center>
+</div>
+<div id="simulated-perceptual-data-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Simulated, perceptual data<a href="dcb.html#simulated-perceptual-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="simulate-data" class="section level3 tabset hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Simulate data<a href="dcb.html#simulate-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The task is to select from two streams of rectangles the stream with the taller average height. We will generate two DDM cyborgs, the first with fixed decision bounds, the second with collapsing decision bounds.</p>
+<div id="ddm-function" class="section level4 unnumbered hasAnchor">
+<h4>DDM function<a href="dcb.html#ddm-function" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Simulate behavior for a single trial using a DDM with symmetric bounds about 0.<br />
+<em>Input</em>: Two equal-length streams of evidence, DDM parameters.<br />
+<em>Output</em>: A time-series of choice (0=R, 1=L, 2=continue) and accumulated evidence (scaled by drift since we are working with the DDM).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="dcb.html#cb1-1" tabindex="-1"></a>DDM <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">L=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">R=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">b=</span><span class="dv">0</span>, <span class="at">d=</span>.<span class="dv">002</span>, <span class="at">sig=</span>.<span class="dv">03</span>, <span class="at">bound=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)) {</span>
+<span id="cb1-2"><a href="dcb.html#cb1-2" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(L)<span class="sc">!=</span><span class="fu">length</span>(R)) {<span class="fu">stop</span>(<span class="st">&quot;L and R differ in length.&quot;</span>)}</span>
+<span id="cb1-3"><a href="dcb.html#cb1-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(b)<span class="sc">!=</span><span class="dv">1</span> <span class="sc">|</span> <span class="fu">length</span>(d)<span class="sc">!=</span><span class="dv">1</span> <span class="sc">|</span> <span class="fu">length</span>(sig)<span class="sc">!=</span><span class="dv">1</span>) {<span class="fu">stop</span>(<span class="st">&quot;Invalid DDM parameters.&quot;</span>)}</span>
+<span id="cb1-4"><a href="dcb.html#cb1-4" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bound)<span class="sc">!=</span><span class="fu">length</span>(L) <span class="sc">&amp;</span> <span class="fu">length</span>(bound)<span class="sc">!=</span><span class="dv">1</span>) {<span class="fu">stop</span>(<span class="st">&quot;Invalid bound. Must be defined at every time point or fixed.&quot;</span>)}</span>
+<span id="cb1-5"><a href="dcb.html#cb1-5" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(bound)<span class="sc">==</span><span class="dv">1</span>) {ub <span class="ot">&lt;-</span> <span class="fu">rep</span>(bound, <span class="fu">length</span>(L))} <span class="cf">else</span> {ub <span class="ot">&lt;-</span> bound}</span>
+<span id="cb1-6"><a href="dcb.html#cb1-6" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-7"><a href="dcb.html#cb1-7" tabindex="-1"></a>    <span class="at">sample =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(L)),</span>
+<span id="cb1-8"><a href="dcb.html#cb1-8" tabindex="-1"></a>    <span class="at">choice =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(L)),</span>
+<span id="cb1-9"><a href="dcb.html#cb1-9" tabindex="-1"></a>    <span class="at">ae =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(L))</span>
+<span id="cb1-10"><a href="dcb.html#cb1-10" tabindex="-1"></a>  )</span>
+<span id="cb1-11"><a href="dcb.html#cb1-11" tabindex="-1"></a>  RDV <span class="ot">&lt;-</span> b</span>
+<span id="cb1-12"><a href="dcb.html#cb1-12" tabindex="-1"></a>  accumEvid <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-13"><a href="dcb.html#cb1-13" tabindex="-1"></a>  boundaryHit <span class="ot">&lt;-</span> F</span>
+<span id="cb1-14"><a href="dcb.html#cb1-14" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(L)) {</span>
+<span id="cb1-15"><a href="dcb.html#cb1-15" tabindex="-1"></a>    df<span class="sc">$</span>sample[t] <span class="ot">&lt;-</span> t</span>
+<span id="cb1-16"><a href="dcb.html#cb1-16" tabindex="-1"></a>    RDV <span class="ot">&lt;-</span> RDV <span class="sc">+</span> d<span class="sc">*</span>(L[t]<span class="sc">-</span>R[t]) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sig)</span>
+<span id="cb1-17"><a href="dcb.html#cb1-17" tabindex="-1"></a>    accumEvid <span class="ot">&lt;-</span> accumEvid <span class="sc">+</span> d<span class="sc">*</span>(L[t]<span class="sc">-</span>R[t]) <span class="co"># Accumulated evidence depends on the model you&#39;re using.</span></span>
+<span id="cb1-18"><a href="dcb.html#cb1-18" tabindex="-1"></a>    df<span class="sc">$</span>ae[t] <span class="ot">&lt;-</span> accumEvid</span>
+<span id="cb1-19"><a href="dcb.html#cb1-19" tabindex="-1"></a>    df<span class="sc">$</span>choice[t] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb1-20"><a href="dcb.html#cb1-20" tabindex="-1"></a>    <span class="cf">if</span> (RDV<span class="sc">&gt;=</span>ub[t] <span class="sc">|</span> RDV<span class="sc">&lt;=-</span>ub[t]) {</span>
+<span id="cb1-21"><a href="dcb.html#cb1-21" tabindex="-1"></a>      <span class="cf">if</span> (RDV<span class="sc">&gt;=</span>ub[t]) {df<span class="sc">$</span>choice[t] <span class="ot">&lt;-</span> <span class="dv">1</span>}</span>
+<span id="cb1-22"><a href="dcb.html#cb1-22" tabindex="-1"></a>      <span class="cf">if</span> (RDV<span class="sc">&lt;=-</span>ub[t]) {df<span class="sc">$</span>choice[t] <span class="ot">&lt;-</span> <span class="dv">0</span>}</span>
+<span id="cb1-23"><a href="dcb.html#cb1-23" tabindex="-1"></a>      boundaryHit <span class="ot">&lt;-</span> T</span>
+<span id="cb1-24"><a href="dcb.html#cb1-24" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb1-25"><a href="dcb.html#cb1-25" tabindex="-1"></a>    }</span>
+<span id="cb1-26"><a href="dcb.html#cb1-26" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="dcb.html#cb1-27" tabindex="-1"></a>  <span class="co"># if (boundaryHit==F) { #Use this to figure out which trials didn&#39;t reach a decision.</span></span>
+<span id="cb1-28"><a href="dcb.html#cb1-28" tabindex="-1"></a>  <span class="co">#   print(&quot;Decision was not reached within allotted number of samples.&quot;)</span></span>
+<span id="cb1-29"><a href="dcb.html#cb1-29" tabindex="-1"></a>  <span class="co"># } </span></span>
+<span id="cb1-30"><a href="dcb.html#cb1-30" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb1-31"><a href="dcb.html#cb1-31" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="trial-data" class="section level4 unnumbered hasAnchor">
+<h4>Trial Data<a href="dcb.html#trial-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This will be exactly the same for both the fixed and collapsing cyborgs. Heights will vary around 50, bounded within (0,100). All trials will favor either L or R, but the degree of difficulty may vary.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="dcb.html#cb2-1" tabindex="-1"></a><span class="fu">set.seed</span>(seed)</span>
+<span id="cb2-2"><a href="dcb.html#cb2-2" tabindex="-1"></a>nSamples <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb2-3"><a href="dcb.html#cb2-3" tabindex="-1"></a>nTrials <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb2-4"><a href="dcb.html#cb2-4" tabindex="-1"></a>byTrial.mean <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb2-5"><a href="dcb.html#cb2-5" tabindex="-1"></a>byTrial.sd <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb2-6"><a href="dcb.html#cb2-6" tabindex="-1"></a>bySample.sd <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb2-7"><a href="dcb.html#cb2-7" tabindex="-1"></a>lb <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb2-8"><a href="dcb.html#cb2-8" tabindex="-1"></a>ub <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-9"><a href="dcb.html#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="dcb.html#cb2-10" tabindex="-1"></a>simulateData <span class="ot">&lt;-</span> <span class="cf">function</span>(nSamples,nTrials,byTrial.mean,byTrial.sd,bySample.sd,lb,ub) {</span>
+<span id="cb2-11"><a href="dcb.html#cb2-11" tabindex="-1"></a>  simData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-12"><a href="dcb.html#cb2-12" tabindex="-1"></a>    <span class="at">trial =</span> <span class="dv">1</span>,</span>
+<span id="cb2-13"><a href="dcb.html#cb2-13" tabindex="-1"></a>    <span class="at">L =</span> <span class="fu">rtruncnorm</span>(</span>
+<span id="cb2-14"><a href="dcb.html#cb2-14" tabindex="-1"></a>      nSamples,</span>
+<span id="cb2-15"><a href="dcb.html#cb2-15" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> byTrial.mean, <span class="at">sd =</span> byTrial.sd),</span>
+<span id="cb2-16"><a href="dcb.html#cb2-16" tabindex="-1"></a>      <span class="at">sd =</span> bySample.sd,</span>
+<span id="cb2-17"><a href="dcb.html#cb2-17" tabindex="-1"></a>      <span class="at">a =</span> lb,</span>
+<span id="cb2-18"><a href="dcb.html#cb2-18" tabindex="-1"></a>      <span class="at">b =</span> ub</span>
+<span id="cb2-19"><a href="dcb.html#cb2-19" tabindex="-1"></a>    ),</span>
+<span id="cb2-20"><a href="dcb.html#cb2-20" tabindex="-1"></a>    <span class="at">R =</span> <span class="fu">rtruncnorm</span>(</span>
+<span id="cb2-21"><a href="dcb.html#cb2-21" tabindex="-1"></a>      nSamples,</span>
+<span id="cb2-22"><a href="dcb.html#cb2-22" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> byTrial.mean, <span class="at">sd =</span> byTrial.sd),</span>
+<span id="cb2-23"><a href="dcb.html#cb2-23" tabindex="-1"></a>      <span class="at">sd =</span> bySample.sd,</span>
+<span id="cb2-24"><a href="dcb.html#cb2-24" tabindex="-1"></a>      <span class="at">a =</span> lb,</span>
+<span id="cb2-25"><a href="dcb.html#cb2-25" tabindex="-1"></a>      <span class="at">b =</span> ub</span>
+<span id="cb2-26"><a href="dcb.html#cb2-26" tabindex="-1"></a>    )</span>
+<span id="cb2-27"><a href="dcb.html#cb2-27" tabindex="-1"></a>  )</span>
+<span id="cb2-28"><a href="dcb.html#cb2-28" tabindex="-1"></a>  </span>
+<span id="cb2-29"><a href="dcb.html#cb2-29" tabindex="-1"></a>  <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nTrials) {</span>
+<span id="cb2-30"><a href="dcb.html#cb2-30" tabindex="-1"></a>  <span class="co">#progress(n, nTrials) #progress tracker</span></span>
+<span id="cb2-31"><a href="dcb.html#cb2-31" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-32"><a href="dcb.html#cb2-32" tabindex="-1"></a>    <span class="at">trial =</span> n,</span>
+<span id="cb2-33"><a href="dcb.html#cb2-33" tabindex="-1"></a>    <span class="at">L =</span> <span class="fu">rtruncnorm</span>(</span>
+<span id="cb2-34"><a href="dcb.html#cb2-34" tabindex="-1"></a>      nSamples,</span>
+<span id="cb2-35"><a href="dcb.html#cb2-35" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> byTrial.mean, <span class="at">sd =</span> byTrial.sd),</span>
+<span id="cb2-36"><a href="dcb.html#cb2-36" tabindex="-1"></a>      <span class="at">sd =</span> bySample.sd,</span>
+<span id="cb2-37"><a href="dcb.html#cb2-37" tabindex="-1"></a>      <span class="at">a =</span> lb,</span>
+<span id="cb2-38"><a href="dcb.html#cb2-38" tabindex="-1"></a>      <span class="at">b =</span> ub</span>
+<span id="cb2-39"><a href="dcb.html#cb2-39" tabindex="-1"></a>    ),</span>
+<span id="cb2-40"><a href="dcb.html#cb2-40" tabindex="-1"></a>    <span class="at">R =</span> <span class="fu">rtruncnorm</span>(</span>
+<span id="cb2-41"><a href="dcb.html#cb2-41" tabindex="-1"></a>      nSamples,</span>
+<span id="cb2-42"><a href="dcb.html#cb2-42" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> byTrial.mean, <span class="at">sd =</span> byTrial.sd),</span>
+<span id="cb2-43"><a href="dcb.html#cb2-43" tabindex="-1"></a>      <span class="at">sd =</span> bySample.sd,</span>
+<span id="cb2-44"><a href="dcb.html#cb2-44" tabindex="-1"></a>      <span class="at">a =</span> lb,</span>
+<span id="cb2-45"><a href="dcb.html#cb2-45" tabindex="-1"></a>      <span class="at">b =</span> ub</span>
+<span id="cb2-46"><a href="dcb.html#cb2-46" tabindex="-1"></a>    )</span>
+<span id="cb2-47"><a href="dcb.html#cb2-47" tabindex="-1"></a>  )</span>
+<span id="cb2-48"><a href="dcb.html#cb2-48" tabindex="-1"></a>  simData <span class="ot">&lt;-</span> <span class="fu">rbind</span>(simData, tempData)</span>
+<span id="cb2-49"><a href="dcb.html#cb2-49" tabindex="-1"></a>  }</span>
+<span id="cb2-50"><a href="dcb.html#cb2-50" tabindex="-1"></a>  <span class="fu">return</span>(simData)</span>
+<span id="cb2-51"><a href="dcb.html#cb2-51" tabindex="-1"></a>}</span>
+<span id="cb2-52"><a href="dcb.html#cb2-52" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="dcb.html#cb2-53" tabindex="-1"></a>simData <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(</span>
+<span id="cb2-54"><a href="dcb.html#cb2-54" tabindex="-1"></a>  nSamples,</span>
+<span id="cb2-55"><a href="dcb.html#cb2-55" tabindex="-1"></a>  nTrials,</span>
+<span id="cb2-56"><a href="dcb.html#cb2-56" tabindex="-1"></a>  byTrial.mean,</span>
+<span id="cb2-57"><a href="dcb.html#cb2-57" tabindex="-1"></a>  byTrial.sd,</span>
+<span id="cb2-58"><a href="dcb.html#cb2-58" tabindex="-1"></a>  bySample.sd,</span>
+<span id="cb2-59"><a href="dcb.html#cb2-59" tabindex="-1"></a>  lb,</span>
+<span id="cb2-60"><a href="dcb.html#cb2-60" tabindex="-1"></a>  ub)</span></code></pre></div>
+</div>
+<div id="fixed-bounds-cyborg" class="section level4 unnumbered hasAnchor">
+<h4>Fixed bounds cyborg<a href="dcb.html#fixed-bounds-cyborg" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Bounds are fixed to 50 and -50 via the ‘bound’ attribute of the fixedCyborg.ddm object.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="dcb.html#cb3-1" tabindex="-1"></a><span class="fu">set.seed</span>(seed)</span>
+<span id="cb3-2"><a href="dcb.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="dcb.html#cb3-3" tabindex="-1"></a>fixedCyborg.ddm <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb3-4"><a href="dcb.html#cb3-4" tabindex="-1"></a>  <span class="at">b =</span> <span class="dv">0</span>,</span>
+<span id="cb3-5"><a href="dcb.html#cb3-5" tabindex="-1"></a>  <span class="at">d =</span> .<span class="dv">9</span>,</span>
+<span id="cb3-6"><a href="dcb.html#cb3-6" tabindex="-1"></a>  <span class="at">sig =</span> <span class="dv">4</span>,</span>
+<span id="cb3-7"><a href="dcb.html#cb3-7" tabindex="-1"></a>  <span class="at">bound =</span> <span class="dv">50</span></span>
+<span id="cb3-8"><a href="dcb.html#cb3-8" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="dcb.html#cb3-9" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="dcb.html#cb3-10" tabindex="-1"></a>trialData <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb3-11"><a href="dcb.html#cb3-11" tabindex="-1"></a>    <span class="at">L =</span> simData<span class="sc">$</span>L[simData<span class="sc">$</span>trial<span class="sc">==</span><span class="dv">1</span>],</span>
+<span id="cb3-12"><a href="dcb.html#cb3-12" tabindex="-1"></a>    <span class="at">R =</span> simData<span class="sc">$</span>R[simData<span class="sc">$</span>trial<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb3-13"><a href="dcb.html#cb3-13" tabindex="-1"></a>  )  </span>
+<span id="cb3-14"><a href="dcb.html#cb3-14" tabindex="-1"></a>fixedCyborg.data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(DDM, <span class="fu">c</span>(trialData,fixedCyborg.ddm))</span>
+<span id="cb3-15"><a href="dcb.html#cb3-15" tabindex="-1"></a>fixedCyborg.data<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-16"><a href="dcb.html#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="dcb.html#cb3-17" tabindex="-1"></a><span class="cf">for</span> (trial <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nTrials) {</span>
+<span id="cb3-18"><a href="dcb.html#cb3-18" tabindex="-1"></a>  <span class="co">#progress(trial,nTrials) #progress tracker</span></span>
+<span id="cb3-19"><a href="dcb.html#cb3-19" tabindex="-1"></a>  trialData <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb3-20"><a href="dcb.html#cb3-20" tabindex="-1"></a>    <span class="at">L =</span> simData<span class="sc">$</span>L[simData<span class="sc">$</span>trial<span class="sc">==</span>trial],</span>
+<span id="cb3-21"><a href="dcb.html#cb3-21" tabindex="-1"></a>    <span class="at">R =</span> simData<span class="sc">$</span>R[simData<span class="sc">$</span>trial<span class="sc">==</span>trial]</span>
+<span id="cb3-22"><a href="dcb.html#cb3-22" tabindex="-1"></a>  )  </span>
+<span id="cb3-23"><a href="dcb.html#cb3-23" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> <span class="fu">do.call</span>(DDM, <span class="fu">c</span>(trialData,fixedCyborg.ddm))</span>
+<span id="cb3-24"><a href="dcb.html#cb3-24" tabindex="-1"></a>  tempData<span class="sc">$</span>trial <span class="ot">&lt;-</span> trial</span>
+<span id="cb3-25"><a href="dcb.html#cb3-25" tabindex="-1"></a>  fixedCyborg.data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(fixedCyborg.data, tempData)</span>
+<span id="cb3-26"><a href="dcb.html#cb3-26" tabindex="-1"></a>}</span>
+<span id="cb3-27"><a href="dcb.html#cb3-27" tabindex="-1"></a>fixedCyborg.data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(fixedCyborg.data)</span>
+<span id="cb3-28"><a href="dcb.html#cb3-28" tabindex="-1"></a><span class="fu">summary</span>(fixedCyborg.data)</span></code></pre></div>
+<pre><code>##      sample           choice           ae                trial       
+##  Min.   : 1.000   Min.   :0.00   Min.   :-123.9434   Min.   :   1.0  
+##  1st Qu.: 2.000   1st Qu.:2.00   1st Qu.: -27.4550   1st Qu.: 256.0  
+##  Median : 3.000   Median :2.00   Median :  -0.1181   Median : 517.5  
+##  Mean   : 4.606   Mean   :1.67   Mean   :   0.2420   Mean   : 508.7  
+##  3rd Qu.: 6.000   3rd Qu.:2.00   3rd Qu.:  28.3773   3rd Qu.: 750.8  
+##  Max.   :33.000   Max.   :2.00   Max.   : 134.0897   Max.   :1000.0</code></pre>
+</div>
+<div id="collapsing-bounds-cyborg" class="section level4 unnumbered hasAnchor">
+<h4>Collapsing bounds cyborg<a href="dcb.html#collapsing-bounds-cyborg" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Bounds are decreasing as a Weibull function. Weibull parameters are taken directly from <span class="citation">(<a href="#ref-glickman2022">Glickman, Moran, and Usher 2022</a>)</span>, which I’m led to believe are taken directly from <span class="citation">(<a href="#ref-hawkins2015">Hawkins et al. 2015</a>)</span>. The Weibull function is taken directly from <span class="citation">(<a href="#ref-hawkins2015">Hawkins et al. 2015</a>)</span>. The scale parameter (<span class="math inline">\(\lambda\)</span>) is fixed to 4. Shape (<span class="math inline">\(\kappa\)</span>) and asymptotic convergence (<span class="math inline">\(a&#39;\)</span>) can vary.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="dcb.html#cb5-1" tabindex="-1"></a><span class="fu">set.seed</span>(seed)</span>
+<span id="cb5-2"><a href="dcb.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="dcb.html#cb5-3" tabindex="-1"></a>weibullbound <span class="ot">&lt;-</span> <span class="cf">function</span>(t, a, k, lam, ap) {</span>
+<span id="cb5-4"><a href="dcb.html#cb5-4" tabindex="-1"></a>  <span class="fu">return</span>( a<span class="sc">-</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>(t<span class="sc">/</span>k)<span class="sc">^</span>k))<span class="sc">*</span>(.<span class="dv">5</span><span class="sc">*</span>a<span class="sc">+</span>ap) )</span>
+<span id="cb5-5"><a href="dcb.html#cb5-5" tabindex="-1"></a>}</span>
+<span id="cb5-6"><a href="dcb.html#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="dcb.html#cb5-7" tabindex="-1"></a>collapsingCyborg.ddm <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-8"><a href="dcb.html#cb5-8" tabindex="-1"></a>  <span class="at">b =</span> <span class="dv">0</span>,</span>
+<span id="cb5-9"><a href="dcb.html#cb5-9" tabindex="-1"></a>  <span class="at">d =</span> .<span class="dv">9</span>,</span>
+<span id="cb5-10"><a href="dcb.html#cb5-10" tabindex="-1"></a>  <span class="at">sig =</span> <span class="dv">4</span>,</span>
+<span id="cb5-11"><a href="dcb.html#cb5-11" tabindex="-1"></a>  <span class="at">bound =</span> <span class="fu">weibullbound</span>(<span class="at">t=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>nSamples), <span class="at">a=</span><span class="dv">100</span>, <span class="at">k=</span><span class="dv">3</span>, <span class="at">lam=</span><span class="dv">4</span>, <span class="at">ap=</span><span class="dv">10</span>) <span class="co"># see Glickman et al. (2022) or Hawkins et al. (2015)</span></span>
+<span id="cb5-12"><a href="dcb.html#cb5-12" tabindex="-1"></a>)</span>
+<span id="cb5-13"><a href="dcb.html#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="dcb.html#cb5-14" tabindex="-1"></a>trialData <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-15"><a href="dcb.html#cb5-15" tabindex="-1"></a>  <span class="at">L =</span> simData<span class="sc">$</span>L[simData<span class="sc">$</span>trial<span class="sc">==</span><span class="dv">1</span>],</span>
+<span id="cb5-16"><a href="dcb.html#cb5-16" tabindex="-1"></a>  <span class="at">R =</span> simData<span class="sc">$</span>R[simData<span class="sc">$</span>trial<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb5-17"><a href="dcb.html#cb5-17" tabindex="-1"></a>)  </span>
+<span id="cb5-18"><a href="dcb.html#cb5-18" tabindex="-1"></a>collapsingCyborg.data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(DDM, <span class="fu">c</span>(trialData,collapsingCyborg.ddm))</span>
+<span id="cb5-19"><a href="dcb.html#cb5-19" tabindex="-1"></a>collapsingCyborg.data<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-20"><a href="dcb.html#cb5-20" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="dcb.html#cb5-21" tabindex="-1"></a><span class="cf">for</span> (trial <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nTrials) {</span>
+<span id="cb5-22"><a href="dcb.html#cb5-22" tabindex="-1"></a>  <span class="co">#progress(trial,nTrials) #progress tracker</span></span>
+<span id="cb5-23"><a href="dcb.html#cb5-23" tabindex="-1"></a>  trialData <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-24"><a href="dcb.html#cb5-24" tabindex="-1"></a>    <span class="at">L =</span> simData<span class="sc">$</span>L[simData<span class="sc">$</span>trial<span class="sc">==</span>trial],</span>
+<span id="cb5-25"><a href="dcb.html#cb5-25" tabindex="-1"></a>    <span class="at">R =</span> simData<span class="sc">$</span>R[simData<span class="sc">$</span>trial<span class="sc">==</span>trial]</span>
+<span id="cb5-26"><a href="dcb.html#cb5-26" tabindex="-1"></a>  )  </span>
+<span id="cb5-27"><a href="dcb.html#cb5-27" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> <span class="fu">do.call</span>(DDM, <span class="fu">c</span>(trialData,collapsingCyborg.ddm))</span>
+<span id="cb5-28"><a href="dcb.html#cb5-28" tabindex="-1"></a>  tempData<span class="sc">$</span>trial <span class="ot">&lt;-</span> trial</span>
+<span id="cb5-29"><a href="dcb.html#cb5-29" tabindex="-1"></a>  collapsingCyborg.data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(collapsingCyborg.data, tempData)</span>
+<span id="cb5-30"><a href="dcb.html#cb5-30" tabindex="-1"></a>}</span>
+<span id="cb5-31"><a href="dcb.html#cb5-31" tabindex="-1"></a>collapsingCyborg.data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(collapsingCyborg.data)</span>
+<span id="cb5-32"><a href="dcb.html#cb5-32" tabindex="-1"></a><span class="fu">summary</span>(collapsingCyborg.data)</span></code></pre></div>
+<pre><code>##      sample           choice            ae                trial       
+##  Min.   : 1.000   Min.   :0.000   Min.   :-162.7401   Min.   :   1.0  
+##  1st Qu.: 2.000   1st Qu.:2.000   1st Qu.: -29.7781   1st Qu.: 234.0  
+##  Median : 3.000   Median :2.000   Median :   0.6016   Median : 500.0  
+##  Mean   : 3.832   Mean   :1.684   Mean   :   0.7965   Mean   : 496.9  
+##  3rd Qu.: 5.000   3rd Qu.:2.000   3rd Qu.:  32.0336   3rd Qu.: 747.0  
+##  Max.   :30.000   Max.   :2.000   Max.   : 153.0255   Max.   :1000.0</code></pre>
+</div>
+</div>
+<div id="check-behavior" class="section level3 tabset hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Check behavior<a href="dcb.html#check-behavior" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="fixed-bounds-cyborg-1" class="section level4 unnumbered hasAnchor">
+<h4>Fixed bounds cyborg<a href="dcb.html#fixed-bounds-cyborg-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Behavior makes sense given the decision boundaries. There is some leakage across the boundaries proportional to the variance of the noise in the DDM.</p>
+<p><img src="LateNightBayes_files/figure-html/fixed_check-1.gif" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="collapsing-bounds-cyborg-1" class="section level4 unnumbered hasAnchor">
+<h4>Collapsing bounds cyborg<a href="dcb.html#collapsing-bounds-cyborg-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Behavior makes sense given the decision boundaries. There is some leakage across the boundaries proportional to the variance of the noise in the DDM.</p>
+<p><img src="LateNightBayes_files/figure-html/collapsing_check-1.gif" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="dcb-1" class="section level3 tabset hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> DCB<a href="dcb.html#dcb-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="dcb-function" class="section level4 unnumbered hasAnchor">
+<h4>DCB function<a href="dcb.html#dcb-function" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Dynamically estimate collapsing decision boundaries up to a certain sample number.<br />
+<em>Input</em>: (1) Time-series data for a single subject with trial, sample number, choice ({0,1,2} see above), and accumulated evidence. (2) Maximum sample number (since our figures only go up to 10, let’s just set this as 10 for now).<br />
+<em>Output</em>: Time-series of the bound, over sample number dimension (time). Note that <span class="citation">(<a href="#ref-glickman2022">Glickman, Moran, and Usher 2022</a>)</span> assumed that the collapsing bounds were symmetrical, therefore they took the average of the separating planes.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="dcb.html#cb7-1" tabindex="-1"></a>DCB <span class="ot">&lt;-</span> <span class="cf">function</span>(data, maxSample) {</span>
+<span id="cb7-2"><a href="dcb.html#cb7-2" tabindex="-1"></a>  samples <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>maxSample)</span>
+<span id="cb7-3"><a href="dcb.html#cb7-3" tabindex="-1"></a>  output <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-4"><a href="dcb.html#cb7-4" tabindex="-1"></a>    <span class="at">sample =</span> samples,</span>
+<span id="cb7-5"><a href="dcb.html#cb7-5" tabindex="-1"></a>    <span class="at">ub =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(samples)),</span>
+<span id="cb7-6"><a href="dcb.html#cb7-6" tabindex="-1"></a>    <span class="at">lb =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(samples)),</span>
+<span id="cb7-7"><a href="dcb.html#cb7-7" tabindex="-1"></a>    <span class="at">avgb =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(samples))</span>
+<span id="cb7-8"><a href="dcb.html#cb7-8" tabindex="-1"></a>  )</span>
+<span id="cb7-9"><a href="dcb.html#cb7-9" tabindex="-1"></a>  x_vals <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ae =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">150</span>,<span class="dv">150</span>,<span class="dv">1</span>)) <span class="co"># resolution of the collapsing boundary</span></span>
+<span id="cb7-10"><a href="dcb.html#cb7-10" tabindex="-1"></a>  <span class="cf">for</span> (n <span class="cf">in</span> samples) { <span class="co">#samples</span></span>
+<span id="cb7-11"><a href="dcb.html#cb7-11" tabindex="-1"></a>    <span class="fu">tryCatch</span>({ <span class="co"># In some cases, there may not be any decisions for left or right when sample number is small. Don&#39;t return an error.</span></span>
+<span id="cb7-12"><a href="dcb.html#cb7-12" tabindex="-1"></a>      lda.fit <span class="ot">&lt;-</span> <span class="fu">lda</span>(choice<span class="sc">~</span>ae, data[data<span class="sc">$</span>sample<span class="sc">==</span>n,])</span>
+<span id="cb7-13"><a href="dcb.html#cb7-13" tabindex="-1"></a>      lda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda.fit,x_vals)</span>
+<span id="cb7-14"><a href="dcb.html#cb7-14" tabindex="-1"></a>      <span class="co">#x_val closest to decision boundary for upper bound (.5 posterior probability of being choice=1 or 2)</span></span>
+<span id="cb7-15"><a href="dcb.html#cb7-15" tabindex="-1"></a>      ub_x_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">150</span>,<span class="dv">1</span>)</span>
+<span id="cb7-16"><a href="dcb.html#cb7-16" tabindex="-1"></a>      output<span class="sc">$</span>ub[n] <span class="ot">=</span> ub_x_vals[ <span class="fu">which</span>(<span class="fu">abs</span>(lda.pred<span class="sc">$</span>posterior[<span class="dv">151</span><span class="sc">:</span><span class="dv">301</span>,<span class="st">&#39;2&#39;</span>]<span class="sc">-</span><span class="fl">0.5</span>)<span class="sc">==</span><span class="fu">min</span>(<span class="fu">abs</span>(lda.pred<span class="sc">$</span>posterior[<span class="dv">151</span><span class="sc">:</span><span class="dv">301</span>,<span class="st">&#39;2&#39;</span>]<span class="sc">-</span><span class="fl">0.5</span>))) ]</span>
+<span id="cb7-17"><a href="dcb.html#cb7-17" tabindex="-1"></a>      <span class="co">#x_val closest to decision boundary for lower bound (.5 posterior probability of being choice=0 or 2)</span></span>
+<span id="cb7-18"><a href="dcb.html#cb7-18" tabindex="-1"></a>      lb_x_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">150</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb7-19"><a href="dcb.html#cb7-19" tabindex="-1"></a>      output<span class="sc">$</span>lb[n] <span class="ot">=</span> lb_x_vals[ <span class="fu">which</span>(<span class="fu">abs</span>(lda.pred<span class="sc">$</span>posterior[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>,<span class="st">&#39;2&#39;</span>]<span class="sc">-</span><span class="fl">0.5</span>)<span class="sc">==</span><span class="fu">min</span>(<span class="fu">abs</span>(lda.pred<span class="sc">$</span>posterior[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>,<span class="st">&#39;2&#39;</span>]<span class="sc">-</span><span class="fl">0.5</span>))) ]</span>
+<span id="cb7-20"><a href="dcb.html#cb7-20" tabindex="-1"></a>      output<span class="sc">$</span>avgb[n] <span class="ot">=</span> .<span class="dv">5</span><span class="sc">*</span>(<span class="fu">abs</span>(output<span class="sc">$</span>ub[n])<span class="sc">+</span><span class="fu">abs</span>(output<span class="sc">$</span>lb[n]))</span>
+<span id="cb7-21"><a href="dcb.html#cb7-21" tabindex="-1"></a>    }, <span class="at">error=</span><span class="cf">function</span>(e){<span class="fu">cat</span>(<span class="st">&quot;ERROR :&quot;</span>,<span class="fu">conditionMessage</span>(e), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)})</span>
+<span id="cb7-22"><a href="dcb.html#cb7-22" tabindex="-1"></a>  }</span>
+<span id="cb7-23"><a href="dcb.html#cb7-23" tabindex="-1"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb7-24"><a href="dcb.html#cb7-24" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="fixed-bounds-cyborg-2" class="section level4 unnumbered hasAnchor">
+<h4>Fixed bounds cyborg<a href="dcb.html#fixed-bounds-cyborg-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The DCB isn’t perfect, but I honestly can’t deny that I’m surprised by its accuracy. Clearly it performs worse as data becomes sparse (i.e. when there are fewer choices at later times).</p>
+<p><img src="LateNightBayes_files/figure-html/fixed_dcb-1.gif" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="collapsing-bounds-cyborg-2" class="section level4 unnumbered hasAnchor">
+<h4>Collapsing bounds cyborg<a href="dcb.html#collapsing-bounds-cyborg-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This is where things get even more interesting. The DCB follows the collapsing bound generated by a Weibull function quite well.</p>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/collapsing_dcb-1.gif" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="preliminary-conclusion" class="section level3 hasAnchor" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Preliminary conclusion<a href="dcb.html#preliminary-conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The DCB performs remarkably well for simulated, perceptual data where there are sequences of stimuli for each decision.</p>
+<p>There is one obvious problem at this stage. Decision boundaries cannot be estimated at a given point in time if, across all trials, all three actions are not made at that point in time. For instance, at sample 1, no choices were made for the right option; therefore, decision boundaries cannot be estimated at time <span class="math inline">\(\text{sample}=1\)</span>. This prevents the DCB from estimating the starting point of decision boundaries. This seems to be the case in <span class="citation">(<a href="#ref-glickman2022">Glickman, Moran, and Usher 2022</a>)</span> too.</p>
+<center>
+<img src="images/dcb-missingEarly.PNG" style="width:30.0%" />
+</center>
+</div>
+<div id="comparative-statics" class="section level3 tabset hasAnchor" number="2.1.5">
+<h3><span class="header-section-number">2.1.5</span> Comparative statics<a href="dcb.html#comparative-statics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s see how the DCB performs when we alter some of the cyborgs’ parameters.</p>
+<div id="fixed-bounds-cyborg-3" class="section level4 tabset hasAnchor" number="2.1.5.1">
+<h4><span class="header-section-number">2.1.5.1</span> Fixed bounds cyborg<a href="dcb.html#fixed-bounds-cyborg-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="drift" class="section level5 unnumbered hasAnchor">
+<h5>Drift<a href="dcb.html#drift" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><em>Prediction</em>: The DCB should work fine regardless of the drift rate since accumulated evidence can be modulated by drift rate. This should also extend to attentional discounting from the aDDM with fixation data.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+<li>bound = <span class="math inline">\(\pm 50\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Aside from the fact that all the choices are not represented at early times when drift rate is low, we see that DCB tracks the fixed boundary well for any drift rate.</p>
+</div>
+<div id="noise" class="section level5 unnumbered hasAnchor">
+<h5>Noise<a href="dcb.html#noise" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>This is important to consider since accumulated evidence can bleed over LDA boundaries. The more noise there is, the more that measurements of accumulated evidence will bleed over into other classifications. For instance, with a larger noise, there should be more “continue sampling” observations that fall above the separating plane for “choose left” and below the separating plane for “choose right”. And vice versa.</p>
+<p><em>Prediction</em>: I think more noise variance will negatively affect the performance of the DCB.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>bound = <span class="math inline">\(\pm 50\)</span></li>
+</ul>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>As the variance of noise grows, we see the performance of DCB progressively deteriorate over time. I would imagine that this could become a huge problem in real data and might affect the robustness of this algorithm.</p>
+</div>
+<div id="bounds" class="section level5 unnumbered hasAnchor">
+<h5>Bounds<a href="dcb.html#bounds" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><em>Prediction</em>: I think this may end up mechanically similar to changing the drift rate, so I don’t think changing the bounds will affect DCB performance.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Bounds don’t seem to affect the performance of the DCB. The relatively poor performance of the DCB when bounds are large is caused by the uneven distribution of choices at early times. Early times are dominated by “continue sampling”, making it difficult for LDA to determine accurate classification bounds.</p>
+</div>
+<div id="number-of-trials" class="section level5 unnumbered hasAnchor">
+<h5>Number of trials<a href="dcb.html#number-of-trials" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Keeping all else constant, how does the DCB perform with varying numbers of trials.</p>
+<p><em>Prediction</em>: DCB performance will asymptotically converge to some maximum performance. Hopefully it works well for approximately 300 trials, since I would like to apply this algorithm to more than simulated data.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+<li>bound = <span class="math inline">\(\pm 50\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The DCB performs ok at 150 trials. By 360 trials, it looks like it is fitting fixed bounds decently. Not too much performance improvement from 360 to 500 trials. I think this ultimately depends on how many choices are made at every time point, which may or may not be dependent on the total number of trials.</p>
+</div>
+</div>
+<div id="collapsing-bounds-cyborg-3" class="section level4 tabset hasAnchor" number="2.1.5.2">
+<h4><span class="header-section-number">2.1.5.2</span> Collapsing bounds cyborg<a href="dcb.html#collapsing-bounds-cyborg-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="drift-1" class="section level5 unnumbered hasAnchor">
+<h5>Drift<a href="dcb.html#drift-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>So far, our cyborgs are just linear accumulators since drift rate has been set to 1 for the cyborgs. This is a special case of the DDM, but does the DCB still work for other drift rates?<br />
+<em>Prediction</em>: The DCB should work fine regardless of the drift rate. We just need to account for the drift rate in our accumulated evidence. This should also extend to attentional discounting from the aDDM, so long as we use fixation data.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+<li>Weibull scale = <span class="math inline">\(4\)</span></li>
+<li>Weibull shape = <span class="math inline">\(3\)</span></li>
+<li>Weibull asymptote = <span class="math inline">\(10\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>At low drift rates, the DCB fails to capture the asymptote of the collapsed bounds. Otherwise, it performs fine.</p>
+</div>
+<div id="noise-1" class="section level5 unnumbered hasAnchor">
+<h5>Noise<a href="dcb.html#noise-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>This is important to consider since accumulated evidence can bleed over LDA boundaries. The more noise there is, the more that measurements of accumulated evidence will bleed over into other classifications. For instance, with a larger noise, there should be more “continue sampling” observations that fall above the separating plane for “choose left” and below the separating plane for “choose right”. And vice versa.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>Weibull scale = <span class="math inline">\(4\)</span></li>
+<li>Weibull shape = <span class="math inline">\(3\)</span></li>
+<li>Weibull asymptote = <span class="math inline">\(10\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Again, performance degrades over time when noise is large. It almost looks like the boundaries collapse, then widen again. At absurdly large amounts of noise, we even see it widen, tighten, widen, and tighten (all within 10 samples!). I bet we’ll see patterns like this in real data.</p>
+</div>
+<div id="weibull-shape" class="section level5 unnumbered hasAnchor">
+<h5>Weibull Shape<a href="dcb.html#weibull-shape" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Change the shape of the Weibull collapsing function. The larger the shape, the later the collapse.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+<li>Weibull scale = <span class="math inline">\(4\)</span></li>
+<li>Weibull asymptote = <span class="math inline">\(10\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>The DCB tracks the time of collapse well.</p>
+</div>
+<div id="weibull-asymptote" class="section level5 unnumbered hasAnchor">
+<h5>Weibull Asymptote<a href="dcb.html#weibull-asymptote" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>The Weibull collapsing function starts at <span class="math inline">\(a=100\)</span>. It will converge to <span class="math inline">\(0.5a+a&#39;\)</span>. We are adjusting <span class="math inline">\(a&#39;\)</span>.
+Dropping from <span class="math inline">\(a&#39;&gt;0\)</span> to <span class="math inline">\(a&#39;=0\)</span> asymptotically brings us down to a bound of 50. <span class="math inline">\(a&#39;&lt;0\)</span> drags the asymptote below 50.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+<li>Weibull scale = <span class="math inline">\(4\)</span></li>
+<li>Weibull shape = <span class="math inline">\(3\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>The DCB tracks the asymptote of collapse well.</p>
+</div>
+<div id="number-of-trials-1" class="section level5 unnumbered hasAnchor">
+<h5>Number of trials<a href="dcb.html#number-of-trials-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Keeping all else constant, how does the DCB perform with varying numbers of trials.</p>
+<ul>
+<li>bias = <span class="math inline">\(0\)</span></li>
+<li>drift = <span class="math inline">\(0.9\)</span></li>
+<li>noise = <span class="math inline">\(4\)</span></li>
+<li>bound = <span class="math inline">\(\pm 50\)</span></li>
+</ul>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Performance seems sufficient at 150 trials, and improves (with diminishing returns) at larger trial counts.</p>
+</div>
+</div>
+</div>
+<div id="conclusion" class="section level3 hasAnchor" number="2.1.6">
+<h3><span class="header-section-number">2.1.6</span> Conclusion<a href="dcb.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Looks like DCB might work for tasks with sequential presentation and comparison of multiple stimuli, particularly in the perception and numerosity domains.</p>
+<p>Need to make sure that the variance of noise is not too large amongst subjects, otherwise DCB will likely fail to track decision boundaries. This may be partially controlled by the noisiness of stimuli. For instance, displaying streams of numbers might result in less noise than displaying streams of collections of balls (where the collections represent a number).</p>
+<p>DCB might work in as little as 150 trials per subject, though more trials only aids with accuracy. It’s performance is more dependent on drift (since we need a decent distribution across all choices at a given time) and noise (since accumulated evidence can bleed over decision boundaries).</p>
+</div>
+</div>
+<div id="perceptual-data-ddm" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Perceptual data, DDM<a href="dcb.html#perceptual-data-ddm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We use data from a study currently in progress. I can’t share this data yet since the project is still at an early phase. Subjects simultaneously view two streams of rectangles and are asked to choose which stream has the larger average as quickly as possible (see <span class="citation">(<a href="#ref-tsetsos2016">Tsetsos et al. 2016</a>)</span>).</p>
+<div id="prep-work" class="section level3 tabset hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Prep work<a href="dcb.html#prep-work" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="read-in-and-clean-data" class="section level4 unnumbered hasAnchor">
+<h4>Read-in and clean data<a href="dcb.html#read-in-and-clean-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Reads in data and outputs a time-series of accumulated evidence and choices (along with slider location, etc.). Choices are 0=left, 1=right, 2=continue sampling.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="dcb.html#cb17-1" tabindex="-1"></a>slider.data <span class="ot">&lt;-</span> </span>
+<span id="cb17-2"><a href="dcb.html#cb17-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;data/dcb-all_dataSlider.csv&quot;</span>)</span>
+<span id="cb17-3"><a href="dcb.html#cb17-3" tabindex="-1"></a>slider.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-4"><a href="dcb.html#cb17-4" tabindex="-1"></a>  <span class="at">subject=</span><span class="fu">factor</span>(slider.data<span class="sc">$</span>participant),</span>
+<span id="cb17-5"><a href="dcb.html#cb17-5" tabindex="-1"></a>  <span class="at">trial=</span>slider.data<span class="sc">$</span>block.thisN<span class="sc">*</span><span class="dv">120</span> <span class="sc">+</span> slider.data<span class="sc">$</span>trial.thisN,</span>
+<span id="cb17-6"><a href="dcb.html#cb17-6" tabindex="-1"></a>  <span class="at">sample=</span>slider.data<span class="sc">$</span>samplePhase.thisN,</span>
+<span id="cb17-7"><a href="dcb.html#cb17-7" tabindex="-1"></a>  <span class="at">choice=</span>slider.data<span class="sc">$</span>choice,</span>
+<span id="cb17-8"><a href="dcb.html#cb17-8" tabindex="-1"></a>  <span class="at">evidence=</span><span class="fu">round</span>((slider.data<span class="sc">$</span>heightR<span class="sc">-</span>slider.data<span class="sc">$</span>heightL)<span class="sc">*</span><span class="dv">100</span>,<span class="dv">2</span>),</span>
+<span id="cb17-9"><a href="dcb.html#cb17-9" tabindex="-1"></a>  <span class="at">sliderLoc=</span>(slider.data<span class="sc">$</span>sliderLoc<span class="sc">*</span><span class="dv">2-1</span>)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb17-10"><a href="dcb.html#cb17-10" tabindex="-1"></a>  <span class="at">time=</span><span class="fu">round</span>(slider.data<span class="sc">$</span>sliderTime,<span class="dv">3</span>)<span class="sc">*</span><span class="dv">1000</span></span>
+<span id="cb17-11"><a href="dcb.html#cb17-11" tabindex="-1"></a>)</span>
+<span id="cb17-12"><a href="dcb.html#cb17-12" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="dcb.html#cb17-13" tabindex="-1"></a>slider.data <span class="ot">&lt;-</span> slider.data <span class="sc">%&gt;%</span></span>
+<span id="cb17-14"><a href="dcb.html#cb17-14" tabindex="-1"></a>  <span class="fu">group_by</span>(subject,trial,sample) <span class="sc">%&gt;%</span></span>
+<span id="cb17-15"><a href="dcb.html#cb17-15" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb17-16"><a href="dcb.html#cb17-16" tabindex="-1"></a>    <span class="at">choice=</span><span class="fu">last</span>(choice),</span>
+<span id="cb17-17"><a href="dcb.html#cb17-17" tabindex="-1"></a>    <span class="at">evidence=</span><span class="fu">last</span>(evidence),</span>
+<span id="cb17-18"><a href="dcb.html#cb17-18" tabindex="-1"></a>    <span class="at">sliderLoc=</span><span class="fu">last</span>(sliderLoc),</span>
+<span id="cb17-19"><a href="dcb.html#cb17-19" tabindex="-1"></a>    <span class="at">time=</span><span class="fu">last</span>(time)</span>
+<span id="cb17-20"><a href="dcb.html#cb17-20" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-21"><a href="dcb.html#cb17-21" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-22"><a href="dcb.html#cb17-22" tabindex="-1"></a>  <span class="fu">group_by</span>(subject,trial) <span class="sc">%&gt;%</span></span>
+<span id="cb17-23"><a href="dcb.html#cb17-23" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-24"><a href="dcb.html#cb17-24" tabindex="-1"></a>    <span class="at">ae=</span><span class="fu">cumsum</span>(evidence),</span>
+<span id="cb17-25"><a href="dcb.html#cb17-25" tabindex="-1"></a>    <span class="at">samples=</span><span class="fu">max</span>(sample)</span>
+<span id="cb17-26"><a href="dcb.html#cb17-26" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;, &#39;trial&#39;. You
+## can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="dcb.html#cb19-1" tabindex="-1"></a>slider.data<span class="sc">$</span>choice[slider.data<span class="sc">$</span>sample<span class="sc">!=</span>slider.data<span class="sc">$</span>samples] <span class="ot">&lt;-</span> <span class="dv">2</span></span></code></pre></div>
+</div>
+<div id="take-subj-data-output-figure" class="section level4 unnumbered hasAnchor">
+<h4>Take subj data, output figure<a href="dcb.html#take-subj-data-output-figure" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Time dimension is along number of samples. Note that time-steps are not consistent since each pair of stimuli are displayed for a variable amount of time.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="dcb.html#cb20-1" tabindex="-1"></a>plotDCB <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">maxSamples=</span><span class="dv">10</span>) {</span>
+<span id="cb20-2"><a href="dcb.html#cb20-2" tabindex="-1"></a>  <span class="co"># Get subject&#39;s data and convert it to useable input to our DCB() function.</span></span>
+<span id="cb20-3"><a href="dcb.html#cb20-3" tabindex="-1"></a>  <span class="co"># Requires sample, choice, ae, and trial variables in time-series panel format.</span></span>
+<span id="cb20-4"><a href="dcb.html#cb20-4" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> data</span>
+<span id="cb20-5"><a href="dcb.html#cb20-5" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> subj.data[,<span class="fu">c</span>(<span class="st">&#39;sample&#39;</span>,<span class="st">&#39;choice&#39;</span>,<span class="st">&#39;ae&#39;</span>,<span class="st">&#39;trial&#39;</span>)]</span>
+<span id="cb20-6"><a href="dcb.html#cb20-6" tabindex="-1"></a>  </span>
+<span id="cb20-7"><a href="dcb.html#cb20-7" tabindex="-1"></a>  <span class="co"># DCB</span></span>
+<span id="cb20-8"><a href="dcb.html#cb20-8" tabindex="-1"></a>  subj.dcb <span class="ot">&lt;-</span> <span class="fu">DCB</span>(subj.data, maxSamples)</span>
+<span id="cb20-9"><a href="dcb.html#cb20-9" tabindex="-1"></a>  subj.dcb</span>
+<span id="cb20-10"><a href="dcb.html#cb20-10" tabindex="-1"></a>  </span>
+<span id="cb20-11"><a href="dcb.html#cb20-11" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> subj.data</span>
+<span id="cb20-12"><a href="dcb.html#cb20-12" tabindex="-1"></a>  tempData<span class="sc">$</span>choice <span class="ot">&lt;-</span> <span class="fu">factor</span>(tempData<span class="sc">$</span>choice, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&#39;Choose left&#39;</span>,<span class="st">&#39;Choose right&#39;</span>,<span class="st">&#39;Continue sampling&#39;</span>))</span>
+<span id="cb20-13"><a href="dcb.html#cb20-13" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> <span class="fu">merge</span>(tempData,subj.dcb[,<span class="fu">c</span>(<span class="st">&#39;sample&#39;</span>,<span class="st">&#39;avgb&#39;</span>)], <span class="at">by.x=</span><span class="st">&quot;sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;sample&quot;</span>)</span>
+<span id="cb20-14"><a href="dcb.html#cb20-14" tabindex="-1"></a>  p <span class="ot">&lt;-</span> tempData[tempData<span class="sc">$</span>sample<span class="sc">&lt;=</span>maxSamples,] <span class="sc">%&gt;%</span></span>
+<span id="cb20-15"><a href="dcb.html#cb20-15" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>ae, <span class="at">fill=</span>choice, <span class="at">color=</span>choice)) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="dcb.html#cb20-16" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">alpha=</span>.<span class="dv">25</span>, <span class="at">bins=</span><span class="dv">100</span>, <span class="at">position=</span><span class="st">&#39;identity&#39;</span>) <span class="sc">+</span></span>
+<span id="cb20-17"><a href="dcb.html#cb20-17" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>avgb), <span class="at">color=</span><span class="st">&#39;red&#39;</span>, <span class="at">alpha=</span>.<span class="dv">65</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="dcb.html#cb20-18" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="sc">-</span>avgb), <span class="at">color=</span><span class="st">&#39;red&#39;</span>, <span class="at">alpha=</span>.<span class="dv">65</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb20-19"><a href="dcb.html#cb20-19" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb20-20"><a href="dcb.html#cb20-20" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb20-21"><a href="dcb.html#cb20-21" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Accumulated Evidence&#39;</span>, <span class="at">y=</span><span class="st">&#39;Sample&#39;</span>) <span class="sc">+</span></span>
+<span id="cb20-22"><a href="dcb.html#cb20-22" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">150</span>,<span class="dv">150</span>)) <span class="sc">+</span></span>
+<span id="cb20-23"><a href="dcb.html#cb20-23" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb20-24"><a href="dcb.html#cb20-24" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">22</span>),</span>
+<span id="cb20-25"><a href="dcb.html#cb20-25" tabindex="-1"></a>      <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb20-26"><a href="dcb.html#cb20-26" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb20-27"><a href="dcb.html#cb20-27" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb20-28"><a href="dcb.html#cb20-28" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="sc">~</span>sample, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)</span>
+<span id="cb20-29"><a href="dcb.html#cb20-29" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb20-30"><a href="dcb.html#cb20-30" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="dcb-2" class="section level3 tabset hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> DCB<a href="dcb.html#dcb-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="subject-1" class="section level4 unnumbered hasAnchor">
+<h4>Subject 1<a href="dcb.html#subject-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Not great… maybe this was just a fluke. If we consider the timepoints with the bulk of observations, then maybe we could argue evidence in favor of fixed bounds.</p>
+</div>
+<div id="subject-2" class="section level4 unnumbered hasAnchor">
+<h4>Subject 2<a href="dcb.html#subject-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : missing value where TRUE/FALSE needed 
+## ERROR : non-conformable arrays 
+## ERROR : non-conformable arrays 
+## ERROR : non-conformable arrays</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>If we only consider points in time with a sufficient amount of data, then definitely looks like collapsing bounds.</p>
+</div>
+<div id="subject-3" class="section level4 unnumbered hasAnchor">
+<h4>Subject 3<a href="dcb.html#subject-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Not sure what to make of this.</p>
+</div>
+<div id="subject-4" class="section level4 unnumbered hasAnchor">
+<h4>Subject 4<a href="dcb.html#subject-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : variable 1 appears to be constant within groups 
+## ERROR : missing value where TRUE/FALSE needed 
+## ERROR : missing value where TRUE/FALSE needed</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>If we only consider points in time with a sufficient amount of data, then looks like collapsing bounds.</p>
+</div>
+</div>
+<div id="conclusion-1" class="section level3 unnumbered hasAnchor">
+<h3>Conclusion<a href="dcb.html#conclusion-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For 2 out of 4 subjects, the DCB clearly provides evidence in favor of a collapsing boundary. For the remaining subjects, the DCB looks scattered. I’m beginning to question the robustness of the DCB algorithm, though it clearly does well when modeling impatient subjects!</p>
+</div>
+</div>
+<div id="perceptual-data-slider" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Perceptual data, slider<a href="dcb.html#perceptual-data-slider" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Instead of calculating accumulated evidence using a linear accumulator, I substitute it with slider bar location. Just curious if this works.</p>
+<div id="prep-work-1" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Prep work<a href="dcb.html#prep-work-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="dcb.html#cb24-1" tabindex="-1"></a>slider.data<span class="sc">$</span>ae <span class="ot">&lt;-</span> slider.data<span class="sc">$</span>sliderLoc</span></code></pre></div>
+</div>
+<div id="dcb-3" class="section level3 tabset hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> DCB<a href="dcb.html#dcb-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="subject-1-1" class="section level4 unnumbered hasAnchor">
+<h4>Subject 1<a href="dcb.html#subject-1-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>More linear boundaries, but that’s because the maximum / minimum slider bar location is 0 / 100, so this approach is naturally biased towards a linear boundary.</p>
+</div>
+<div id="subject-2-1" class="section level4 unnumbered hasAnchor">
+<h4>Subject 2<a href="dcb.html#subject-2-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : variable 1 appears to be constant within groups 
+## ERROR : missing value where TRUE/FALSE needed 
+## ERROR : non-conformable arrays 
+## ERROR : non-conformable arrays 
+## ERROR : non-conformable arrays</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Subtle hints of collapsing barrier, again biased towards a linear boundary.</p>
+</div>
+<div id="subject-3-1" class="section level4 unnumbered hasAnchor">
+<h4>Subject 3<a href="dcb.html#subject-3-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Kinda looks like when noise is very large and bounds are collapsing… that trend where the boundary collapses, widens, then collapses again.</p>
+</div>
+<div id="subject-4-1" class="section level4 unnumbered hasAnchor">
+<h4>Subject 4<a href="dcb.html#subject-4-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : variable 1 appears to be constant within groups 
+## ERROR : missing value where TRUE/FALSE needed 
+## ERROR : missing value where TRUE/FALSE needed</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>Subtle hints of collapsing barrier.</p>
+</div>
+</div>
+<div id="conclusion-2" class="section level3 unnumbered hasAnchor">
+<h3>Conclusion<a href="dcb.html#conclusion-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The fact that the “accumulated evidence” for choices cannot differ from <span class="math inline">\(\pm 100\)</span> biases the collapsing boundary towards linear bounds. There is still some hint of collapse for the subjects who previously displayed collapsing boundaries, but I’m not sure we can call this a success. That’s ok, I took a shot in the dark asking if the algorithm could work with just slider bar locations, and it turns out that it probably doesn’t.</p>
+</div>
+</div>
+<div id="value-based-data-ddm" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Value-based data, DDM<a href="dcb.html#value-based-data-ddm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>I use data from <span class="citation">(<a href="#ref-eum2022">Eum, Dolbier, and Rangel 2022</a>)</span> visible trials. The data can be downloaded here: <a href="https://www.rnl.caltech.edu/publications/index.html" class="uri">https://www.rnl.caltech.edu/publications/index.html</a>. I am not assuming a drift diffusion model for accumulated evidence. I am simply assuming a linear accumulator (drift=1). If the DCB exhibit a bias that is linear in samples, then perhaps performance can be improved by using subject-specific drift rate parameters. However, if the DCB exhibit non-linear bias, then I find it hard to believe that drift rate will make much difference.</p>
+<div id="prep-work-2" class="section level3 tabset hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Prep work<a href="dcb.html#prep-work-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="read-data" class="section level4 unnumbered hasAnchor">
+<h4>Read data<a href="dcb.html#read-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="dcb.html#cb28-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/dcb-choices.R&quot;</span>)</span>
+<span id="cb28-2"><a href="dcb.html#cb28-2" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-3"><a href="dcb.html#cb28-3" tabindex="-1"></a>  <span class="at">subject=</span>choices<span class="sc">$</span>parcode,</span>
+<span id="cb28-4"><a href="dcb.html#cb28-4" tabindex="-1"></a>  <span class="at">hidden=</span>choices<span class="sc">$</span>hidden,</span>
+<span id="cb28-5"><a href="dcb.html#cb28-5" tabindex="-1"></a>  <span class="at">condition=</span>choices<span class="sc">$</span>lr_diff,</span>
+<span id="cb28-6"><a href="dcb.html#cb28-6" tabindex="-1"></a>  <span class="at">response=</span>choices<span class="sc">$</span>choice,</span>
+<span id="cb28-7"><a href="dcb.html#cb28-7" tabindex="-1"></a>  <span class="at">RT=</span>choices<span class="sc">$</span>rt<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb28-8"><a href="dcb.html#cb28-8" tabindex="-1"></a>)</span>
+<span id="cb28-9"><a href="dcb.html#cb28-9" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> ddm.data[ddm.data<span class="sc">$</span>hidden<span class="sc">==</span><span class="dv">0</span>,] <span class="co">#keep visible trials</span></span></code></pre></div>
+</div>
+<div id="take-subj-data-output-figure-1" class="section level4 unnumbered hasAnchor">
+<h4>Take subj data, output figure<a href="dcb.html#take-subj-data-output-figure-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s assume one sample occurs every 250 ms. This splits the time dimension into roughly the same resolution as the simulations above.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="dcb.html#cb29-1" tabindex="-1"></a>plotDCB <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">maxSamples=</span><span class="dv">10</span>) {</span>
+<span id="cb29-2"><a href="dcb.html#cb29-2" tabindex="-1"></a>  <span class="co"># Get subject&#39;s data and convert it to useable input to our DCB() function.</span></span>
+<span id="cb29-3"><a href="dcb.html#cb29-3" tabindex="-1"></a>  <span class="co"># Requires sample, choice, ae, and trial variables in time-series panel format.</span></span>
+<span id="cb29-4"><a href="dcb.html#cb29-4" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> data</span>
+<span id="cb29-5"><a href="dcb.html#cb29-5" tabindex="-1"></a>  subj.data<span class="sc">$</span>samples <span class="ot">&lt;-</span> (<span class="fu">round</span>(subj.data<span class="sc">$</span>RT<span class="sc">/</span>.<span class="dv">25</span>)<span class="sc">*</span>.<span class="dv">25</span>) <span class="sc">/</span>.<span class="dv">25</span> <span class="co">#250m</span></span>
+<span id="cb29-6"><a href="dcb.html#cb29-6" tabindex="-1"></a>  subj.data<span class="sc">$</span>trial <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(subj.data<span class="sc">$</span>RT))</span>
+<span id="cb29-7"><a href="dcb.html#cb29-7" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> subj.data[<span class="fu">rep</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(subj.data)), subj.data<span class="sc">$</span>samples),] <span class="co">#repeat each row by number of samples</span></span>
+<span id="cb29-8"><a href="dcb.html#cb29-8" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> subj.data <span class="sc">%&gt;%</span></span>
+<span id="cb29-9"><a href="dcb.html#cb29-9" tabindex="-1"></a>    <span class="fu">group_by</span>(trial) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="dcb.html#cb29-10" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ae=</span><span class="fu">cumsum</span>(condition),</span>
+<span id="cb29-11"><a href="dcb.html#cb29-11" tabindex="-1"></a>           <span class="at">sample=</span><span class="fu">row_number</span>())</span>
+<span id="cb29-12"><a href="dcb.html#cb29-12" tabindex="-1"></a>  subj.data<span class="sc">$</span>choice <span class="ot">&lt;-</span> subj.data<span class="sc">$</span>response</span>
+<span id="cb29-13"><a href="dcb.html#cb29-13" tabindex="-1"></a>  subj.data[subj.data<span class="sc">$</span>sample<span class="sc">!=</span>subj.data<span class="sc">$</span>samples,<span class="st">&#39;choice&#39;</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb29-14"><a href="dcb.html#cb29-14" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> subj.data[,<span class="fu">c</span>(<span class="st">&#39;sample&#39;</span>,<span class="st">&#39;choice&#39;</span>,<span class="st">&#39;ae&#39;</span>,<span class="st">&#39;trial&#39;</span>)]</span>
+<span id="cb29-15"><a href="dcb.html#cb29-15" tabindex="-1"></a>  </span>
+<span id="cb29-16"><a href="dcb.html#cb29-16" tabindex="-1"></a>  <span class="co"># DCB</span></span>
+<span id="cb29-17"><a href="dcb.html#cb29-17" tabindex="-1"></a>  subj.dcb <span class="ot">&lt;-</span> <span class="fu">DCB</span>(subj.data, maxSamples)</span>
+<span id="cb29-18"><a href="dcb.html#cb29-18" tabindex="-1"></a>  subj.dcb</span>
+<span id="cb29-19"><a href="dcb.html#cb29-19" tabindex="-1"></a>  </span>
+<span id="cb29-20"><a href="dcb.html#cb29-20" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> subj.data</span>
+<span id="cb29-21"><a href="dcb.html#cb29-21" tabindex="-1"></a>  tempData<span class="sc">$</span>choice <span class="ot">&lt;-</span> <span class="fu">factor</span>(tempData<span class="sc">$</span>choice, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&#39;Choose right&#39;</span>,<span class="st">&#39;Choose left&#39;</span>,<span class="st">&#39;Continue sampling&#39;</span>))</span>
+<span id="cb29-22"><a href="dcb.html#cb29-22" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> <span class="fu">merge</span>(tempData,subj.dcb[,<span class="fu">c</span>(<span class="st">&#39;sample&#39;</span>,<span class="st">&#39;avgb&#39;</span>)], <span class="at">by.x=</span><span class="st">&quot;sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;sample&quot;</span>)</span>
+<span id="cb29-23"><a href="dcb.html#cb29-23" tabindex="-1"></a>  p <span class="ot">&lt;-</span> tempData[tempData<span class="sc">$</span>sample<span class="sc">&lt;=</span>maxSamples,] <span class="sc">%&gt;%</span></span>
+<span id="cb29-24"><a href="dcb.html#cb29-24" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>ae, <span class="at">fill=</span>choice, <span class="at">color=</span>choice)) <span class="sc">+</span></span>
+<span id="cb29-25"><a href="dcb.html#cb29-25" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">bins=</span><span class="dv">50</span>, <span class="at">position=</span><span class="st">&#39;identity&#39;</span>) <span class="sc">+</span></span>
+<span id="cb29-26"><a href="dcb.html#cb29-26" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>avgb), <span class="at">color=</span><span class="st">&#39;red&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb29-27"><a href="dcb.html#cb29-27" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="sc">-</span>avgb), <span class="at">color=</span><span class="st">&#39;red&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb29-28"><a href="dcb.html#cb29-28" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb29-29"><a href="dcb.html#cb29-29" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb29-30"><a href="dcb.html#cb29-30" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Accumulated Evidence&#39;</span>, <span class="at">y=</span><span class="st">&#39;Sample (250 ms)&#39;</span>) <span class="sc">+</span></span>
+<span id="cb29-31"><a href="dcb.html#cb29-31" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">50</span>,<span class="dv">50</span>)) <span class="sc">+</span></span>
+<span id="cb29-32"><a href="dcb.html#cb29-32" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb29-33"><a href="dcb.html#cb29-33" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">22</span>),</span>
+<span id="cb29-34"><a href="dcb.html#cb29-34" tabindex="-1"></a>      <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb29-35"><a href="dcb.html#cb29-35" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb29-36"><a href="dcb.html#cb29-36" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb29-37"><a href="dcb.html#cb29-37" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="sc">~</span>sample, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)</span>
+<span id="cb29-38"><a href="dcb.html#cb29-38" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb29-39"><a href="dcb.html#cb29-39" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="dcb-4" class="section level3 tabset hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> DCB<a href="dcb.html#dcb-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="subj-225" class="section level4 unnumbered hasAnchor">
+<h4>Subj 225<a href="dcb.html#subj-225" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>Perhaps collapsing boundary with large noise? This conclusion is based on the simulations of the collapsing cyborg with a large noise parameter.</p>
+</div>
+<div id="subj-304" class="section level4 unnumbered hasAnchor">
+<h4>Subj 304<a href="dcb.html#subj-304" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Not sure what to make of this.</p>
+</div>
+<div id="subj-316" class="section level4 unnumbered hasAnchor">
+<h4>Subj 316<a href="dcb.html#subj-316" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>Looks a lot like the collapsing barrier cyborg with large noise.</p>
+</div>
+<div id="subj-319" class="section level4 unnumbered hasAnchor">
+<h4>Subj 319<a href="dcb.html#subj-319" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Potentially an increasingly patient subject? More likely that the algorithm is struggling to fit properly.</p>
+</div>
+</div>
+<div id="conclusion-3" class="section level3 hasAnchor" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Conclusion<a href="dcb.html#conclusion-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>DCB is not looking promising in the value-based choice domain. Of course, I don’t know what subjects’ actual collapsing bounds are, but my attempt at fitting the DCB either suggests there is too much noise in the process for DCB to be effective. Perhaps value signals are too noisy compared to perceptual or numerosity stimuli. Also, the rate of evidence accumulation in these cases is constant since they are staring at the same stimuli for the entirety of the decision making process. I don’t think the DCB was intended to be used on stimuli like this, so it’s like trying to use a fork to drink soup.</p>
+</div>
+</div>
+<div id="value-based-data-addm" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Value-based data, aDDM<a href="dcb.html#value-based-data-addm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now, let’s see what happens if we calculate accumulated evidence with the aDDM (without noise). I have a hunch that this might work better!</p>
+<div id="prep-work-3" class="section level3 tabset hasAnchor" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Prep work<a href="dcb.html#prep-work-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="read-data-1" class="section level4 unnumbered hasAnchor">
+<h4>Read data<a href="dcb.html#read-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We want to take the choice-fixations data and transform it into an object that we can feed into plotDCB() below.</p>
+<p>Ideally, the output should have:
+* subject
+* trial
+* a time dimension
+* accumulated evidence (at that point in time)
+* choice</p>
+<p>We also need subject-speccific aDDM estimates.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="dcb.html#cb34-1" tabindex="-1"></a><span class="co"># Choice-fixation data</span></span>
+<span id="cb34-2"><a href="dcb.html#cb34-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/dcb-cf.R&quot;</span>)</span>
+<span id="cb34-3"><a href="dcb.html#cb34-3" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb34-4"><a href="dcb.html#cb34-4" tabindex="-1"></a>  <span class="at">subject=</span>cf<span class="sc">$</span>parcode,</span>
+<span id="cb34-5"><a href="dcb.html#cb34-5" tabindex="-1"></a>  <span class="at">trial=</span>cf<span class="sc">$</span>trial,</span>
+<span id="cb34-6"><a href="dcb.html#cb34-6" tabindex="-1"></a>  <span class="at">hidden=</span>cf<span class="sc">$</span>hidden,</span>
+<span id="cb34-7"><a href="dcb.html#cb34-7" tabindex="-1"></a>  <span class="at">vl=</span>cf<span class="sc">$</span>avgWTP_left,</span>
+<span id="cb34-8"><a href="dcb.html#cb34-8" tabindex="-1"></a>  <span class="at">vr=</span>cf<span class="sc">$</span>avgWTP_right,</span>
+<span id="cb34-9"><a href="dcb.html#cb34-9" tabindex="-1"></a>  <span class="at">loc=</span>cf<span class="sc">$</span>location,</span>
+<span id="cb34-10"><a href="dcb.html#cb34-10" tabindex="-1"></a>  <span class="at">dur=</span>cf<span class="sc">$</span>duration,</span>
+<span id="cb34-11"><a href="dcb.html#cb34-11" tabindex="-1"></a>  <span class="at">choice=</span>cf<span class="sc">$</span>choice,</span>
+<span id="cb34-12"><a href="dcb.html#cb34-12" tabindex="-1"></a>  <span class="at">rt=</span>cf<span class="sc">$</span>rt<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb34-13"><a href="dcb.html#cb34-13" tabindex="-1"></a>)</span>
+<span id="cb34-14"><a href="dcb.html#cb34-14" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> ddm.data[ddm.data<span class="sc">$</span>hidden<span class="sc">==</span><span class="dv">0</span>,] <span class="co">#keep visible trials</span></span>
+<span id="cb34-15"><a href="dcb.html#cb34-15" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="dcb.html#cb34-16" tabindex="-1"></a><span class="co"># Subject-level aDDM estimates</span></span>
+<span id="cb34-17"><a href="dcb.html#cb34-17" tabindex="-1"></a>subs <span class="ot">&lt;-</span> <span class="fu">unique</span>(ddm.data<span class="sc">$</span>subject)</span>
+<span id="cb34-18"><a href="dcb.html#cb34-18" tabindex="-1"></a>selected.subs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">225</span>,<span class="dv">304</span>,<span class="dv">316</span>,<span class="dv">319</span>) <span class="co">#Pick 4 subjects</span></span>
+<span id="cb34-19"><a href="dcb.html#cb34-19" tabindex="-1"></a>selected.subs.ind <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">38</span>,<span class="dv">41</span>) <span class="co">#indexes</span></span>
+<span id="cb34-20"><a href="dcb.html#cb34-20" tabindex="-1"></a>ddm.estim <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/dcb-MAP_estimates.csv&quot;</span>)</span>
+<span id="cb34-21"><a href="dcb.html#cb34-21" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="dcb.html#cb34-22" tabindex="-1"></a><span class="co"># Transform data</span></span>
+<span id="cb34-23"><a href="dcb.html#cb34-23" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> ddm.data[<span class="fu">which</span>(ddm.data<span class="sc">$</span>subject <span class="sc">%in%</span> selected.subs),]</span>
+<span id="cb34-24"><a href="dcb.html#cb34-24" tabindex="-1"></a>ddm.data<span class="sc">$</span>evidence <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb34-25"><a href="dcb.html#cb34-25" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(selected.subs))) {</span>
+<span id="cb34-26"><a href="dcb.html#cb34-26" tabindex="-1"></a>  <span class="co"># looking nowhere</span></span>
+<span id="cb34-27"><a href="dcb.html#cb34-27" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> (ddm.data<span class="sc">$</span>subject<span class="sc">==</span>selected.subs[i] <span class="sc">&amp;</span> (ddm.data<span class="sc">$</span>loc<span class="sc">==</span><span class="dv">0</span> <span class="sc">|</span> ddm.data<span class="sc">$</span>loc<span class="sc">==</span><span class="dv">4</span>) )</span>
+<span id="cb34-28"><a href="dcb.html#cb34-28" tabindex="-1"></a>  ddm.data[ind,<span class="st">&#39;evidence&#39;</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb34-29"><a href="dcb.html#cb34-29" tabindex="-1"></a>  <span class="co"># looking right</span></span>
+<span id="cb34-30"><a href="dcb.html#cb34-30" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> (ddm.data<span class="sc">$</span>subject<span class="sc">==</span>selected.subs[i] <span class="sc">&amp;</span> ddm.data<span class="sc">$</span>loc<span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb34-31"><a href="dcb.html#cb34-31" tabindex="-1"></a>  ddm.data[ind,<span class="st">&#39;evidence&#39;</span>] <span class="ot">&lt;-</span> ddm.estim<span class="sc">$</span>d_v[selected.subs.ind[i]] <span class="sc">*</span> </span>
+<span id="cb34-32"><a href="dcb.html#cb34-32" tabindex="-1"></a>    (ddm.estim<span class="sc">$</span>t_v[selected.subs.ind[i]]<span class="sc">*</span>ddm.data[ind,<span class="st">&#39;vl&#39;</span>] <span class="sc">-</span> ddm.data[ind,<span class="st">&#39;vr&#39;</span>])</span>
+<span id="cb34-33"><a href="dcb.html#cb34-33" tabindex="-1"></a>  <span class="co"># looking left</span></span>
+<span id="cb34-34"><a href="dcb.html#cb34-34" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> (ddm.data<span class="sc">$</span>subject<span class="sc">==</span>selected.subs[i] <span class="sc">&amp;</span> ddm.data<span class="sc">$</span>loc<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb34-35"><a href="dcb.html#cb34-35" tabindex="-1"></a>  ddm.data[ind,<span class="st">&#39;evidence&#39;</span>] <span class="ot">&lt;-</span> ddm.estim<span class="sc">$</span>d_v[selected.subs.ind[i]] <span class="sc">*</span> </span>
+<span id="cb34-36"><a href="dcb.html#cb34-36" tabindex="-1"></a>    (ddm.data[ind,<span class="st">&#39;vl&#39;</span>] <span class="sc">-</span> ddm.estim<span class="sc">$</span>t_v[selected.subs.ind[i]]<span class="sc">*</span>ddm.data[ind,<span class="st">&#39;vr&#39;</span>])</span>
+<span id="cb34-37"><a href="dcb.html#cb34-37" tabindex="-1"></a>}</span>
+<span id="cb34-38"><a href="dcb.html#cb34-38" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> ddm.data[<span class="fu">rep</span>(<span class="fu">seq</span>(<span class="fu">nrow</span>(ddm.data)), ddm.data<span class="sc">$</span>dur),] <span class="co">#repeat each row by number of samples</span></span>
+<span id="cb34-39"><a href="dcb.html#cb34-39" tabindex="-1"></a>ddm.data <span class="ot">&lt;-</span> ddm.data <span class="sc">%&gt;%</span></span>
+<span id="cb34-40"><a href="dcb.html#cb34-40" tabindex="-1"></a>    <span class="fu">group_by</span>(subject,trial) <span class="sc">%&gt;%</span></span>
+<span id="cb34-41"><a href="dcb.html#cb34-41" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">ae=</span><span class="fu">cumsum</span>(evidence),</span>
+<span id="cb34-42"><a href="dcb.html#cb34-42" tabindex="-1"></a>           <span class="at">time=</span><span class="fu">row_number</span>())</span></code></pre></div>
+</div>
+<div id="take-subj-data-output-figure-2" class="section level4 unnumbered hasAnchor">
+<h4>Take subj data, output figure<a href="dcb.html#take-subj-data-output-figure-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s assume one sample occurs every 250 ms. This splits the time dimension into roughly the same resolution as the simulations above.</p>
+<p>This overwrites the previous function so that we can calculate accumulated evidence (ae) using the aDDM instead of a linear accumulator.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="dcb.html#cb35-1" tabindex="-1"></a>plotDCB <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">maxSamples=</span><span class="dv">10</span>) {</span>
+<span id="cb35-2"><a href="dcb.html#cb35-2" tabindex="-1"></a>  <span class="co"># Get subject&#39;s data and convert it to useable input to our DCB() function.</span></span>
+<span id="cb35-3"><a href="dcb.html#cb35-3" tabindex="-1"></a>  <span class="co"># Requires sample, choice, ae, and trial variables in time-series panel format.</span></span>
+<span id="cb35-4"><a href="dcb.html#cb35-4" tabindex="-1"></a>  data<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(data<span class="sc">$</span>time <span class="sc">/</span> <span class="dv">250</span>) <span class="sc">*</span> <span class="dv">250</span> <span class="co">#round up times to the nearest 250 above.</span></span>
+<span id="cb35-5"><a href="dcb.html#cb35-5" tabindex="-1"></a>  subj.data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb35-6"><a href="dcb.html#cb35-6" tabindex="-1"></a>    <span class="fu">group_by</span>(subject,trial,time) <span class="sc">%&gt;%</span></span>
+<span id="cb35-7"><a href="dcb.html#cb35-7" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb35-8"><a href="dcb.html#cb35-8" tabindex="-1"></a>      <span class="at">sample=</span><span class="fu">last</span>(time)<span class="sc">/</span><span class="dv">250</span>,</span>
+<span id="cb35-9"><a href="dcb.html#cb35-9" tabindex="-1"></a>      <span class="at">choice=</span><span class="fu">last</span>(choice),</span>
+<span id="cb35-10"><a href="dcb.html#cb35-10" tabindex="-1"></a>      <span class="at">ae=</span><span class="fu">last</span>(ae)</span>
+<span id="cb35-11"><a href="dcb.html#cb35-11" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb35-12"><a href="dcb.html#cb35-12" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-13"><a href="dcb.html#cb35-13" tabindex="-1"></a>    <span class="fu">group_by</span>(subject,trial) <span class="sc">%&gt;%</span></span>
+<span id="cb35-14"><a href="dcb.html#cb35-14" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb35-15"><a href="dcb.html#cb35-15" tabindex="-1"></a>      <span class="at">samples=</span><span class="fu">max</span>(sample)</span>
+<span id="cb35-16"><a href="dcb.html#cb35-16" tabindex="-1"></a>    )</span>
+<span id="cb35-17"><a href="dcb.html#cb35-17" tabindex="-1"></a>  subj.data[subj.data<span class="sc">$</span>sample<span class="sc">!=</span>subj.data<span class="sc">$</span>samples,<span class="st">&#39;choice&#39;</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb35-18"><a href="dcb.html#cb35-18" tabindex="-1"></a>  </span>
+<span id="cb35-19"><a href="dcb.html#cb35-19" tabindex="-1"></a>  <span class="co"># DCB</span></span>
+<span id="cb35-20"><a href="dcb.html#cb35-20" tabindex="-1"></a>  subj.dcb <span class="ot">&lt;-</span> <span class="fu">DCB</span>(subj.data, maxSamples)</span>
+<span id="cb35-21"><a href="dcb.html#cb35-21" tabindex="-1"></a>  subj.dcb</span>
+<span id="cb35-22"><a href="dcb.html#cb35-22" tabindex="-1"></a>  </span>
+<span id="cb35-23"><a href="dcb.html#cb35-23" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> subj.data</span>
+<span id="cb35-24"><a href="dcb.html#cb35-24" tabindex="-1"></a>  tempData<span class="sc">$</span>choice <span class="ot">&lt;-</span> <span class="fu">factor</span>(tempData<span class="sc">$</span>choice, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&#39;Choose right&#39;</span>,<span class="st">&#39;Choose left&#39;</span>,<span class="st">&#39;Continue sampling&#39;</span>))</span>
+<span id="cb35-25"><a href="dcb.html#cb35-25" tabindex="-1"></a>  tempData <span class="ot">&lt;-</span> <span class="fu">merge</span>(tempData,subj.dcb[,<span class="fu">c</span>(<span class="st">&#39;sample&#39;</span>,<span class="st">&#39;avgb&#39;</span>)], <span class="at">by.x=</span><span class="st">&quot;sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;sample&quot;</span>)</span>
+<span id="cb35-26"><a href="dcb.html#cb35-26" tabindex="-1"></a>  p <span class="ot">&lt;-</span> tempData[tempData<span class="sc">$</span>sample<span class="sc">&lt;=</span>maxSamples,] <span class="sc">%&gt;%</span></span>
+<span id="cb35-27"><a href="dcb.html#cb35-27" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>ae, <span class="at">fill=</span>choice, <span class="at">color=</span>choice)) <span class="sc">+</span></span>
+<span id="cb35-28"><a href="dcb.html#cb35-28" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">bins=</span><span class="dv">25</span>, <span class="at">position=</span><span class="st">&#39;identity&#39;</span>) <span class="sc">+</span></span>
+<span id="cb35-29"><a href="dcb.html#cb35-29" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>avgb), <span class="at">color=</span><span class="st">&#39;red&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb35-30"><a href="dcb.html#cb35-30" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="sc">-</span>avgb), <span class="at">color=</span><span class="st">&#39;red&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb35-31"><a href="dcb.html#cb35-31" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb35-32"><a href="dcb.html#cb35-32" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb35-33"><a href="dcb.html#cb35-33" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Accumulated Evidence&#39;</span>, <span class="at">y=</span><span class="st">&#39;Sample (250 ms)&#39;</span>) <span class="sc">+</span></span>
+<span id="cb35-34"><a href="dcb.html#cb35-34" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="dv">25</span>)) <span class="sc">+</span></span>
+<span id="cb35-35"><a href="dcb.html#cb35-35" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb35-36"><a href="dcb.html#cb35-36" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">22</span>),</span>
+<span id="cb35-37"><a href="dcb.html#cb35-37" tabindex="-1"></a>      <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb35-38"><a href="dcb.html#cb35-38" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb35-39"><a href="dcb.html#cb35-39" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb35-40"><a href="dcb.html#cb35-40" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="sc">~</span>sample, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)</span>
+<span id="cb35-41"><a href="dcb.html#cb35-41" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb35-42"><a href="dcb.html#cb35-42" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="dcb-5" class="section level3 tabset hasAnchor" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> DCB<a href="dcb.html#dcb-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="subj-225-1" class="section level4 unnumbered hasAnchor">
+<h4>Subj 225<a href="dcb.html#subj-225-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Confusion…</p>
+</div>
+<div id="subj-304-1" class="section level4 unnumbered hasAnchor">
+<h4>Subj 304<a href="dcb.html#subj-304-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Looks like collapsing bounds with large noise?</p>
+</div>
+<div id="subj-316-1" class="section level4 unnumbered hasAnchor">
+<h4>Subj 316<a href="dcb.html#subj-316-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p>Again, looks like collapsing bounds with large noise???</p>
+</div>
+<div id="subj-319-1" class="section level4 unnumbered hasAnchor">
+<h4>Subj 319<a href="dcb.html#subj-319-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<pre><code>## ERROR : infinite or missing values in &#39;x&#39; 
+## ERROR : infinite or missing values in &#39;x&#39;</code></pre>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>More confusion…</p>
+</div>
+</div>
+<div id="conclusion-4" class="section level3 hasAnchor" number="2.5.3">
+<h3><span class="header-section-number">2.5.3</span> Conclusion<a href="dcb.html#conclusion-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>I’m not sure the DCB’s make any sense here, but if we were to interpret them, then subjects mostly seem like they have collapsing bounds with large noise. This might make sense if we believe that value signals are noisier than perceptual or numerosity stimuli, but that also makes DCB a poor candidate algorithm for fitting decision bounds to value-based behavioral data.</p>
+</div>
+</div>
+<div id="discussion" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Discussion<a href="dcb.html#discussion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Overall, the DCB seems to show some promise with perceptual data, but not with value-based data. This is by no fault of the DCB, I was just curious if it would work in the value-based domain (like a baby trying to drink soup with a fork).</p>
+<p>For perceptual data, I think it works particularly well on subjects who are very impatient (both of the collapsing bound subjects in the perceptual data mentioned that they were getting very impatient with the task). Aside from those subjects, it seems to estimate boundaries that appear very volatile over time. I’m not really sure what to make of those results, and the extreme volatility does not leave much room for interpretation.</p>
+<p>Personally, I think that although the DCB could be estimating decision boundaries more accurately, we lose the interpretability that comes with using a functional form for collapsing bounds. At the end of the day, isn’t that the purpose of a simplified model of decision making?</p>
+<p>Furthermore, if subjects aren’t arriving at all possible choices early on in the trial, the DCB fails to estimate boundaries. This prevents us from estimating the starting point of the decision boundaries.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-eum2022" class="csl-entry">
+Eum, Brenden, Stephanie Dolbier, and Antonio Rangel. 2022. <span>“Peripheral Visual Information Halves Attentional Choice Bias.”</span> <a href="https://doi.org/10.1038/s41562-022-01318-6">https://doi.org/10.1038/s41562-022-01318-6</a>.
+</div>
+<div id="ref-glickman2022" class="csl-entry">
+Glickman, Moshe, Rani Moran, and Marius Usher. 2022. <span>“Evidence Integration and Decision Confidence Are Modulated by Stimulus Consistency.”</span> <em>Nature Human Behaviour</em>. <a href="https://doi.org/10.1038/s41562-022-01318-6">https://doi.org/10.1038/s41562-022-01318-6</a>.
+</div>
+<div id="ref-hawkins2015" class="csl-entry">
+Hawkins, G. E., B. U. Forstmann, E.-J. Wagenmakers, R. Ratcliff, and S. D. Brown. 2015. <span>“Revisiting the Evidence for Collapsing Boundaries and Urgency Signals in Perceptual Decision-Making.”</span> <em>Journal of Neuroscience</em> 35 (6): 2476–84. <a href="https://doi.org/10.1523/JNEUROSCI.2410-14.2015">https://doi.org/10.1523/JNEUROSCI.2410-14.2015</a>.
+</div>
+<div id="ref-tsetsos2016" class="csl-entry">
+Tsetsos, Konstantinos, Rani Moran, James Moreland, Nick Chater, Marius Usher, and Christopher Summerfield. 2016. <span>“Economic Irrationality Is Optimal During Noisy Decision Making.”</span> <em>Proceedings of the National Academy of Sciences</em> 113 (11): 3102–7. <a href="https://doi.org/10.1073/pnas.1519157113">https://doi.org/10.1073/pnas.1519157113</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mem-aDDM.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-dcb.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["LateNightBayes.pdf", "LateNightBayes.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

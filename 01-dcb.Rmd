@@ -1,8 +1,9 @@
+
 # Decision Classification Boundaries {#dcb}
 
 (TL;DR) Glickman, Moran, and Usher's (2022) Decision Classification Boundaries perform (1) outstandingly well with simulated, perceptual data; (2) decently well with impatient subjects in perceptual tasks; and (3) unsurprisingly poor with subjects in value-based tasks.
 
-![](images/dcb-collapsingbounds.gif)
+![](images/dcb-collapsingbounds.gif){width=60%}
 
 This notebook is a test of the methods from [@glickman2022]. I would like to see if their algorithm that dynamically estimates collapsing bounds (Decision Classification Boundary, DCB) works with perceptual data from an upcoming belief tracking project and value-based data from [@eum2022].
 
@@ -27,7 +28,7 @@ Third, I will read in the data from [@eum2022]. I will only use trials from the 
 4. The boundary separation curves approximate decision boundaries over time.
 
 <center>
-![](images/dcb-example.PNG)
+![](images/dcb-example.PNG){width=30%}
 </center>
 
 ```{r, message=FALSE, include=FALSE}
@@ -375,7 +376,7 @@ The DCB performs remarkably well for simulated, perceptual data where there are 
 There is one obvious problem at this stage. Decision boundaries cannot be estimated at a given point in time if, across all trials, all three actions are not made at that point in time. For instance, at sample 1, no choices were made for the right option; therefore, decision boundaries cannot be estimated at time $\text{sample}=1$. This prevents the DCB from estimating the starting point of decision boundaries. This seems to be the case in [@glickman2022] too.
 
 <center>
-![](images/dcb-missingEarly.PNG)
+![](images/dcb-missingEarly.PNG){width=30%}
 </center>
 
 ### Comparative statics {.tabset}

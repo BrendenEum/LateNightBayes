@@ -3,7 +3,7 @@
 (TL;DR) I attempt to incorporate working memory (mem-) into a exponential collapsing bounds Drift-Diffusion-Model (DDM). The exponential bounds add two new parameters to the DDM, delay before collapse and rate of collapse. I hypothesized that the delay before the collapse will inversely scale with previous encounters with either stimuli (call this "familiarity"). In other words, people will make less patient decisions when they are more familiar with the stimuli. I tested this out by setting delay equal to $t_0 + \gamma \text{Familiarity}$, where $t_0$ is a baseline collapse delay and $\gamma<0$ is how much the delay is scaled by familiarity. I found $t_0=8.4$, similar to the delay estimate from a standard collapsing bound DDM. Furthermore, I found $\gamma=-0.8$, indicating that patience is inversely scaled in familiarity with the stimuli. Unfortunately, predictions from this memDDM are not a good qualitative match with response time patterns observed in the data.
 
 <center>
-![](images/memDDM-featured.PNG)
+![](images/memDDM-featured.PNG){width=30%}
 </center>
 
 ## Introduction
@@ -46,7 +46,7 @@ library(plotrix)
 library(grid)
 library(gridExtra)
 library(reticulate)
-use_python("D:/Program Files/PsychoPy/python.exe")
+#use_python("D:/Program Files/PsychoPy/python.exe")
 ```
 
 #### Load data
