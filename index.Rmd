@@ -16,10 +16,12 @@ description: "A collection of reports about interesting side projects."
 
 ![](images/latenightbayes_home.gif){width=60%}
 
-My name is Brenden, and I am a neuroeconomist. I'm close to finishing my PhD in Social and Decision Neuroscience at Caltech with Antonio Rangel. After, I'll be starting as a postdoc in the Marketing Department at U Toronto Rotman School of Management with Ryan Webb. 
+This is a compilation of reports that I write out of curiosity. A place to put results that I find interesting, but that I don't feel the need to turn into a rigorous study. My data will usually come from my own studies or publicly available data. If you're looking for code, data, or manuscripts for my papers, you can find them at [the Rangel Neuroeconomics Lab](rnl.caltech.edu) or on [my website](brendeneum.com).
 
-This is a compilation of some reports that I write out of curiosity. A place to put results that I find interesting, but that I don't feel the need to turn into a rigorous paper or scientific study. My data will usually come from my own studies or publicly available data. If you're looking for code, data, or manuscripts for my papers, you can find them at [the Rangel Neuroeconomics Lab](rnl.caltech.edu) or on [my website](brendeneum.com).
+Sometimes when I have time I like to make music. The music on this site is my own, sorta. I like to remix or remake other songs.
 
 Feel free to shoot me an email if you have any questions or if you just want to chat (beum@caltech.edu)!
 
-![Colorful Flowers by Tokyo Music Walker](images/latenightbayes_music.mp3){width=10%}
+<audio controls autoplay>
+  <source src="music/aruarian_dance_remix.mp3" type="audio/mpeg">
+</audio>
