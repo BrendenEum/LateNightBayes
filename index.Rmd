@@ -18,7 +18,7 @@ description: "A collection of reports about interesting side projects."
 
 This is a compilation of reports that I write out of curiosity. A place to put results that I find interesting, but that I don't feel the need to turn into a rigorous study. My data will usually come from my own studies or publicly available data. If you're looking for code, data, or manuscripts for my papers, you can find them at [the Rangel Neuroeconomics Lab](rnl.caltech.edu) or on [my website](brendeneum.com).
 
-Sometimes when I have time I like to make music. The music on this site is my own, sorta. I like to remix or remake other songs.
+Sometimes when I have time I like to make music. The music on this home page is my own. I'll swap the song occasionally.
 
 Feel free to shoot me an email if you have any questions or if you just want to chat (beum@caltech.edu)!
 
