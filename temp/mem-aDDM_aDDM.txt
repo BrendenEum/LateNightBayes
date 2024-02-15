@@ -1,0 +1,48 @@
+model {
+
+    # drift rate
+        d_mu ~ dunif(0.00001,50)
+        d_pr ~ dgamma(1, 0.1)
+
+    # noise
+        sig_mu ~ dunif(0.000001, 2)
+        sig_pr ~ dgamma(1, 0.1)
+
+    # Bias of the DDM
+        bias_alpha <- bias_mu * bias_kappa
+        bias_beta <- (1 - bias_mu) * bias_kappa
+        bias_mu ~ dbeta(2, 2)T(0.01,0.99)
+        bias_kappa ~ dgamma(1, 0.5)
+
+    # attentional bias
+        theta_mu ~ dnorm(.5,.3)T(0,1)
+        theta_pr ~ dgamma(1, 0.1)
+
+
+    for (p in 1:ns) { # subject level
+
+        d[p] ~ dnorm(d_mu, d_pr)T(0.000001,50)
+        
+        sig[p] ~ dnorm(sig_mu, sig_pr)T(0.00001,2)
+        
+        bias[p] ~ dbeta(bias_alpha, bias_beta)T(0.01,0.99)
+
+        theta[p] ~ dnorm(theta_mu, theta_pr)T(0,1)
+    }
+
+    for (i in 1:N) { # trial level
+
+    ## WIENER model, fixing the threshold to 2 and estimating the noise
+        y[i] ~ dwieners(2, tau[i], bet[i], w[i], sig[idxP[i]] ) # actual DDM distribution
+
+        # generate trial-by-trial nDT
+        tau[i] <- ndt[i]
+
+        # generate trial-by-trial Bias
+        bet[i] <- bias[idxP[i]]
+
+        # Drift rate
+        w[i] <- d[idxP[i]] * ( (gazeL[i]*v_L[i] - (1-gazeL[i])*v_R[i]) + theta[idxP[i]]*((1-gazeL[i])*v_L[i] - gazeL[i]*v_R[i]))
+
+    }
+}

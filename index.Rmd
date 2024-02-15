@@ -1,0 +1,21 @@
+--- 
+title: "Late Night Bayes ☾"
+author: "Brenden Eum"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "A collection of reports about my side projects."
+---
+
+# Welcome
+
+My name is Brenden, and I am a Social & Decision Neuroscience PhD student at Caltech. 
+
+This is a compilation of some reports that I write out of curiosity. My goal is to share these projects with others to speed up the spread of new methods or to answer simple questions. So far, all the data used on this site is available at www.rnl.caltech.edu or various other sites (e.g. OSF). Given how much I write / comment, it should be fairly easy to find the datasets :). I'll try to include a link to the data in each chapter.
+
+Feel free to reach out to me if you have any questions or if you just want to chat (beum@caltech.edu)!
