@@ -103,19 +103,32 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\usepackage{booktabs}
-\usepackage{amsthm}
-\makeatletter
-\def\thm@space@setup{%
-  \thm@preskip=8pt plus 2pt minus 4pt
-  \thm@postskip=\thm@preskip
-}
-\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\usepackage[]{natbib}
-\bibliographystyle{apalike}
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -127,7 +140,7 @@
 
 \title{Late Night Bayes ☾}
 \author{Brenden Eum}
-\date{2024-02-14}
+\date{2024-02-15}
 
 \begin{document}
 \maketitle
@@ -152,13 +165,13 @@ Feel free to reach out to me if you have any questions or if you just want to ch
 
 \includegraphics[width=0.6\textwidth,height=\textheight]{images/dcb-collapsingbounds.gif}
 
-This notebook is a test of the methods from \citep{glickman2022}. I would like to see if their algorithm that dynamically estimates collapsing bounds (Decision Classification Boundary, DCB) works with perceptual data from an upcoming belief tracking project and value-based data from \citep{eum2022}.
+This notebook is a test of the methods from (\protect\hyperlink{ref-glickman2022}{Glickman, Moran, and Usher 2022}). I would like to see if their algorithm that dynamically estimates collapsing bounds (Decision Classification Boundary, DCB) works with perceptual data from an upcoming belief tracking project and value-based data from (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022}).
 
 \hypertarget{simulated-perceptual-data}{%
 \subsubsection*{Simulated, perceptual data}\label{simulated-perceptual-data}}
 \addcontentsline{toc}{subsubsection}{Simulated, perceptual data}
 
-First, I will simulate data for two cyborgs using a DDM. Their task will be to select from two streams of rectangles whichever stream has the taller average height (see \citep{tsetsos2016} or \citep{glickman2022}). The first cyborg will utilize fixed decision boundaries; the second cyborg will utilize collapsing boundaries (Weibull function, per tradition). I will test if the DCB algorithm can recover the decision boundaries for both cyborgs.
+First, I will simulate data for two cyborgs using a DDM. Their task will be to select from two streams of rectangles whichever stream has the taller average height (see (\protect\hyperlink{ref-tsetsos2016}{Tsetsos et al. 2016}) or (\protect\hyperlink{ref-glickman2022}{Glickman, Moran, and Usher 2022})). The first cyborg will utilize fixed decision boundaries; the second cyborg will utilize collapsing boundaries (Weibull function, per tradition). I will test if the DCB algorithm can recover the decision boundaries for both cyborgs.
 
 \hypertarget{real-perceptual-data}{%
 \subsubsection*{Real, perceptual data}\label{real-perceptual-data}}
@@ -170,7 +183,7 @@ Second, I will use preliminary data collected for my upcoming slider task. The t
 \subsubsection*{Real, value-based data}\label{real-value-based-data}}
 \addcontentsline{toc}{subsubsection}{Real, value-based data}
 
-Third, I will read in the data from \citep{eum2022}. I will only use trials from the visible condition. This will be interesting since there isn't a stream of varying evidence. It's just a single value comparison that accumulates over time. If we use an aDDM, then there will be some variation in evidence over time based on fixation data.
+Third, I will read in the data from (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022}). I will only use trials from the visible condition. This will be interesting since there isn't a stream of varying evidence. It's just a single value comparison that accumulates over time. If we use an aDDM, then there will be some variation in evidence over time based on fixation data.
 
 \hypertarget{heres-a-quick-summary-of-what-dcb-does}{%
 \subsubsection*{Here's a quick summary of what DCB does:}\label{heres-a-quick-summary-of-what-dcb-does}}
@@ -369,7 +382,7 @@ Bounds are fixed to 50 and -50 via the `bound' attribute of the fixedCyborg.ddm 
 \subsubsection*{Collapsing bounds cyborg}\label{collapsing-bounds-cyborg}}
 \addcontentsline{toc}{subsubsection}{Collapsing bounds cyborg}
 
-Bounds are decreasing as a Weibull function. Weibull parameters are taken directly from \citep{glickman2022}, which I'm led to believe are taken directly from \citep{hawkins2015}. The Weibull function is taken directly from \citep{hawkins2015}. The scale parameter (\(\lambda\)) is fixed to 4. Shape (\(\kappa\)) and asymptotic convergence (\(a'\)) can vary.
+Bounds are decreasing as a Weibull function. Weibull parameters are taken directly from (\protect\hyperlink{ref-glickman2022}{Glickman, Moran, and Usher 2022}), which I'm led to believe are taken directly from (\protect\hyperlink{ref-hawkins2015}{Hawkins et al. 2015}). The Weibull function is taken directly from (\protect\hyperlink{ref-hawkins2015}{Hawkins et al. 2015}). The scale parameter (\(\lambda\)) is fixed to 4. Shape (\(\kappa\)) and asymptotic convergence (\(a'\)) can vary.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -842,7 +855,7 @@ Behavior makes sense given the decision boundaries. There is some leakage across
 
 Dynamically estimate collapsing decision boundaries up to a certain sample number.\\
 \emph{Input}: (1) Time-series data for a single subject with trial, sample number, choice (\{0,1,2\} see above), and accumulated evidence. (2) Maximum sample number (since our figures only go up to 10, let's just set this as 10 for now).\\
-\emph{Output}: Time-series of the bound, over sample number dimension (time). Note that \citep{glickman2022} assumed that the collapsing bounds were symmetrical, therefore they took the average of the separating planes.
+\emph{Output}: Time-series of the bound, over sample number dimension (time). Note that (\protect\hyperlink{ref-glickman2022}{Glickman, Moran, and Usher 2022}) assumed that the collapsing bounds were symmetrical, therefore they took the average of the separating planes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1294,7 +1307,7 @@ This is where things get even more interesting. The DCB follows the collapsing b
 
 The DCB performs remarkably well for simulated, perceptual data where there are sequences of stimuli for each decision.
 
-There is one obvious problem at this stage. Decision boundaries cannot be estimated at a given point in time if, across all trials, all three actions are not made at that point in time. For instance, at sample 1, no choices were made for the right option; therefore, decision boundaries cannot be estimated at time \(\text{sample}=1\). This prevents the DCB from estimating the starting point of decision boundaries. This seems to be the case in \citep{glickman2022} too.
+There is one obvious problem at this stage. Decision boundaries cannot be estimated at a given point in time if, across all trials, all three actions are not made at that point in time. For instance, at sample 1, no choices were made for the right option; therefore, decision boundaries cannot be estimated at time \(\text{sample}=1\). This prevents the DCB from estimating the starting point of decision boundaries. This seems to be the case in (\protect\hyperlink{ref-glickman2022}{Glickman, Moran, and Usher 2022}) too.
 
 \includegraphics[width=0.3\textwidth,height=\textheight]{images/dcb-missingEarly.PNG}
 
@@ -1582,7 +1595,7 @@ DCB might work in as little as 150 trials per subject, though more trials only a
 \hypertarget{perceptual-data-ddm}{%
 \section{Perceptual data, DDM}\label{perceptual-data-ddm}}
 
-We use data from a study currently in progress. I can't share this data yet since the project is still at an early phase. Subjects simultaneously view two streams of rectangles and are asked to choose which stream has the larger average as quickly as possible (see \citep{tsetsos2016}).
+We use data from a study currently in progress. I can't share this data yet since the project is still at an early phase. Subjects simultaneously view two streams of rectangles and are asked to choose which stream has the larger average as quickly as possible (see (\protect\hyperlink{ref-tsetsos2016}{Tsetsos et al. 2016})).
 
 \hypertarget{prep-work}{%
 \subsection{Prep work}\label{prep-work}}
@@ -1810,7 +1823,7 @@ The fact that the ``accumulated evidence'' for choices cannot differ from \(\pm 
 \hypertarget{value-based-data-ddm}{%
 \section{Value-based data, DDM}\label{value-based-data-ddm}}
 
-I use data from \citep{eum2022} visible trials. The data can be downloaded here: \url{https://www.rnl.caltech.edu/publications/index.html}. I am not assuming a drift diffusion model for accumulated evidence. I am simply assuming a linear accumulator (drift=1). If the DCB exhibit a bias that is linear in samples, then perhaps performance can be improved by using subject-specific drift rate parameters. However, if the DCB exhibit non-linear bias, then I find it hard to believe that drift rate will make much difference.
+I use data from (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022}) visible trials. The data can be downloaded here: \url{https://www.rnl.caltech.edu/publications/index.html}. I am not assuming a drift diffusion model for accumulated evidence. I am simply assuming a linear accumulator (drift=1). If the DCB exhibit a bias that is linear in samples, then perhaps performance can be improved by using subject-specific drift rate parameters. However, if the DCB exhibit non-linear bias, then I find it hard to believe that drift rate will make much difference.
 
 \hypertarget{prep-work-2}{%
 \subsection{Prep work}\label{prep-work-2}}
@@ -2153,12 +2166,12 @@ Furthermore, if subjects aren't arriving at all possible choices early on in the
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-In value-based decisions, there are different ways that familiarity with a stimulus might affect decisions over time. Adopting intuition from Signal Detection Theory, repeated exposure to a stimulus might reduce the variance of the value signal. When it comes to sequential sampling models, we can model this in two ways. The obvious approach would be to reduce the noise parameter as a function of stimulus exposure time. However, previous studies have shown that response times decrease with repeated exposure to a stimulus in an experiment (a wonderful report written by Trinity Pruitt when she was rotating through the Rangel Lab in 2021, or \citep{agranov2017}). A reduced noise parameter can only serve to increase response times, therefore this adjustment to the model would likely fail to account for behavior. Similarly, I believe the extension of the DDM used in \citep{agranov2017} fails to account for the effects of repeated exposure on parameters of the DDM.
+In value-based decisions, there are different ways that familiarity with a stimulus might affect decisions over time. Adopting intuition from Signal Detection Theory, repeated exposure to a stimulus might reduce the variance of the value signal. When it comes to sequential sampling models, we can model this in two ways. The obvious approach would be to reduce the noise parameter as a function of stimulus exposure time. However, previous studies have shown that response times decrease with repeated exposure to a stimulus in an experiment (a wonderful report written by Trinity Pruitt when she was rotating through the Rangel Lab in 2021, or (\protect\hyperlink{ref-agranov2017}{Agranov and Ortoleva 2017})). A reduced noise parameter can only serve to increase response times, therefore this adjustment to the model would likely fail to account for behavior. Similarly, I believe the extension of the DDM used in (\protect\hyperlink{ref-agranov2017}{Agranov and Ortoleva 2017}) fails to account for the effects of repeated exposure on parameters of the DDM.
 
 \includegraphics[width=0.3\textwidth,height=\textheight]{images/mem-aDDM-fasterRTs.PNG}
-Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number of times a stimulus is seen in \citep{smith2018} and in \citep{eum2022}.\\
+Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number of times a stimulus is seen in (\protect\hyperlink{ref-smith2018}{Smith and Krajbich 2018}) and in (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022}).\\
 
-Instead, I hypothesize that familiarity with a stimulus will affect the drift rate parameter. For one, a drift rate parameter that scales with previous encounters is capable of explaining faster response times with repeated exposure. \citep{kelly2013} find that faster response times correlate with faster buildup rate of centroparietal positive potential independent of stimulus coherence, suggesting that faster response times might be explained by a larger drift rate parameter. But the main inspiration behind an encounter-scaling drift rate parameter comes from the memory and decision-making literature. \citep{shadlen2016} argue that value signals are modulated by memory (episodic, working, etc.), specifically that value signals in sequential sampling models integrated in the LIP are modulated by activity in the hippocampus. Studies using EEG also find a neural signal that reflects sampling from memory \citep{vanede2022}. If we buy the argument that sampling from memory is more difficult than sampling from a visual representation (\citep{weilbacher2021} and \citep{eum2022}), then we might suspect that recent exposure to a stimulus will reduce the difficulty of sampling information from working memory. Again, this could potentially result in a smaller noise parameter, but seeing that this fails to explain behavior, I believe it is instead explained by drift rate parameter that scales with previous encounters.
+Instead, I hypothesize that familiarity with a stimulus will affect the drift rate parameter. For one, a drift rate parameter that scales with previous encounters is capable of explaining faster response times with repeated exposure. (\protect\hyperlink{ref-kelly2013}{Kelly and O'Connell 2013}) find that faster response times correlate with faster buildup rate of centroparietal positive potential independent of stimulus coherence, suggesting that faster response times might be explained by a larger drift rate parameter. But the main inspiration behind an encounter-scaling drift rate parameter comes from the memory and decision-making literature. (\protect\hyperlink{ref-shadlen2016}{Shadlen and Shohamy 2016}) argue that value signals are modulated by memory (episodic, working, etc.), specifically that value signals in sequential sampling models integrated in the LIP are modulated by activity in the hippocampus. Studies using EEG also find a neural signal that reflects sampling from memory (\protect\hyperlink{ref-vanede2022}{van Ede and Nobre 2022}). If we buy the argument that sampling from memory is more difficult than sampling from a visual representation ((\protect\hyperlink{ref-weilbacher2021}{Weilbächer et al. 2021}) and (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022})), then we might suspect that recent exposure to a stimulus will reduce the difficulty of sampling information from working memory. Again, this could potentially result in a smaller noise parameter, but seeing that this fails to explain behavior, I believe it is instead explained by drift rate parameter that scales with previous encounters.
 
 I also think this will make different RT predictions depending on the value difference. Since value differences integrate over time, the lack of evidence in a difficult decision compounds over time. This means that a larger drift rate parameter will reduce response times by more in difficult choices than in easy choices. This may remedy problems that the aDDM has with fitting RT distributions across value differences (see below).
 
@@ -2212,9 +2225,9 @@ Not a great display of coding. But with one weekend for a side-project, this is 
 \hypertarget{read-in-data-and-calculations}{%
 \subsubsection{Read-in data and calculations}\label{read-in-data-and-calculations}}
 
-I will use data from the ``two food'' choice task in \citep{smith2018}. The data can be downloaded here: \url{https://osf.io/x2jhp/?view_only=2669d8f3983d4442952a52c5de5814f7}. I calculate a variable called ``PreviousEncountersChosen'', which counts the number of previous trials in which the subject has seen the chosen item for this trial.
+I will use data from the ``two food'' choice task in (\protect\hyperlink{ref-smith2018}{Smith and Krajbich 2018}). The data can be downloaded here: \url{https://osf.io/x2jhp/?view_only=2669d8f3983d4442952a52c5de5814f7}. I calculate a variable called ``PreviousEncountersChosen'', which counts the number of previous trials in which the subject has seen the chosen item for this trial.
 
-I was thinking about extending the model so that we calculate ``PreviousExposure'' up until the current fixation, but this would require that we use a different (and MUCH slower) toolbox to estimate the aDDM. If we fit the data by fixations, then we need should use the Tavares toolbox \citep{tavares2017}. But, that will take a long time and will not result in posterior distributions for parameter estimates. So instead, I will use the Lombardi and Hare toolbox \citep{lombardi2021} and let drift rate vary trial-by-trial systematically as a function of previous encounters. This differs from the trial-by-trial variability in drift rate that draws drift from a distribution, as in \citep{lombardi2021} or \citep{eum2022}.
+I was thinking about extending the model so that we calculate ``PreviousExposure'' up until the current fixation, but this would require that we use a different (and MUCH slower) toolbox to estimate the aDDM. If we fit the data by fixations, then we need should use the Tavares toolbox (\protect\hyperlink{ref-tavares2017}{Tavares, Perona, and Rangel 2017}). But, that will take a long time and will not result in posterior distributions for parameter estimates. So instead, I will use the Lombardi and Hare toolbox (\protect\hyperlink{ref-lombardi2021}{Lombardi and Hare 2021}) and let drift rate vary trial-by-trial systematically as a function of previous encounters. This differs from the trial-by-trial variability in drift rate that draws drift from a distribution, as in (\protect\hyperlink{ref-lombardi2021}{Lombardi and Hare 2021}) or (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2491,9 +2504,9 @@ We are comparing the expected log pointwise predictive density (ELPD) of the ``c
 
 It looks like previous encounters with the chosen option slightly outperforms previous encounters with both options.
 
-The results here suggest that previous encounters with the chosen option are correlated with faster responses. My hunch is that working memory is somehow affecting behavior. My hypothesis is that repeated exposure to the chosen item is increasing the ease with which subjects can sample value signals from working memory \citep{weilbacher2021}.
+The results here suggest that previous encounters with the chosen option are correlated with faster responses. My hunch is that working memory is somehow affecting behavior. My hypothesis is that repeated exposure to the chosen item is increasing the ease with which subjects can sample value signals from working memory (\protect\hyperlink{ref-weilbacher2021}{Weilbächer et al. 2021}).
 
-These results make sense with the previous literature. \citep{weilbacher2021} showed that the amount of attention to an item did not affect whether or not subjects remembered that item. However, \citep{agranov2017} found that repeated encounters with the same item sped up response times. Perhaps value become easier to sample from memory with more encounters, but is not modulated by the amount of exposure per encounter.
+These results make sense with the previous literature. (\protect\hyperlink{ref-weilbacher2021}{Weilbächer et al. 2021}) showed that the amount of attention to an item did not affect whether or not subjects remembered that item. However, (\protect\hyperlink{ref-agranov2017}{Agranov and Ortoleva 2017}) found that repeated encounters with the same item sped up response times. Perhaps value become easier to sample from memory with more encounters, but is not modulated by the amount of exposure per encounter.
 
 In the next section, I will design a variation of the aDDM where the drift rate scales with previous encounters with the chosen item.
 
@@ -2523,7 +2536,7 @@ where:
 
 Bias is \(x(0)=x_0\). Drift is \(\mu(t)=\mu_i\) for \(t_i \leq t < t_{i+1}\). Response time is \(\tau = \inf\{t>0|x(t)\not\in(-B,B)\}\).
 
-Following \citep{lombardi2021}, we can rewrite drift rate when two conditions hold: (1) when it is constant in discrete time intervals, and (2) when stopping time is explicitly known. We rewrite it:
+Following (\protect\hyperlink{ref-lombardi2021}{Lombardi and Hare 2021}), we can rewrite drift rate when two conditions hold: (1) when it is constant in discrete time intervals, and (2) when stopping time is explicitly known. We rewrite it:
 
 \begin{equation}
 \begin{aligned}
@@ -2563,7 +2576,7 @@ Here, \(\mu_i\) is constant across each time interval \((t_{i+1}-t_i)\). The dri
 
 \(\bar{\mu} = \frac{\tau_A}{\tau} d (V_A-\theta V_B) + \frac{\tau_B}{\tau} d (\theta V_A- V_B)\)
 
-I modify drift rate to account for previous encounters with the chosen option. Note that this remains constant across an entire trial, thus we can transform the drift rate parameter and still use the toolbox by \citep{lombardi2021}:
+I modify drift rate to account for previous encounters with the chosen option. Note that this remains constant across an entire trial, thus we can transform the drift rate parameter and still use the toolbox by (\protect\hyperlink{ref-lombardi2021}{Lombardi and Hare 2021}):
 
 \(\bar{\mu} = (d+\gamma \text{PreviousEncounters}) \left[ \frac{\tau_A}{\tau} (V_A-\theta V_B) + \frac{\tau_B}{\tau} (\theta V_A- V_B) \right]\)
 
@@ -3149,7 +3162,7 @@ Let's get the mode and 95\% HDI for each subject's parameter estimates.
 
 Write a function that simulates behavior (choice, rt) for a single trial using the mem-aDDM. It will take as inputs parameters to the mem-aDDM and fixation properties (e.g.~probability of first fixating left which is a scalar, or middle fixations which is the distribution of all middle fixations for that subject from the testing set).
 
-This is code taken from \citep{eum2022}, which is code based on \citep{lombardi2021}.
+This is code taken from (\protect\hyperlink{ref-eum2022}{Eum, Dolbier, and Rangel 2022}), which is code based on (\protect\hyperlink{ref-lombardi2021}{Lombardi and Hare 2021}).
 
 Note that the mem-aDDM nests the original aDDM. If you want to run an aDDM trial, all you need to do is feed in g=c(0). This eliminates any effect of previous encounter in the algorithm!
 
@@ -3659,9 +3672,9 @@ I want two plots, each with 3 lines. One plot for choices. One plot for RTs. One
 
 Like in the last chapter, I'm trying to model faster response times in response to repeated exposure to stimuli. I tried incorporating a drift rate that scales with the number of previous exposures to the chosen option. That didn't work.
 
-Ya boi is at it again, except this time, I hypothesize that the time when decision bounds start collapsing is modulated by the number of previous encounters with either option. Specifically, using the functional form laid out by \citep{hawkins2015}, I hypothesize that the shape parameter (\(\kappa\)) is inversely proportional to the number of previous exposures.
+Ya boi is at it again, except this time, I hypothesize that the time when decision bounds start collapsing is modulated by the number of previous encounters with either option. Specifically, using the functional form laid out by (\protect\hyperlink{ref-hawkins2015}{Hawkins et al. 2015}), I hypothesize that the shape parameter (\(\kappa\)) is inversely proportional to the number of previous exposures.
 
-Note that here, I am using a Generalized Drift-Diffusion-Model \citep{shinn2020}, not an aDDM. This is for 2 reasons:
+Note that here, I am using a Generalized Drift-Diffusion-Model (\protect\hyperlink{ref-shinn2020}{Shinn, Lam, and Murray 2020}), not an aDDM. This is for 2 reasons:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -3686,7 +3699,7 @@ Similar to the last chapter, the goals of this report are to:
 \hypertarget{methods-1}{%
 \section{Methods}\label{methods-1}}
 
-Reading and transforming the data from \citep{smith2018}.
+Reading and transforming the data from (\protect\hyperlink{ref-smith2018}{Smith and Krajbich 2018}).
 
 \hypertarget{prep-work-5}{%
 \subsection{Prep work}\label{prep-work-5}}
@@ -3714,7 +3727,7 @@ Reading and transforming the data from \citep{smith2018}.
 \hypertarget{load-data}{%
 \subsubsection{Load data}\label{load-data}}
 
-I will again be using the data from \citep{smith2018}. The data can be downloaded here:
+I will again be using the data from (\protect\hyperlink{ref-smith2018}{Smith and Krajbich 2018}). The data can be downloaded here:
 \url{https://osf.io/x2jhp/?view_only=2669d8f3983d4442952a52c5de5814f7}.
 
 I calculate a variable called ``PreviousEncounterBoth'', which counts the number of previous trials in which the subject has seen either item for this trial.
@@ -3829,7 +3842,7 @@ This is the phenomenon I am trying to model with the GDDM. Response times across
 \hypertarget{fit-with-pyddm}{%
 \section{Fit with PyDDM}\label{fit-with-pyddm}}
 
-I will use PyDDM by \citep{shinn2020} to fit a GDDM to the data.
+I will use PyDDM by (\protect\hyperlink{ref-shinn2020}{Shinn, Lam, and Murray 2020}) to fit a GDDM to the data.
 
 \hypertarget{libraries-and-reading-in-the-data}{%
 \subsection{Libraries and reading in the data}\label{libraries-and-reading-in-the-data}}
@@ -3954,7 +3967,7 @@ Good news everyone! Drift rate, accounting for wider boundaries, is in the same 
 \hypertarget{ddm-with-collpasing-bounds}{%
 \subsection{DDM with collpasing bounds}\label{ddm-with-collpasing-bounds}}
 
-Using exponential bounds to speed up fitting. Faster than \citep{hawkins2015} Weibull CDF since it has fewer parameters. After some conversations with Daeyeol Lee in Lake Arrowhead 2020, it also doesn't seem like it makes much difference what the functional form of the collapsing bounds is. In terms of predictive accuracy, they don't make much difference. Since this is just early exploration and isn't going out to any peer-reviewed journals\ldots{} why not just go with the faster functional form?
+Using exponential bounds to speed up fitting. Faster than (\protect\hyperlink{ref-hawkins2015}{Hawkins et al. 2015}) Weibull CDF since it has fewer parameters. After some conversations with Daeyeol Lee in Lake Arrowhead 2020, it also doesn't seem like it makes much difference what the functional form of the collapsing bounds is. In terms of predictive accuracy, they don't make much difference. Since this is just early exploration and isn't going out to any peer-reviewed journals\ldots{} why not just go with the faster functional form?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4329,6 +4342,47 @@ For high difficulty trials, looks like we can get slight downward shifts in resp
 
 Coming soon.
 
-  \bibliography{book.bib,packages.bib}
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-agranov2017}{}}%
+Agranov, Marina, and Pietro Ortoleva. 2017. {``Stochastic Choice and Preferences for Randomization.''} \emph{Journal of Political Economy} 125 (1): 40--68. \url{https://doi.org/10.1086/689774}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-eum2022}{}}%
+Eum, Brenden, Stephanie Dolbier, and Antonio Rangel. 2022. {``Peripheral Visual Information Halves Attentional Choice Bias.''} \url{https://doi.org/10.1038/s41562-022-01318-6}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-glickman2022}{}}%
+Glickman, Moshe, Rani Moran, and Marius Usher. 2022. {``Evidence Integration and Decision Confidence Are Modulated by Stimulus Consistency.''} \emph{Nature Human Behaviour}. \url{https://doi.org/10.1038/s41562-022-01318-6}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hawkins2015}{}}%
+Hawkins, G. E., B. U. Forstmann, E.-J. Wagenmakers, R. Ratcliff, and S. D. Brown. 2015. {``Revisiting the Evidence for Collapsing Boundaries and Urgency Signals in Perceptual Decision-Making.''} \emph{Journal of Neuroscience} 35 (6): 2476--84. \url{https://doi.org/10.1523/JNEUROSCI.2410-14.2015}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-kelly2013}{}}%
+Kelly, S. P., and R. G. O'Connell. 2013. {``Internal and {External Influences} on the {Rate} of {Sensory Evidence Accumulation} in the {Human Brain}.''} \emph{Journal of Neuroscience} 33 (50): 19434--41. \url{https://doi.org/10.1523/JNEUROSCI.3355-13.2013}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lombardi2021}{}}%
+Lombardi, Gaia, and Todd Hare. 2021. {``Piecewise Constant Averaging Methods Allow for Fast and Accurate Hierarchical {Bayesian} Estimation of Drift Diffusion Models with Time-Varying Evidence Accumulation Rates.''} Preprint. \url{https://doi.org/10.31234/osf.io/5azyx}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-shadlen2016}{}}%
+Shadlen, Michael N., and Daphna Shohamy. 2016. {``Decision {Making} and {Sequential Sampling} from {Memory}.''} \emph{Neuron} 90 (5): 927--39. \url{https://doi.org/10.1016/j.neuron.2016.04.036}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-shinn2020}{}}%
+Shinn, Maxwell, Norman H Lam, and John D Murray. 2020. {``A Flexible Framework for Simulating and Fitting Generalized Drift-Diffusion Models.''} \emph{eLife} 9: e56938. \url{https://doi.org/10.7554/eLife.56938}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-smith2018}{}}%
+Smith, Stephanie M., and Ian Krajbich. 2018. {``Attention and Choice Across Domains.''} \emph{Journal of Experimental Psychology: General} 147 (12): 1810--26. \url{https://doi.org/10.1037/xge0000482}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-tavares2017}{}}%
+Tavares, Gabriela, Pietro Perona, and Antonio Rangel. 2017. {``The {Attentional Drift Diffusion Model} of {Simple Perceptual Decision-Making}.''} \emph{Frontiers in Neuroscience} 11: 468. \url{https://doi.org/10.3389/fnins.2017.00468}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-tsetsos2016}{}}%
+Tsetsos, Konstantinos, Rani Moran, James Moreland, Nick Chater, Marius Usher, and Christopher Summerfield. 2016. {``Economic Irrationality Is Optimal During Noisy Decision Making.''} \emph{Proceedings of the National Academy of Sciences} 113 (11): 3102--7. \url{https://doi.org/10.1073/pnas.1519157113}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-vanede2022}{}}%
+van Ede, Freek, and Anna C. Nobre. 2022. {``A Neural Decision Signal During Internal Sampling from Working Memory.''} Preprint. {Neuroscience}. \url{https://doi.org/10.1101/2022.03.31.486618}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-weilbacher2021}{}}%
+Weilbächer, Regina Agnes, Ian Krajbich, Jörg Rieskamp, and Sebastian Gluth. 2021. {``The Influence of Visual Attention on Memory-Based Preferential Choice.''} \emph{Cognition} 215: 104804. \url{https://doi.org/10.1016/j.cognition.2021.104804}.
+
+\end{CSLReferences}
 
 \end{document}

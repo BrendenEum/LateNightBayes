@@ -23,7 +23,7 @@
 <meta name="author" content="Brenden Eum" />
 
 
-<meta name="date" content="2024-02-14" />
+<meta name="date" content="2024-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1310,8 +1310,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb61-15"><a href="mem-aDDM.html#cb61-15" tabindex="-1"></a>    <span class="at">rt.se =</span> <span class="fu">std.error</span>(rts, <span class="at">na.rm=</span>T),</span>
 <span id="cb61-16"><a href="mem-aDDM.html#cb61-16" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="dv">0</span></span>
 <span id="cb61-17"><a href="mem-aDDM.html#cb61-17" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="mem-aDDM.html#cb63-1" tabindex="-1"></a>pdata.real<span class="sc">$</span>vDiff <span class="ot">&lt;-</span> pdata.real<span class="sc">$</span>vDiff<span class="sc">*</span><span class="dv">10</span></span>
 <span id="cb63-2"><a href="mem-aDDM.html#cb63-2" tabindex="-1"></a>pdata.mem <span class="ot">&lt;-</span> mem.sim <span class="sc">%&gt;%</span></span>
 <span id="cb63-3"><a href="mem-aDDM.html#cb63-3" tabindex="-1"></a>  <span class="fu">group_by</span>(subj, vDiff) <span class="sc">%&gt;%</span></span>
@@ -1328,8 +1328,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb63-14"><a href="mem-aDDM.html#cb63-14" tabindex="-1"></a>    <span class="at">rt.se =</span> <span class="fu">std.error</span>(rts, <span class="at">na.rm=</span>T),</span>
 <span id="cb63-15"><a href="mem-aDDM.html#cb63-15" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="dv">1</span></span>
 <span id="cb63-16"><a href="mem-aDDM.html#cb63-16" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="mem-aDDM.html#cb65-1" tabindex="-1"></a>pdata.a <span class="ot">&lt;-</span> mem.sim <span class="sc">%&gt;%</span></span>
 <span id="cb65-2"><a href="mem-aDDM.html#cb65-2" tabindex="-1"></a>  <span class="fu">group_by</span>(subj, vDiff) <span class="sc">%&gt;%</span></span>
 <span id="cb65-3"><a href="mem-aDDM.html#cb65-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
@@ -1345,8 +1345,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb65-13"><a href="mem-aDDM.html#cb65-13" tabindex="-1"></a>    <span class="at">rt.se =</span> <span class="fu">std.error</span>(rts, <span class="at">na.rm=</span>T),</span>
 <span id="cb65-14"><a href="mem-aDDM.html#cb65-14" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="dv">2</span></span>
 <span id="cb65-15"><a href="mem-aDDM.html#cb65-15" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="mem-aDDM.html#cb67-1" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pdata.real, pdata.mem)</span>
 <span id="cb67-2"><a href="mem-aDDM.html#cb67-2" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pdata, pdata.a)</span>
 <span id="cb67-3"><a href="mem-aDDM.html#cb67-3" tabindex="-1"></a>pdata<span class="sc">$</span>Dataset <span class="ot">&lt;-</span> <span class="fu">factor</span>(pdata<span class="sc">$</span>Dataset, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Data&quot;</span>,<span class="st">&quot;mem-aDDM Sim.&quot;</span>,<span class="st">&quot;aDDM Sim.&quot;</span>))</span>
@@ -1419,8 +1419,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb68-34"><a href="mem-aDDM.html#cb68-34" tabindex="-1"></a>    <span class="at">Exposure =</span> <span class="st">&quot;Low&quot;</span>,</span>
 <span id="cb68-35"><a href="mem-aDDM.html#cb68-35" tabindex="-1"></a>    <span class="at">group =</span> <span class="dv">1</span></span>
 <span id="cb68-36"><a href="mem-aDDM.html#cb68-36" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="mem-aDDM.html#cb70-1" tabindex="-1"></a>pdata.real.high <span class="ot">&lt;-</span> test[test<span class="sc">$</span>pe.high<span class="sc">==</span>T,] <span class="sc">%&gt;%</span></span>
 <span id="cb70-2"><a href="mem-aDDM.html#cb70-2" tabindex="-1"></a>  <span class="fu">group_by</span>(subject, difficulty) <span class="sc">%&gt;%</span></span>
 <span id="cb70-3"><a href="mem-aDDM.html#cb70-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
@@ -1435,8 +1435,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb70-12"><a href="mem-aDDM.html#cb70-12" tabindex="-1"></a>    <span class="at">Exposure =</span> <span class="st">&quot;High&quot;</span>,</span>
 <span id="cb70-13"><a href="mem-aDDM.html#cb70-13" tabindex="-1"></a>    <span class="at">group =</span> <span class="dv">2</span></span>
 <span id="cb70-14"><a href="mem-aDDM.html#cb70-14" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="mem-aDDM.html#cb72-1" tabindex="-1"></a><span class="co"># simulated data</span></span>
 <span id="cb72-2"><a href="mem-aDDM.html#cb72-2" tabindex="-1"></a></span>
 <span id="cb72-3"><a href="mem-aDDM.html#cb72-3" tabindex="-1"></a>pdata.sim.low <span class="ot">&lt;-</span> mem.sim[mem.sim<span class="sc">$</span>pe.low<span class="sc">==</span>T,] <span class="sc">%&gt;%</span></span>
@@ -1453,8 +1453,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb72-14"><a href="mem-aDDM.html#cb72-14" tabindex="-1"></a>    <span class="at">Exposure =</span> <span class="st">&quot;Low&quot;</span>,</span>
 <span id="cb72-15"><a href="mem-aDDM.html#cb72-15" tabindex="-1"></a>    <span class="at">group =</span> <span class="dv">3</span></span>
 <span id="cb72-16"><a href="mem-aDDM.html#cb72-16" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="mem-aDDM.html#cb74-1" tabindex="-1"></a>pdata.sim.high <span class="ot">&lt;-</span> mem.sim[mem.sim<span class="sc">$</span>pe.high<span class="sc">==</span>T,] <span class="sc">%&gt;%</span></span>
 <span id="cb74-2"><a href="mem-aDDM.html#cb74-2" tabindex="-1"></a>  <span class="fu">group_by</span>(subj, difficulty) <span class="sc">%&gt;%</span></span>
 <span id="cb74-3"><a href="mem-aDDM.html#cb74-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
@@ -1469,8 +1469,8 @@ Source: Trinity Pruitt. Faster RTs for stimuli seen more than the median number 
 <span id="cb74-12"><a href="mem-aDDM.html#cb74-12" tabindex="-1"></a>    <span class="at">Exposure =</span> <span class="st">&quot;High&quot;</span>,</span>
 <span id="cb74-13"><a href="mem-aDDM.html#cb74-13" tabindex="-1"></a>    <span class="at">group =</span> <span class="dv">4</span></span>
 <span id="cb74-14"><a href="mem-aDDM.html#cb74-14" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;subj&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="mem-aDDM.html#cb76-1" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pdata.real.low, pdata.real.high, pdata.sim.low, pdata.sim.high)</span>
 <span id="cb76-2"><a href="mem-aDDM.html#cb76-2" tabindex="-1"></a></span>
 <span id="cb76-3"><a href="mem-aDDM.html#cb76-3" tabindex="-1"></a>exposure.rt.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata, <span class="fu">aes</span>(<span class="at">x=</span>difficulty)) <span class="sc">+</span></span>
