@@ -73,4 +73,16 @@ simulate-choices-and-response-times
 compare-simulations-and-data
 choices
 rts
-addmvariants
+ddm-first-order-stochastic-dominance
+the-ddm-can-explain-violations-of-first-order-stochastic-dominance
+preamble
+ddm-simulation-function
+lotteries
+expected-value
+single-agent-simulations
+single-agent
+expected-value-differences-and-error-rate
+response-times-and-value-differences.
+multi-agent-simulations
+distributions-of-agents
+expected-value-differences-and-error-rate-1

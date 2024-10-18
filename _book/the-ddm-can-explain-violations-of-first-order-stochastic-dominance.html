@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 The DDM Can Explain Violations of First-Order Stochastic Dominance | Late Night Bayes</title>
+  <meta name="description" content="A collection of reports about interesting side projects." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 The DDM Can Explain Violations of First-Order Stochastic Dominance | Late Night Bayes" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A collection of reports about interesting side projects." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 The DDM Can Explain Violations of First-Order Stochastic Dominance | Late Night Bayes" />
+  
+  <meta name="twitter:description" content="A collection of reports about interesting side projects." />
+  
+
+<meta name="author" content="Brenden Eum" />
+
+
+<meta name="date" content="2024-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="memDDM.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Brenden Eum</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a></li>
+<li class="chapter" data-level="2" data-path="dcb.html"><a href="dcb.html"><i class="fa fa-check"></i><b>2</b> Decision Classification Boundaries</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="dcb.html"><a href="dcb.html#simulated-perceptual-data-1"><i class="fa fa-check"></i><b>2.1</b> Simulated, perceptual data</a></li>
+<li class="chapter" data-level="2.2" data-path="dcb.html"><a href="dcb.html#perceptual-data-ddm"><i class="fa fa-check"></i><b>2.2</b> Perceptual data, DDM</a></li>
+<li class="chapter" data-level="2.3" data-path="dcb.html"><a href="dcb.html#perceptual-data-slider"><i class="fa fa-check"></i><b>2.3</b> Perceptual data, slider</a></li>
+<li class="chapter" data-level="2.4" data-path="dcb.html"><a href="dcb.html#value-based-data-ddm"><i class="fa fa-check"></i><b>2.4</b> Value-based data, DDM</a></li>
+<li class="chapter" data-level="2.5" data-path="dcb.html"><a href="dcb.html#value-based-data-addm"><i class="fa fa-check"></i><b>2.5</b> Value-based data, aDDM</a></li>
+<li class="chapter" data-level="2.6" data-path="dcb.html"><a href="dcb.html#discussion"><i class="fa fa-check"></i><b>2.6</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="mem-aDDM.html"><a href="mem-aDDM.html"><i class="fa fa-check"></i><b>3</b> mem-aDDM</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="mem-aDDM.html"><a href="mem-aDDM.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="mem-aDDM.html"><a href="mem-aDDM.html#warning"><i class="fa fa-check"></i><b>3.2</b> Warning</a></li>
+<li class="chapter" data-level="3.3" data-path="mem-aDDM.html"><a href="mem-aDDM.html#methods"><i class="fa fa-check"></i><b>3.3</b> Methods</a></li>
+<li class="chapter" data-level="3.4" data-path="mem-aDDM.html"><a href="mem-aDDM.html#how-should-drift-change"><i class="fa fa-check"></i><b>3.4</b> How should drift change?</a></li>
+<li class="chapter" data-level="3.5" data-path="mem-aDDM.html"><a href="mem-aDDM.html#mem-addm"><i class="fa fa-check"></i><b>3.5</b> mem-aDDM</a></li>
+<li class="chapter" data-level="3.6" data-path="mem-aDDM.html"><a href="mem-aDDM.html#addm"><i class="fa fa-check"></i><b>3.6</b> aDDM</a></li>
+<li class="chapter" data-level="3.7" data-path="mem-aDDM.html"><a href="mem-aDDM.html#compare-predictions"><i class="fa fa-check"></i><b>3.7</b> Compare predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="memDDM.html"><a href="memDDM.html"><i class="fa fa-check"></i><b>4</b> memDDM</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="memDDM.html"><a href="memDDM.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="memDDM.html"><a href="memDDM.html#methods-1"><i class="fa fa-check"></i><b>4.2</b> Methods</a></li>
+<li class="chapter" data-level="4.3" data-path="memDDM.html"><a href="memDDM.html#behavioral-results"><i class="fa fa-check"></i><b>4.3</b> Behavioral Results</a></li>
+<li class="chapter" data-level="4.4" data-path="memDDM.html"><a href="memDDM.html#fit-with-pyddm"><i class="fa fa-check"></i><b>4.4</b> Fit with PyDDM</a></li>
+<li class="chapter" data-level="4.5" data-path="memDDM.html"><a href="memDDM.html#simulations"><i class="fa fa-check"></i><b>4.5</b> Simulations</a></li>
+<li class="chapter" data-level="4.6" data-path="memDDM.html"><a href="memDDM.html#compare-simulations-and-data"><i class="fa fa-check"></i><b>4.6</b> Compare simulations and data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><i class="fa fa-check"></i><b>5</b> The DDM Can Explain Violations of First-Order Stochastic Dominance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#preamble"><i class="fa fa-check"></i><b>5.1</b> Preamble</a></li>
+<li class="chapter" data-level="5.2" data-path="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#ddm-simulation-function"><i class="fa fa-check"></i><b>5.2</b> DDM Simulation Function</a></li>
+<li class="chapter" data-level="5.3" data-path="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#lotteries"><i class="fa fa-check"></i><b>5.3</b> Lotteries</a></li>
+<li class="chapter" data-level="5.4" data-path="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#single-agent-simulations"><i class="fa fa-check"></i><b>5.4</b> Single Agent Simulations</a></li>
+<li class="chapter" data-level="5.5" data-path="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#multi-agent-simulations"><i class="fa fa-check"></i><b>5.5</b> Multi-Agent Simulations</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Late Night Bayes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-ddm-can-explain-violations-of-first-order-stochastic-dominance" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> The DDM Can Explain Violations of First-Order Stochastic Dominance<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#the-ddm-can-explain-violations-of-first-order-stochastic-dominance" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Author: Brenden Eum (2024)</p>
+<p>This notebook is for Charly Hervy at UPF in Barcelona. She finds that some of her subjects violate first-order stochastic dominance (FOSD) in a risky choice task.</p>
+<p>I argue that this can be modeled by the Drift-Diffusion-Model (DDM) from cognitive neuroscience. It is one of the most famous models to come out of this literature, cited in literally over a million papers (also goes by “Diffusion Decision Model”, so named by members of the Psychology and Economics departments at OSU). The model considers the speed-accuracy trade-off in decisions, and therefore requires data on both choices and response times. Larbi might like this idea since he has a working paper on response times, I believe. The intuition behind the model is this: (1) If two options are similarly valued, the decision is hard, takes more time, and is made with a higher error rate. (2) As the difference in value between the two options grows, the decision becomes easier, takes less time, and is made with a lower error rate. There is an element of stochasticity in choices that originates from evidence in neuroscience, but is implemented in a very simple manner in the DDM. This stochasticity is the source of errors in decisions, and is one of TWO features of the DDM that may explain violations of FOSD. I’ll only focus on this feature here. Patrick is aware of the model too, so I’m sure he can help if I failed to clearly explain the intuition here.</p>
+<p>In the past, the DDM (and the class of models it belongs to called “sequential sampling models”) has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I’m not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done).</p>
+<p>I think (a) the DDM may offer a potential explanation of your data, and (b) your experiment may offer something novel for the DDM literature. If you add a paragraph or small section on response time patterns, expected value differences, and the DDM, I can spread the word to all the sequential sampling modelers + neuroeconomists, and you may get citations from the psychology and neuroscience fields too!</p>
+<div id="preamble" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Preamble<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#preamble" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb93-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb93-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb93-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb93-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb93-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────── tidyverse 2.0.0 ──
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
+## ✔ readr     2.1.5     
+## ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ data.table::between() masks dplyr::between()
+## ✖ gridExtra::combine()  masks dplyr::combine()
+## ✖ tidyr::extract()      masks runjags::extract()
+## ✖ dplyr::filter()       masks stats::filter()
+## ✖ data.table::first()   masks dplyr::first()
+## ✖ lubridate::hour()     masks data.table::hour()
+## ✖ lubridate::isoweek()  masks data.table::isoweek()
+## ✖ dplyr::lag()          masks stats::lag()
+## ✖ data.table::last()    masks dplyr::last()
+## ✖ lubridate::mday()     masks data.table::mday()
+## ✖ lubridate::minute()   masks data.table::minute()
+## ✖ lubridate::month()    masks data.table::month()
+## ✖ lubridate::quarter()  masks data.table::quarter()
+## ✖ lubridate::second()   masks data.table::second()
+## ✖ MASS::select()        masks dplyr::select()
+## ✖ purrr::transpose()    masks data.table::transpose()
+## ✖ lubridate::wday()     masks data.table::wday()
+## ✖ lubridate::week()     masks data.table::week()
+## ✖ lubridate::yday()     masks data.table::yday()
+## ✖ lubridate::year()     masks data.table::year()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb95-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;patchwork&#39;
+## 
+## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     area</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb97-1" tabindex="-1"></a><span class="fu">library</span>(plotrix)</span></code></pre></div>
+</div>
+<div id="ddm-simulation-function" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> DDM Simulation Function<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#ddm-simulation-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Simulate the DDM for a single trial. Simulation will stop and report NA if subject takes longer than 2 minutes for a single trial</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-1" tabindex="-1"></a>simulate_ddm <span class="ot">&lt;-</span> <span class="cf">function</span>(evidence, <span class="at">a =</span> <span class="fl">1.0</span>, <span class="at">d =</span> <span class="fl">0.001</span>, <span class="at">s =</span> <span class="fl">0.03</span>, <span class="at">b =</span> <span class="fl">0.0</span>, <span class="at">c =</span> <span class="fl">0.0</span>, <span class="at">ts_size =</span> <span class="dv">10</span>, <span class="at">rt_max =</span> <span class="dv">120000</span>) {</span>
+<span id="cb98-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-2" tabindex="-1"></a>  </span>
+<span id="cb98-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-3" tabindex="-1"></a>  bounds <span class="ot">=</span> a</span>
+<span id="cb98-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-4" tabindex="-1"></a>  rdv_t <span class="ot">=</span> b</span>
+<span id="cb98-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-5" tabindex="-1"></a>  inside_bounds <span class="ot">=</span> T</span>
+<span id="cb98-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-6" tabindex="-1"></a>  timestep <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb98-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-7" tabindex="-1"></a>  </span>
+<span id="cb98-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-8" tabindex="-1"></a>  <span class="cf">while</span>(inside_bounds<span class="sc">==</span>T <span class="sc">&amp;</span> timestep<span class="sc">&lt;</span>(rt_max<span class="sc">/</span>ts_size)) {</span>
+<span id="cb98-9"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-9" tabindex="-1"></a>    rdv_t <span class="ot">=</span> rdv_t <span class="sc">+</span> d <span class="sc">*</span> evidence</span>
+<span id="cb98-10"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-10" tabindex="-1"></a>    rdv_t <span class="ot">=</span> rdv_t <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, s)</span>
+<span id="cb98-11"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-11" tabindex="-1"></a>    timestep <span class="ot">=</span> timestep <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb98-12"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-12" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(rdv_t)<span class="sc">&gt;=</span>bounds) {inside_bounds <span class="ot">=</span> F}</span>
+<span id="cb98-13"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-13" tabindex="-1"></a>    rdv_t_1 <span class="ot">=</span> rdv_t</span>
+<span id="cb98-14"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-14" tabindex="-1"></a>  }</span>
+<span id="cb98-15"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-15" tabindex="-1"></a>  </span>
+<span id="cb98-16"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-16" tabindex="-1"></a>  <span class="cf">if</span> (rdv_t <span class="sc">&gt;=</span> bounds) {choice <span class="ot">=</span> <span class="dv">1</span>}</span>
+<span id="cb98-17"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-17" tabindex="-1"></a>  <span class="cf">if</span> (rdv_t <span class="sc">&lt;=</span> bounds) {choice <span class="ot">=</span> <span class="dv">0</span>}</span>
+<span id="cb98-18"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-18" tabindex="-1"></a>  rt <span class="ot">=</span> timestep <span class="sc">*</span> ts_size</span>
+<span id="cb98-19"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-19" tabindex="-1"></a>  <span class="cf">if</span> (rt <span class="sc">&gt;=</span> rt_max) {choice <span class="ot">=</span> <span class="cn">NA</span>}</span>
+<span id="cb98-20"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-20" tabindex="-1"></a>  </span>
+<span id="cb98-21"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-21" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">choice=</span>choice, <span class="at">rt=</span>rt))</span>
+<span id="cb98-22"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-22" tabindex="-1"></a>  </span>
+<span id="cb98-23"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb98-23" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="lotteries" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Lotteries<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#lotteries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Generate vectors of lotteries. Lottery L will FOSD Lottery R.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-1" tabindex="-1"></a>L_prb <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">99</span>), <span class="dv">100</span>, <span class="at">replace=</span>T)<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb99-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-2" tabindex="-1"></a>L_amt <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>), <span class="dv">100</span>, <span class="at">replace=</span>T)</span>
+<span id="cb99-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-3" tabindex="-1"></a>R_prb <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">100</span>)</span>
+<span id="cb99-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-4" tabindex="-1"></a>R_amt <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">100</span>)</span>
+<span id="cb99-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb99-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-6" tabindex="-1"></a>  R_prb[i] <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(L_prb[i]<span class="sc">*</span><span class="dv">100-1</span>)), <span class="dv">1</span>, <span class="at">replace=</span>T)<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb99-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-7" tabindex="-1"></a>  R_amt[i] <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(L_amt[i]<span class="sc">-</span><span class="dv">1</span>)), <span class="dv">1</span>, <span class="at">replace=</span>T)</span>
+<span id="cb99-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb99-8" tabindex="-1"></a>}</span></code></pre></div>
+<div id="expected-value" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Expected Value<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#expected-value" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are different ways to compare the lotteries. (Not Recommended) Since the DDM is a sequential sampling model, the order in which information (attribute values) enter into the decision process matters (Yang and Krajbich 2023, Fisher 2021). That being said, this would require eye-tracking and a whole bunch of other assumptions, so it may not be the simple explanation you’re looking for. (Recommended) You can just compare the expected values of the lotteries (Eum et al. 2024).</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-1" tabindex="-1"></a>pdata <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">L_lottery =</span> <span class="st">&quot;L&quot;</span>, <span class="at">L_ev =</span> L_prb<span class="sc">*</span>L_amt, <span class="at">R_lottery =</span> <span class="st">&quot;R&quot;</span>, <span class="at">R_ev =</span> R_prb<span class="sc">*</span>R_amt)</span>
+<span id="cb100-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-2" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-3" tabindex="-1"></a><span class="fu">ggplot</span>(pdata) <span class="sc">+</span></span>
+<span id="cb100-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-4" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> L_lottery, <span class="at">xend =</span> R_lottery, <span class="at">y =</span> L_ev, <span class="at">yend =</span> R_ev), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> .<span class="dv">5</span>, <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb100-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> L_lottery, <span class="at">y =</span> L_ev), <span class="at">color =</span> <span class="st">&quot;dodgerblue&quot;</span>, <span class="at">size=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb100-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> R_lottery, <span class="at">y =</span> R_ev), <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">size=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb100-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-7" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb100-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb100-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Expected Value&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Lottery&quot;</span>, <span class="at">title =</span> <span class="st">&quot;All slopes are strictly negative, indicating FOSD.&quot;</span>)</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+</div>
+</div>
+<div id="single-agent-simulations" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Single Agent Simulations<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#single-agent-simulations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="single-agent" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Single Agent<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#single-agent" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Take a single DDM agent with default parameters. What is the rate at which they violate FOSD?</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-1" tabindex="-1"></a>single_agent <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb101-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-2" tabindex="-1"></a>evidence <span class="ot">=</span> pdata<span class="sc">$</span>L_ev <span class="sc">-</span> pdata<span class="sc">$</span>R_ev</span>
+<span id="cb101-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(evidence)) {</span>
+<span id="cb101-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-4" tabindex="-1"></a>  single_trial <span class="ot">=</span> <span class="fu">simulate_ddm</span>(evidence[i]) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span>
+<span id="cb101-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-5" tabindex="-1"></a>  single_trial<span class="sc">$</span>evidence <span class="ot">=</span> evidence[i]</span>
+<span id="cb101-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-6" tabindex="-1"></a>  single_agent <span class="ot">=</span> <span class="fu">bind_rows</span>(single_agent, single_trial)</span>
+<span id="cb101-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-7" tabindex="-1"></a>}</span>
+<span id="cb101-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-8" tabindex="-1"></a></span>
+<span id="cb101-9"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-9" tabindex="-1"></a><span class="co"># Some cleaning</span></span>
+<span id="cb101-10"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-10" tabindex="-1"></a>single_agent<span class="sc">$</span>rnd_evid <span class="ot">=</span> single_agent<span class="sc">$</span>evidence <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
+<span id="cb101-11"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb101-11" tabindex="-1"></a>single_agent<span class="sc">$</span>error <span class="ot">=</span> <span class="fu">ifelse</span>(single_agent<span class="sc">$</span>choice<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+</div>
+<div id="expected-value-differences-and-error-rate" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Expected Value Differences and Error Rate<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#expected-value-differences-and-error-rate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-1" tabindex="-1"></a>pdata.error_ev <span class="ot">=</span> single_agent <span class="sc">%&gt;%</span></span>
+<span id="cb102-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-2" tabindex="-1"></a>  <span class="fu">group_by</span>(rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb102-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">error =</span> <span class="fu">mean</span>(error))</span>
+<span id="cb102-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-4" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-5" tabindex="-1"></a><span class="fu">ggplot</span>(pdata.error_ev, <span class="fu">aes</span>(<span class="at">x=</span>rnd_evid, <span class="at">y=</span>error)) <span class="sc">+</span></span>
+<span id="cb102-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb102-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb102-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Rate of Violations of FOSD&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Rounded Expected Value Difference (L-R)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb102-9"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb102-9" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+</div>
+<div id="response-times-and-value-differences." class="section level3 hasAnchor" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Response Times and Value Differences.<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#response-times-and-value-differences." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>It’s well established in the literature that response times will increase as Expected Value Differences go to 0 (see Forstmann et al. 2016 for a great review). This is typically replicated in every dataset that wants to explain data with DDM since it’s so robust. Think of it as a sanity check that the model can be applied to this data.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-1" tabindex="-1"></a>pdata.rt_ev <span class="ot">=</span> single_agent <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-2" tabindex="-1"></a>  <span class="fu">group_by</span>(rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">rt =</span> <span class="fu">mean</span>(rt)<span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb103-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-4" tabindex="-1"></a></span>
+<span id="cb103-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-5" tabindex="-1"></a><span class="fu">ggplot</span>(pdata.rt_ev, <span class="fu">aes</span>(<span class="at">x=</span>rnd_evid, <span class="at">y=</span>rt)) <span class="sc">+</span></span>
+<span id="cb103-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb103-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb103-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Response Time (Seconds)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Rounded Expected Value Difference (L-R)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb103-9"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb103-9" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="cn">NA</span>))</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+</div>
+</div>
+<div id="multi-agent-simulations" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Multi-Agent Simulations<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#multi-agent-simulations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="distributions-of-agents" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> Distributions of agents<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#distributions-of-agents" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Suppose we have N agents who make decisions using DDM. Draw their parameters from some reasonable distribution, given previous literature. I’ll work off of my last paper (Eum et al. 2023).</p>
+<p>This may take a few seconds to a minute depending on your computer.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-1" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb104-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-2" tabindex="-1"></a>multi_agent <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb104-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-3" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-4" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb104-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-5" tabindex="-1"></a>  <span class="co"># Together, the drift rate and noise determine signal-to-noise ratio in this decision process.</span></span>
+<span id="cb104-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-6" tabindex="-1"></a>  d <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min=</span><span class="fl">0.0001</span>, <span class="at">max=</span><span class="fl">0.009</span>) <span class="co"># drift rate</span></span>
+<span id="cb104-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-7" tabindex="-1"></a>  s <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min=</span><span class="fl">0.01</span>, <span class="at">max=</span><span class="fl">0.09</span>) <span class="co"># noise</span></span>
+<span id="cb104-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-8" tabindex="-1"></a>  </span>
+<span id="cb104-9"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-9" tabindex="-1"></a>  agent_n <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb104-10"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-10" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(evidence)) { <span class="co"># Evidence vector is same as in above cells.</span></span>
+<span id="cb104-11"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-11" tabindex="-1"></a>    single_trial <span class="ot">=</span> <span class="fu">simulate_ddm</span>(evidence[i], <span class="at">d=</span>d, <span class="at">s=</span>s) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span>
+<span id="cb104-12"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-12" tabindex="-1"></a>    single_trial<span class="sc">$</span>evidence <span class="ot">=</span> evidence[i]</span>
+<span id="cb104-13"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-13" tabindex="-1"></a>    agent_n <span class="ot">=</span> <span class="fu">bind_rows</span>(agent_n, single_trial)</span>
+<span id="cb104-14"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-14" tabindex="-1"></a>  }</span>
+<span id="cb104-15"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-15" tabindex="-1"></a>  </span>
+<span id="cb104-16"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-16" tabindex="-1"></a>  <span class="co"># Some cleaning</span></span>
+<span id="cb104-17"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-17" tabindex="-1"></a>  agent_n<span class="sc">$</span>n <span class="ot">=</span> n</span>
+<span id="cb104-18"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-18" tabindex="-1"></a>  agent_n<span class="sc">$</span>rnd_evid <span class="ot">=</span> agent_n<span class="sc">$</span>evidence <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
+<span id="cb104-19"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-19" tabindex="-1"></a>  agent_n<span class="sc">$</span>error <span class="ot">=</span> <span class="fu">ifelse</span>(agent_n<span class="sc">$</span>choice<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb104-20"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-20" tabindex="-1"></a>  </span>
+<span id="cb104-21"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-21" tabindex="-1"></a>  <span class="co"># Combine into placeholder</span></span>
+<span id="cb104-22"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-22" tabindex="-1"></a>  multi_agent <span class="ot">=</span> <span class="fu">bind_rows</span>(multi_agent, agent_n)</span>
+<span id="cb104-23"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb104-23" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="expected-value-differences-and-error-rate-1" class="section level3 hasAnchor" number="5.5.2">
+<h3><span class="header-section-number">5.5.2</span> Expected Value Differences and Error Rate<a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#expected-value-differences-and-error-rate-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This is the main dish. What you came to see. ARE YOU NOT ENTERTAINED?! It works!!!</p>
+<p>Let’s plot the mean and standard deviation across the MEANS of the agents.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-1" tabindex="-1"></a>pdata.multi_error_ev <span class="ot">=</span> multi_agent <span class="sc">%&gt;%</span></span>
+<span id="cb105-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-2" tabindex="-1"></a>  <span class="fu">group_by</span>(n, rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb105-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">error =</span> <span class="fu">mean</span>(error, <span class="at">na.rm=</span>T)) <span class="sc">%&gt;%</span></span>
+<span id="cb105-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-4" tabindex="-1"></a>  <span class="fu">group_by</span>(rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb105-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb105-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-6" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(error, <span class="at">na.rm=</span>T),</span>
+<span id="cb105-7"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-7" tabindex="-1"></a>    <span class="at">error =</span> <span class="fu">mean</span>(error, <span class="at">na.rm=</span>T)</span>
+<span id="cb105-8"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb105-8" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;n&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb107-1" tabindex="-1"></a><span class="fu">ggplot</span>(pdata.multi_error_ev, <span class="fu">aes</span>(<span class="at">x=</span>rnd_evid, <span class="at">y=</span>error)) <span class="sc">+</span></span>
+<span id="cb107-2"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb107-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb107-3"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb107-3" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">pmax</span>(error<span class="sc">-</span>sd,<span class="dv">0</span>), <span class="at">ymax=</span>error<span class="sc">+</span>sd), <span class="at">width=</span><span class="dv">0</span>, <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb107-4"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb107-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb107-5"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb107-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Rate of Violations of FOSD (SD Errorbars)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Rounded Expected Value Difference (L-R)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb107-6"><a href="the-ddm-can-explain-violations-of-first-order-stochastic-dominance.html#cb107-6" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="memDDM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-ddm-fosd.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["LateNightBayes.pdf", "LateNightBayes.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

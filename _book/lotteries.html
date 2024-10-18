@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes</title>
+  <title>Chapter 8 Lotteries | Late Night Bayes</title>
   <meta name="description" content="A collection of reports about interesting side projects." />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta property="og:title" content="Chapter 8 Lotteries | Late Night Bayes" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="A collection of reports about interesting side projects." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta name="twitter:title" content="Chapter 8 Lotteries | Late Night Bayes" />
   
   <meta name="twitter:description" content="A collection of reports about interesting side projects." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="memDDM.html"/>
-<link rel="next" href="preamble.html"/>
+<link rel="prev" href="ddm-simulation-function.html"/>
+<link rel="next" href="single-agent-simulations.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -227,23 +227,38 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="addmvariants" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> aDDM Variants in Aversive Choice<a href="addmvariants.html#addmvariants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Coming soon.</p>
-
-<p>Author: Brenden Eum (2024)</p>
-<p>This notebook is for Charly Hervy at UPF in Barcelona. She finds that some of her subjects violate first-order stochastic dominance (FOSD) in a risky choice task.</p>
-<p>I argue that this can be modeled by the Drift-Diffusion-Model (DDM) from cognitive neuroscience. It is one of the most famous models to come out of this literature, cited in literally over a million papers (also goes by “Diffusion Decision Model”, so named by members of the Psychology and Economics departments at OSU). The model considers the speed-accuracy trade-off in decisions, and therefore requires data on both choices and response times. Larbi might like this idea since he has a working paper on response times, I believe. The intuition behind the model is this: (1) If two options are similarly valued, the decision is hard, takes more time, and is made with a higher error rate. (2) As the difference in value between the two options grows, the decision becomes easier, takes less time, and is made with a lower error rate. There is an element of stochasticity in choices that originates from evidence in neuroscience, but is implemented in a very simple manner in the DDM. This stochasticity is the source of errors in decisions, and is one of TWO features of the DDM that may explain violations of FOSD. I’ll only focus on this feature here. Patrick is aware of the model too, so I’m sure he can help if I failed to clearly explain the intuition here.</p>
-<p>In the past, the DDM (and the class of models it belongs to called “sequential sampling models”) has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I’m not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done).</p>
-<p>I think (a) the DDM may offer a potential explanation of your data, and (b) your experiment may offer something novel for the DDM literature. If you add a paragraph or small section on response time patterns, expected value differences, and the DDM, I can spread the word to all the sequential sampling modelers + neuroeconomists, and you may get citations from the psychology and neuroscience fields too!</p>
+<div id="lotteries" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Lotteries<a href="lotteries.html#lotteries" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Generate vectors of lotteries. Lottery L will FOSD Lottery R.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="lotteries.html#cb99-1" tabindex="-1"></a>L_prb <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">99</span>), <span class="dv">100</span>, <span class="at">replace=</span>T)<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb99-2"><a href="lotteries.html#cb99-2" tabindex="-1"></a>L_amt <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>), <span class="dv">100</span>, <span class="at">replace=</span>T)</span>
+<span id="cb99-3"><a href="lotteries.html#cb99-3" tabindex="-1"></a>R_prb <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">100</span>)</span>
+<span id="cb99-4"><a href="lotteries.html#cb99-4" tabindex="-1"></a>R_amt <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">100</span>)</span>
+<span id="cb99-5"><a href="lotteries.html#cb99-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb99-6"><a href="lotteries.html#cb99-6" tabindex="-1"></a>  R_prb[i] <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(L_prb[i]<span class="sc">*</span><span class="dv">100-1</span>)), <span class="dv">1</span>, <span class="at">replace=</span>T)<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb99-7"><a href="lotteries.html#cb99-7" tabindex="-1"></a>  R_amt[i] <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(L_amt[i]<span class="sc">-</span><span class="dv">1</span>)), <span class="dv">1</span>, <span class="at">replace=</span>T)</span>
+<span id="cb99-8"><a href="lotteries.html#cb99-8" tabindex="-1"></a>}</span></code></pre></div>
+<div id="expected-value" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Expected Value<a href="lotteries.html#expected-value" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are different ways to compare the lotteries. (Not Recommended) Since the DDM is a sequential sampling model, the order in which information (attribute values) enter into the decision process matters (Yang and Krajbich 2023, Fisher 2021). That being said, this would require eye-tracking and a whole bunch of other assumptions, so it may not be the simple explanation you’re looking for. (Recommended) You can just compare the expected values of the lotteries (Eum et al. 2024).</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="lotteries.html#cb100-1" tabindex="-1"></a>pdata <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">L_lottery =</span> <span class="st">&quot;L&quot;</span>, <span class="at">L_ev =</span> L_prb<span class="sc">*</span>L_amt, <span class="at">R_lottery =</span> <span class="st">&quot;R&quot;</span>, <span class="at">R_ev =</span> R_prb<span class="sc">*</span>R_amt)</span>
+<span id="cb100-2"><a href="lotteries.html#cb100-2" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="lotteries.html#cb100-3" tabindex="-1"></a><span class="fu">ggplot</span>(pdata) <span class="sc">+</span></span>
+<span id="cb100-4"><a href="lotteries.html#cb100-4" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> L_lottery, <span class="at">xend =</span> R_lottery, <span class="at">y =</span> L_ev, <span class="at">yend =</span> R_ev), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> .<span class="dv">5</span>, <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb100-5"><a href="lotteries.html#cb100-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> L_lottery, <span class="at">y =</span> L_ev), <span class="at">color =</span> <span class="st">&quot;dodgerblue&quot;</span>, <span class="at">size=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb100-6"><a href="lotteries.html#cb100-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> R_lottery, <span class="at">y =</span> R_ev), <span class="at">color =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">size=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb100-7"><a href="lotteries.html#cb100-7" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb100-8"><a href="lotteries.html#cb100-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Expected Value&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Lottery&quot;</span>, <span class="at">title =</span> <span class="st">&quot;All slopes are strictly negative, indicating FOSD.&quot;</span>)</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="memDDM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="preamble.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ddm-simulation-function.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="single-agent-simulations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +289,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-ddm-collapse.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-ddm-fosd.Rmd",
 "text": "Edit"
 },
 "history": {

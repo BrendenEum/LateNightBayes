@@ -23,7 +23,7 @@
 <meta name="author" content="Brenden Eum" />
 
 
-<meta name="date" content="2024-02-15" />
+<meta name="date" content="2024-10-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="mem-aDDM.html"/>
-<link rel="next" href="addmvariants.html"/>
+<link rel="next" href="ddm-first-order-stochastic-dominance.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -191,7 +191,15 @@ div.csl-indent {
 <li class="chapter" data-level="4.5" data-path="memDDM.html"><a href="memDDM.html#simulations"><i class="fa fa-check"></i><b>4.5</b> Simulations</a></li>
 <li class="chapter" data-level="4.6" data-path="memDDM.html"><a href="memDDM.html#compare-simulations-and-data"><i class="fa fa-check"></i><b>4.6</b> Compare simulations and data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="addmvariants.html"><a href="addmvariants.html"><i class="fa fa-check"></i><b>5</b> aDDM Variants in Aversive Choice</a></li>
+<li class="chapter" data-level="5" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html"><i class="fa fa-check"></i><b>5</b> DDM &amp; First-Order Stochastic Dominance</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html#the-ddm-can-explain-violations-of-first-order-stochastic-dominance"><i class="fa fa-check"></i><b>5.1</b> The DDM Can Explain Violations of First-Order Stochastic Dominance</a></li>
+<li class="chapter" data-level="5.2" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html#preamble"><i class="fa fa-check"></i><b>5.2</b> Preamble</a></li>
+<li class="chapter" data-level="5.3" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html#ddm-simulation-function"><i class="fa fa-check"></i><b>5.3</b> DDM Simulation Function</a></li>
+<li class="chapter" data-level="5.4" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html#lotteries"><i class="fa fa-check"></i><b>5.4</b> Lotteries</a></li>
+<li class="chapter" data-level="5.5" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html#single-agent-simulations"><i class="fa fa-check"></i><b>5.5</b> Single Agent Simulations</a></li>
+<li class="chapter" data-level="5.6" data-path="ddm-first-order-stochastic-dominance.html"><a href="ddm-first-order-stochastic-dominance.html#multi-agent-simulations"><i class="fa fa-check"></i><b>5.6</b> Multi-Agent Simulations</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -239,18 +247,18 @@ div.csl-indent {
 <h3><span class="header-section-number">4.2.1</span> Prep work<a href="memDDM.html#prep-work-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="load-libraries-1" class="section level4 hasAnchor" number="4.2.1.1">
 <h4><span class="header-section-number">4.2.1.1</span> Load libraries<a href="memDDM.html#load-libraries-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="memDDM.html#cb77-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb77-2"><a href="memDDM.html#cb77-2" tabindex="-1"></a>seed <span class="ot">=</span> <span class="dv">1337</span></span>
-<span id="cb77-3"><a href="memDDM.html#cb77-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb77-4"><a href="memDDM.html#cb77-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb77-5"><a href="memDDM.html#cb77-5" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes)</span>
-<span id="cb77-6"><a href="memDDM.html#cb77-6" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
-<span id="cb77-7"><a href="memDDM.html#cb77-7" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb77-8"><a href="memDDM.html#cb77-8" tabindex="-1"></a><span class="fu">library</span>(plotrix)</span>
-<span id="cb77-9"><a href="memDDM.html#cb77-9" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
-<span id="cb77-10"><a href="memDDM.html#cb77-10" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb77-11"><a href="memDDM.html#cb77-11" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb77-12"><a href="memDDM.html#cb77-12" tabindex="-1"></a><span class="co">#use_python(&quot;D:/Program Files/PsychoPy/python.exe&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="memDDM.html#cb79-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb79-2"><a href="memDDM.html#cb79-2" tabindex="-1"></a>seed <span class="ot">=</span> <span class="dv">1337</span></span>
+<span id="cb79-3"><a href="memDDM.html#cb79-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb79-4"><a href="memDDM.html#cb79-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb79-5"><a href="memDDM.html#cb79-5" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes)</span>
+<span id="cb79-6"><a href="memDDM.html#cb79-6" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb79-7"><a href="memDDM.html#cb79-7" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb79-8"><a href="memDDM.html#cb79-8" tabindex="-1"></a><span class="fu">library</span>(plotrix)</span>
+<span id="cb79-9"><a href="memDDM.html#cb79-9" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
+<span id="cb79-10"><a href="memDDM.html#cb79-10" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb79-11"><a href="memDDM.html#cb79-11" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb79-12"><a href="memDDM.html#cb79-12" tabindex="-1"></a><span class="co">#use_python(&quot;D:/Program Files/PsychoPy/python.exe&quot;)</span></span></code></pre></div>
 </div>
 <div id="load-data" class="section level4 hasAnchor" number="4.2.1.2">
 <h4><span class="header-section-number">4.2.1.2</span> Load data<a href="memDDM.html#load-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -258,39 +266,39 @@ div.csl-indent {
 <a href="https://osf.io/x2jhp/?view_only=2669d8f3983d4442952a52c5de5814f7" class="uri">https://osf.io/x2jhp/?view_only=2669d8f3983d4442952a52c5de5814f7</a>.</p>
 <p>I calculate a variable called “PreviousEncounterBoth”, which counts the number of previous trials in which the subject has seen either item for this trial.</p>
 <p>Familiarity is low or high. Low means previous encounters with either item is below or equal to median for that subject. High means previous exposures is above median.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="memDDM.html#cb78-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/mem-aDDM-smithkrajbich2018.RData&quot;</span>)</span>
-<span id="cb78-2"><a href="memDDM.html#cb78-2" tabindex="-1"></a></span>
-<span id="cb78-3"><a href="memDDM.html#cb78-3" tabindex="-1"></a>twofoodeyedata <span class="ot">&lt;-</span> twofoodeyedata <span class="sc">%&gt;%</span></span>
-<span id="cb78-4"><a href="memDDM.html#cb78-4" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber, Trial) <span class="sc">%&gt;%</span></span>
-<span id="cb78-5"><a href="memDDM.html#cb78-5" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="co"># fixation number</span></span>
-<span id="cb78-6"><a href="memDDM.html#cb78-6" tabindex="-1"></a>    <span class="at">fixNum=</span><span class="fu">row_number</span>()</span>
-<span id="cb78-7"><a href="memDDM.html#cb78-7" tabindex="-1"></a>  ) </span>
-<span id="cb78-8"><a href="memDDM.html#cb78-8" tabindex="-1"></a></span>
-<span id="cb78-9"><a href="memDDM.html#cb78-9" tabindex="-1"></a><span class="co"># Running counts of the number of times the subjects have seen the left and right options across previous trials</span></span>
-<span id="cb78-10"><a href="memDDM.html#cb78-10" tabindex="-1"></a>twofoodchoicedata<span class="sc">$</span>PreviousEncounterLeft <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb78-11"><a href="memDDM.html#cb78-11" tabindex="-1"></a>twofoodchoicedata<span class="sc">$</span>PreviousEncounterRight <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb78-12"><a href="memDDM.html#cb78-12" tabindex="-1"></a>data <span class="ot">&lt;-</span> twofoodchoicedata[<span class="fu">order</span>(twofoodchoicedata<span class="sc">$</span>SubjectNumber, twofoodchoicedata<span class="sc">$</span>Trial),]</span>
-<span id="cb78-13"><a href="memDDM.html#cb78-13" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(data<span class="sc">$</span>SubjectNumber)) {</span>
-<span id="cb78-14"><a href="memDDM.html#cb78-14" tabindex="-1"></a>  tempdata <span class="ot">&lt;-</span> data[data<span class="sc">$</span>SubjectNumber<span class="sc">==</span>data<span class="sc">$</span>SubjectNumber[n] <span class="sc">&amp;</span> data<span class="sc">$</span>Trial<span class="sc">&lt;=</span>data<span class="sc">$</span>Trial[n],]</span>
-<span id="cb78-15"><a href="memDDM.html#cb78-15" tabindex="-1"></a>  prevList <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tempdata<span class="sc">$</span>FoodLeft,tempdata<span class="sc">$</span>FoodRight)</span>
-<span id="cb78-16"><a href="memDDM.html#cb78-16" tabindex="-1"></a>  data<span class="sc">$</span>PreviousEncounterLeft[n] <span class="ot">&lt;-</span> <span class="fu">sum</span>(prevList<span class="sc">==</span>data<span class="sc">$</span>FoodLeft[n])<span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb78-17"><a href="memDDM.html#cb78-17" tabindex="-1"></a>  data<span class="sc">$</span>PreviousEncounterRight[n] <span class="ot">&lt;-</span> <span class="fu">sum</span>(prevList<span class="sc">==</span>data<span class="sc">$</span>FoodRight[n])<span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb78-18"><a href="memDDM.html#cb78-18" tabindex="-1"></a>}</span>
-<span id="cb78-19"><a href="memDDM.html#cb78-19" tabindex="-1"></a>data<span class="sc">$</span>PreviousEncounterBoth <span class="ot">&lt;-</span> data<span class="sc">$</span>PreviousEncounterLeft<span class="sc">+</span>data<span class="sc">$</span>PreviousEncounterRight</span>
-<span id="cb78-20"><a href="memDDM.html#cb78-20" tabindex="-1"></a>data<span class="sc">$</span>PreviousEncounterChosen <span class="ot">&lt;-</span> </span>
-<span id="cb78-21"><a href="memDDM.html#cb78-21" tabindex="-1"></a>  <span class="fu">ifelse</span>(data<span class="sc">$</span>LeftRight<span class="sc">==</span><span class="dv">1</span>, data<span class="sc">$</span>PreviousEncounterLeft, data<span class="sc">$</span>PreviousEncounterRight)</span>
-<span id="cb78-22"><a href="memDDM.html#cb78-22" tabindex="-1"></a></span>
-<span id="cb78-23"><a href="memDDM.html#cb78-23" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb78-24"><a href="memDDM.html#cb78-24" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber) <span class="sc">%&gt;%</span></span>
-<span id="cb78-25"><a href="memDDM.html#cb78-25" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb78-26"><a href="memDDM.html#cb78-26" tabindex="-1"></a>    <span class="at">pe.median =</span> <span class="fu">median</span>(PreviousEncounterBoth),</span>
-<span id="cb78-27"><a href="memDDM.html#cb78-27" tabindex="-1"></a>    <span class="at">Familiarity =</span> <span class="fu">ifelse</span>(PreviousEncounterBoth <span class="sc">&gt;</span> pe.median, <span class="dv">1</span>, <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">factor</span>(<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>,<span class="st">&quot;High&quot;</span>)),</span>
-<span id="cb78-28"><a href="memDDM.html#cb78-28" tabindex="-1"></a>    <span class="at">vdiff =</span> ValueLeft<span class="sc">-</span>ValueRight,</span>
-<span id="cb78-29"><a href="memDDM.html#cb78-29" tabindex="-1"></a>    <span class="at">difficulty =</span> <span class="fu">abs</span>(ValueLeft<span class="sc">-</span>ValueRight),</span>
-<span id="cb78-30"><a href="memDDM.html#cb78-30" tabindex="-1"></a>    <span class="at">LeftRight =</span> <span class="fu">ifelse</span>(LeftRight<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb78-31"><a href="memDDM.html#cb78-31" tabindex="-1"></a>  )</span>
-<span id="cb78-32"><a href="memDDM.html#cb78-32" tabindex="-1"></a></span>
-<span id="cb78-33"><a href="memDDM.html#cb78-33" tabindex="-1"></a><span class="fu">write.csv</span>(data, <span class="st">&quot;data/mem-DDM-cleanSmithKrajbich2018.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="memDDM.html#cb80-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/mem-aDDM-smithkrajbich2018.RData&quot;</span>)</span>
+<span id="cb80-2"><a href="memDDM.html#cb80-2" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="memDDM.html#cb80-3" tabindex="-1"></a>twofoodeyedata <span class="ot">&lt;-</span> twofoodeyedata <span class="sc">%&gt;%</span></span>
+<span id="cb80-4"><a href="memDDM.html#cb80-4" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber, Trial) <span class="sc">%&gt;%</span></span>
+<span id="cb80-5"><a href="memDDM.html#cb80-5" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="co"># fixation number</span></span>
+<span id="cb80-6"><a href="memDDM.html#cb80-6" tabindex="-1"></a>    <span class="at">fixNum=</span><span class="fu">row_number</span>()</span>
+<span id="cb80-7"><a href="memDDM.html#cb80-7" tabindex="-1"></a>  ) </span>
+<span id="cb80-8"><a href="memDDM.html#cb80-8" tabindex="-1"></a></span>
+<span id="cb80-9"><a href="memDDM.html#cb80-9" tabindex="-1"></a><span class="co"># Running counts of the number of times the subjects have seen the left and right options across previous trials</span></span>
+<span id="cb80-10"><a href="memDDM.html#cb80-10" tabindex="-1"></a>twofoodchoicedata<span class="sc">$</span>PreviousEncounterLeft <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb80-11"><a href="memDDM.html#cb80-11" tabindex="-1"></a>twofoodchoicedata<span class="sc">$</span>PreviousEncounterRight <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb80-12"><a href="memDDM.html#cb80-12" tabindex="-1"></a>data <span class="ot">&lt;-</span> twofoodchoicedata[<span class="fu">order</span>(twofoodchoicedata<span class="sc">$</span>SubjectNumber, twofoodchoicedata<span class="sc">$</span>Trial),]</span>
+<span id="cb80-13"><a href="memDDM.html#cb80-13" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(data<span class="sc">$</span>SubjectNumber)) {</span>
+<span id="cb80-14"><a href="memDDM.html#cb80-14" tabindex="-1"></a>  tempdata <span class="ot">&lt;-</span> data[data<span class="sc">$</span>SubjectNumber<span class="sc">==</span>data<span class="sc">$</span>SubjectNumber[n] <span class="sc">&amp;</span> data<span class="sc">$</span>Trial<span class="sc">&lt;=</span>data<span class="sc">$</span>Trial[n],]</span>
+<span id="cb80-15"><a href="memDDM.html#cb80-15" tabindex="-1"></a>  prevList <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tempdata<span class="sc">$</span>FoodLeft,tempdata<span class="sc">$</span>FoodRight)</span>
+<span id="cb80-16"><a href="memDDM.html#cb80-16" tabindex="-1"></a>  data<span class="sc">$</span>PreviousEncounterLeft[n] <span class="ot">&lt;-</span> <span class="fu">sum</span>(prevList<span class="sc">==</span>data<span class="sc">$</span>FoodLeft[n])<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb80-17"><a href="memDDM.html#cb80-17" tabindex="-1"></a>  data<span class="sc">$</span>PreviousEncounterRight[n] <span class="ot">&lt;-</span> <span class="fu">sum</span>(prevList<span class="sc">==</span>data<span class="sc">$</span>FoodRight[n])<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb80-18"><a href="memDDM.html#cb80-18" tabindex="-1"></a>}</span>
+<span id="cb80-19"><a href="memDDM.html#cb80-19" tabindex="-1"></a>data<span class="sc">$</span>PreviousEncounterBoth <span class="ot">&lt;-</span> data<span class="sc">$</span>PreviousEncounterLeft<span class="sc">+</span>data<span class="sc">$</span>PreviousEncounterRight</span>
+<span id="cb80-20"><a href="memDDM.html#cb80-20" tabindex="-1"></a>data<span class="sc">$</span>PreviousEncounterChosen <span class="ot">&lt;-</span> </span>
+<span id="cb80-21"><a href="memDDM.html#cb80-21" tabindex="-1"></a>  <span class="fu">ifelse</span>(data<span class="sc">$</span>LeftRight<span class="sc">==</span><span class="dv">1</span>, data<span class="sc">$</span>PreviousEncounterLeft, data<span class="sc">$</span>PreviousEncounterRight)</span>
+<span id="cb80-22"><a href="memDDM.html#cb80-22" tabindex="-1"></a></span>
+<span id="cb80-23"><a href="memDDM.html#cb80-23" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb80-24"><a href="memDDM.html#cb80-24" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber) <span class="sc">%&gt;%</span></span>
+<span id="cb80-25"><a href="memDDM.html#cb80-25" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb80-26"><a href="memDDM.html#cb80-26" tabindex="-1"></a>    <span class="at">pe.median =</span> <span class="fu">median</span>(PreviousEncounterBoth),</span>
+<span id="cb80-27"><a href="memDDM.html#cb80-27" tabindex="-1"></a>    <span class="at">Familiarity =</span> <span class="fu">ifelse</span>(PreviousEncounterBoth <span class="sc">&gt;</span> pe.median, <span class="dv">1</span>, <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">factor</span>(<span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>,<span class="st">&quot;High&quot;</span>)),</span>
+<span id="cb80-28"><a href="memDDM.html#cb80-28" tabindex="-1"></a>    <span class="at">vdiff =</span> ValueLeft<span class="sc">-</span>ValueRight,</span>
+<span id="cb80-29"><a href="memDDM.html#cb80-29" tabindex="-1"></a>    <span class="at">difficulty =</span> <span class="fu">abs</span>(ValueLeft<span class="sc">-</span>ValueRight),</span>
+<span id="cb80-30"><a href="memDDM.html#cb80-30" tabindex="-1"></a>    <span class="at">LeftRight =</span> <span class="fu">ifelse</span>(LeftRight<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb80-31"><a href="memDDM.html#cb80-31" tabindex="-1"></a>  )</span>
+<span id="cb80-32"><a href="memDDM.html#cb80-32" tabindex="-1"></a></span>
+<span id="cb80-33"><a href="memDDM.html#cb80-33" tabindex="-1"></a><span class="fu">write.csv</span>(data, <span class="st">&quot;data/mem-DDM-cleanSmithKrajbich2018.csv&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -300,49 +308,49 @@ div.csl-indent {
 <div id="choice-probabilities" class="section level3 hasAnchor" number="4.3.1">
 <h3><span class="header-section-number">4.3.1</span> Choice probabilities<a href="memDDM.html#choice-probabilities" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Probability of choosing the left option wrt value differences.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="memDDM.html#cb79-1" tabindex="-1"></a>pdata.choice <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb79-2"><a href="memDDM.html#cb79-2" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber, vdiff) <span class="sc">%&gt;%</span></span>
-<span id="cb79-3"><a href="memDDM.html#cb79-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb79-4"><a href="memDDM.html#cb79-4" tabindex="-1"></a>    <span class="at">choice.means =</span> <span class="fu">mean</span>(LeftRight)</span>
-<span id="cb79-5"><a href="memDDM.html#cb79-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb79-6"><a href="memDDM.html#cb79-6" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb79-7"><a href="memDDM.html#cb79-7" tabindex="-1"></a>  <span class="fu">group_by</span>(vdiff) <span class="sc">%&gt;%</span></span>
-<span id="cb79-8"><a href="memDDM.html#cb79-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb79-9"><a href="memDDM.html#cb79-9" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(choice.means),</span>
-<span id="cb79-10"><a href="memDDM.html#cb79-10" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">std.error</span>(choice.means)</span>
-<span id="cb79-11"><a href="memDDM.html#cb79-11" tabindex="-1"></a>  )</span>
-<span id="cb79-12"><a href="memDDM.html#cb79-12" tabindex="-1"></a></span>
-<span id="cb79-13"><a href="memDDM.html#cb79-13" tabindex="-1"></a>plot.choice <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.choice, <span class="fu">aes</span>(<span class="at">x=</span>vdiff, <span class="at">y=</span>y)) <span class="sc">+</span></span>
-<span id="cb79-14"><a href="memDDM.html#cb79-14" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb79-15"><a href="memDDM.html#cb79-15" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb79-16"><a href="memDDM.html#cb79-16" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb79-17"><a href="memDDM.html#cb79-17" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb79-18"><a href="memDDM.html#cb79-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Pr(choose left)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Left - right rating&quot;</span>) <span class="sc">+</span></span>
-<span id="cb79-19"><a href="memDDM.html#cb79-19" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb79-20"><a href="memDDM.html#cb79-20" tabindex="-1"></a>plot.choice</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="memDDM.html#cb81-1" tabindex="-1"></a>pdata.choice <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb81-2"><a href="memDDM.html#cb81-2" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber, vdiff) <span class="sc">%&gt;%</span></span>
+<span id="cb81-3"><a href="memDDM.html#cb81-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb81-4"><a href="memDDM.html#cb81-4" tabindex="-1"></a>    <span class="at">choice.means =</span> <span class="fu">mean</span>(LeftRight)</span>
+<span id="cb81-5"><a href="memDDM.html#cb81-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb81-6"><a href="memDDM.html#cb81-6" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb81-7"><a href="memDDM.html#cb81-7" tabindex="-1"></a>  <span class="fu">group_by</span>(vdiff) <span class="sc">%&gt;%</span></span>
+<span id="cb81-8"><a href="memDDM.html#cb81-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb81-9"><a href="memDDM.html#cb81-9" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(choice.means),</span>
+<span id="cb81-10"><a href="memDDM.html#cb81-10" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">std.error</span>(choice.means)</span>
+<span id="cb81-11"><a href="memDDM.html#cb81-11" tabindex="-1"></a>  )</span>
+<span id="cb81-12"><a href="memDDM.html#cb81-12" tabindex="-1"></a></span>
+<span id="cb81-13"><a href="memDDM.html#cb81-13" tabindex="-1"></a>plot.choice <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.choice, <span class="fu">aes</span>(<span class="at">x=</span>vdiff, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb81-14"><a href="memDDM.html#cb81-14" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb81-15"><a href="memDDM.html#cb81-15" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb81-16"><a href="memDDM.html#cb81-16" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb81-17"><a href="memDDM.html#cb81-17" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb81-18"><a href="memDDM.html#cb81-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Pr(choose left)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Left - right rating&quot;</span>) <span class="sc">+</span></span>
+<span id="cb81-19"><a href="memDDM.html#cb81-19" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb81-20"><a href="memDDM.html#cb81-20" tabindex="-1"></a>plot.choice</span></code></pre></div>
 <p><img src="LateNightBayes_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
 </div>
 <div id="rts-grouped-by-familiarity." class="section level3 hasAnchor" number="4.3.2">
 <h3><span class="header-section-number">4.3.2</span> RTs, grouped by familiarity.<a href="memDDM.html#rts-grouped-by-familiarity." class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is the phenomenon I am trying to model with the GDDM. Response times across difficulties are shorter when the subject is more familiar with both stimuli.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="memDDM.html#cb80-1" tabindex="-1"></a>pdata.rt <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb80-2"><a href="memDDM.html#cb80-2" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber, Familiarity, difficulty) <span class="sc">%&gt;%</span></span>
-<span id="cb80-3"><a href="memDDM.html#cb80-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb80-4"><a href="memDDM.html#cb80-4" tabindex="-1"></a>    <span class="at">RT.means =</span> <span class="fu">mean</span>(RT)</span>
-<span id="cb80-5"><a href="memDDM.html#cb80-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb80-6"><a href="memDDM.html#cb80-6" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb80-7"><a href="memDDM.html#cb80-7" tabindex="-1"></a>  <span class="fu">group_by</span>(Familiarity, difficulty) <span class="sc">%&gt;%</span></span>
-<span id="cb80-8"><a href="memDDM.html#cb80-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb80-9"><a href="memDDM.html#cb80-9" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(RT.means),</span>
-<span id="cb80-10"><a href="memDDM.html#cb80-10" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">std.error</span>(RT.means)</span>
-<span id="cb80-11"><a href="memDDM.html#cb80-11" tabindex="-1"></a>  )</span>
-<span id="cb80-12"><a href="memDDM.html#cb80-12" tabindex="-1"></a></span>
-<span id="cb80-13"><a href="memDDM.html#cb80-13" tabindex="-1"></a>plot.rt <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.rt, <span class="fu">aes</span>(<span class="at">x=</span>difficulty, <span class="at">y=</span>y, <span class="at">group=</span>Familiarity, <span class="at">color=</span>Familiarity)) <span class="sc">+</span></span>
-<span id="cb80-14"><a href="memDDM.html#cb80-14" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb80-15"><a href="memDDM.html#cb80-15" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se, <span class="at">fill=</span>Familiarity), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb80-16"><a href="memDDM.html#cb80-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Response times (s)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Best - worst rating&quot;</span>) <span class="sc">+</span></span>
-<span id="cb80-17"><a href="memDDM.html#cb80-17" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb80-18"><a href="memDDM.html#cb80-18" tabindex="-1"></a>plot.rt</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="memDDM.html#cb82-1" tabindex="-1"></a>pdata.rt <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb82-2"><a href="memDDM.html#cb82-2" tabindex="-1"></a>  <span class="fu">group_by</span>(SubjectNumber, Familiarity, difficulty) <span class="sc">%&gt;%</span></span>
+<span id="cb82-3"><a href="memDDM.html#cb82-3" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb82-4"><a href="memDDM.html#cb82-4" tabindex="-1"></a>    <span class="at">RT.means =</span> <span class="fu">mean</span>(RT)</span>
+<span id="cb82-5"><a href="memDDM.html#cb82-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb82-6"><a href="memDDM.html#cb82-6" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb82-7"><a href="memDDM.html#cb82-7" tabindex="-1"></a>  <span class="fu">group_by</span>(Familiarity, difficulty) <span class="sc">%&gt;%</span></span>
+<span id="cb82-8"><a href="memDDM.html#cb82-8" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb82-9"><a href="memDDM.html#cb82-9" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(RT.means),</span>
+<span id="cb82-10"><a href="memDDM.html#cb82-10" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">std.error</span>(RT.means)</span>
+<span id="cb82-11"><a href="memDDM.html#cb82-11" tabindex="-1"></a>  )</span>
+<span id="cb82-12"><a href="memDDM.html#cb82-12" tabindex="-1"></a></span>
+<span id="cb82-13"><a href="memDDM.html#cb82-13" tabindex="-1"></a>plot.rt <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.rt, <span class="fu">aes</span>(<span class="at">x=</span>difficulty, <span class="at">y=</span>y, <span class="at">group=</span>Familiarity, <span class="at">color=</span>Familiarity)) <span class="sc">+</span></span>
+<span id="cb82-14"><a href="memDDM.html#cb82-14" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb82-15"><a href="memDDM.html#cb82-15" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se, <span class="at">fill=</span>Familiarity), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb82-16"><a href="memDDM.html#cb82-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Response times (s)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Best - worst rating&quot;</span>) <span class="sc">+</span></span>
+<span id="cb82-17"><a href="memDDM.html#cb82-17" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb82-18"><a href="memDDM.html#cb82-18" tabindex="-1"></a>plot.rt</span></code></pre></div>
 <p><img src="LateNightBayes_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
 </div>
 </div>
@@ -351,166 +359,166 @@ div.csl-indent {
 <p>I will use PyDDM by <span class="citation">(<a href="#ref-shinn2020">Shinn, Lam, and Murray 2020</a>)</span> to fit a GDDM to the data.</p>
 <div id="libraries-and-reading-in-the-data" class="section level3 hasAnchor" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> Libraries and reading in the data<a href="memDDM.html#libraries-and-reading-in-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="memDDM.html#cb81-1" tabindex="-1"></a><span class="im">from</span> ddm <span class="im">import</span> Model, Fittable, Sample, Bound, set_N_cpus, FitResult</span>
-<span id="cb81-2"><a href="memDDM.html#cb81-2" tabindex="-1"></a><span class="im">from</span> ddm.functions <span class="im">import</span> fit_adjust_model, display_model, fit_adjust_model</span>
-<span id="cb81-3"><a href="memDDM.html#cb81-3" tabindex="-1"></a><span class="im">from</span> ddm.models <span class="im">import</span> NoiseConstant, BoundConstant, BoundCollapsingExponential, OverlayChain, OverlayNonDecision, OverlayPoissonMixture, LossRobustBIC</span>
-<span id="cb81-4"><a href="memDDM.html#cb81-4" tabindex="-1"></a><span class="im">import</span> ddm.plot</span>
-<span id="cb81-5"><a href="memDDM.html#cb81-5" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb81-6"><a href="memDDM.html#cb81-6" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb81-7"><a href="memDDM.html#cb81-7" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb81-8"><a href="memDDM.html#cb81-8" tabindex="-1"></a></span>
-<span id="cb81-9"><a href="memDDM.html#cb81-9" tabindex="-1"></a>set_N_cpus(<span class="dv">4</span>)</span>
-<span id="cb81-10"><a href="memDDM.html#cb81-10" tabindex="-1"></a></span>
-<span id="cb81-11"><a href="memDDM.html#cb81-11" tabindex="-1"></a><span class="co"># read in csv data</span></span>
-<span id="cb81-12"><a href="memDDM.html#cb81-12" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;data/mem-DDM-cleanSmithKrajbich2018.csv&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb81-13"><a href="memDDM.html#cb81-13" tabindex="-1"></a>    df_rt <span class="op">=</span> pd.read_csv(f)</span>
-<span id="cb81-14"><a href="memDDM.html#cb81-14" tabindex="-1"></a></span>
-<span id="cb81-15"><a href="memDDM.html#cb81-15" tabindex="-1"></a>df_rt <span class="op">=</span> df_rt[df_rt[<span class="st">&quot;SubjectNumber&quot;</span>]<span class="op">==</span><span class="dv">1</span>]</span>
-<span id="cb81-16"><a href="memDDM.html#cb81-16" tabindex="-1"></a></span>
-<span id="cb81-17"><a href="memDDM.html#cb81-17" tabindex="-1"></a>sk_sample <span class="op">=</span> Sample.from_pandas_dataframe(df_rt, rt_column_name<span class="op">=</span><span class="st">&quot;RT&quot;</span>, correct_column_name<span class="op">=</span><span class="st">&quot;LeftRight&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="memDDM.html#cb83-1" tabindex="-1"></a><span class="im">from</span> ddm <span class="im">import</span> Model, Fittable, Sample, Bound, set_N_cpus, FitResult</span>
+<span id="cb83-2"><a href="memDDM.html#cb83-2" tabindex="-1"></a><span class="im">from</span> ddm.functions <span class="im">import</span> fit_adjust_model, display_model, fit_adjust_model</span>
+<span id="cb83-3"><a href="memDDM.html#cb83-3" tabindex="-1"></a><span class="im">from</span> ddm.models <span class="im">import</span> NoiseConstant, BoundConstant, BoundCollapsingExponential, OverlayChain, OverlayNonDecision, OverlayPoissonMixture, LossRobustBIC</span>
+<span id="cb83-4"><a href="memDDM.html#cb83-4" tabindex="-1"></a><span class="im">import</span> ddm.plot</span>
+<span id="cb83-5"><a href="memDDM.html#cb83-5" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb83-6"><a href="memDDM.html#cb83-6" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb83-7"><a href="memDDM.html#cb83-7" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb83-8"><a href="memDDM.html#cb83-8" tabindex="-1"></a></span>
+<span id="cb83-9"><a href="memDDM.html#cb83-9" tabindex="-1"></a>set_N_cpus(<span class="dv">4</span>)</span>
+<span id="cb83-10"><a href="memDDM.html#cb83-10" tabindex="-1"></a></span>
+<span id="cb83-11"><a href="memDDM.html#cb83-11" tabindex="-1"></a><span class="co"># read in csv data</span></span>
+<span id="cb83-12"><a href="memDDM.html#cb83-12" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;data/mem-DDM-cleanSmithKrajbich2018.csv&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb83-13"><a href="memDDM.html#cb83-13" tabindex="-1"></a>    df_rt <span class="op">=</span> pd.read_csv(f)</span>
+<span id="cb83-14"><a href="memDDM.html#cb83-14" tabindex="-1"></a></span>
+<span id="cb83-15"><a href="memDDM.html#cb83-15" tabindex="-1"></a>df_rt <span class="op">=</span> df_rt[df_rt[<span class="st">&quot;SubjectNumber&quot;</span>]<span class="op">==</span><span class="dv">1</span>]</span>
+<span id="cb83-16"><a href="memDDM.html#cb83-16" tabindex="-1"></a></span>
+<span id="cb83-17"><a href="memDDM.html#cb83-17" tabindex="-1"></a>sk_sample <span class="op">=</span> Sample.from_pandas_dataframe(df_rt, rt_column_name<span class="op">=</span><span class="st">&quot;RT&quot;</span>, correct_column_name<span class="op">=</span><span class="st">&quot;LeftRight&quot;</span>)</span></code></pre></div>
 </div>
 <div id="standard-ddm" class="section level3 hasAnchor" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Standard DDM<a href="memDDM.html#standard-ddm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Fix noise = 1. Why noise? We are going to fit collapsing bounds later, so need to fix something else. Noise is a more traditional candidate than drift rate as a fixed parameter.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb82-1"><a href="memDDM.html#cb82-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference</span></span>
-<span id="cb82-2"><a href="memDDM.html#cb82-2" tabindex="-1"></a><span class="kw">class</span> DriftScaled(ddm.models.Drift):</span>
-<span id="cb82-3"><a href="memDDM.html#cb82-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
-<span id="cb82-4"><a href="memDDM.html#cb82-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>]</span>
-<span id="cb82-5"><a href="memDDM.html#cb82-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb82-6"><a href="memDDM.html#cb82-6" tabindex="-1"></a>  </span>
-<span id="cb82-7"><a href="memDDM.html#cb82-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
-<span id="cb82-8"><a href="memDDM.html#cb82-8" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.driftvaluediff <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb82-9"><a href="memDDM.html#cb82-9" tabindex="-1"></a></span>
-<span id="cb82-10"><a href="memDDM.html#cb82-10" tabindex="-1"></a><span class="co"># fit the data</span></span>
-<span id="cb82-11"><a href="memDDM.html#cb82-11" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
-<span id="cb82-12"><a href="memDDM.html#cb82-12" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
-<span id="cb82-13"><a href="memDDM.html#cb82-13" tabindex="-1"></a>  drift <span class="op">=</span> DriftScaled(</span>
-<span id="cb82-14"><a href="memDDM.html#cb82-14" tabindex="-1"></a>    driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb82-15"><a href="memDDM.html#cb82-15" tabindex="-1"></a>  ),</span>
-<span id="cb82-16"><a href="memDDM.html#cb82-16" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
-<span id="cb82-17"><a href="memDDM.html#cb82-17" tabindex="-1"></a>  bound <span class="op">=</span> BoundConstant(B<span class="op">=</span>Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="fl">1.5</span>)),</span>
-<span id="cb82-18"><a href="memDDM.html#cb82-18" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
-<span id="cb82-19"><a href="memDDM.html#cb82-19" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
-<span id="cb82-20"><a href="memDDM.html#cb82-20" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
-<span id="cb82-21"><a href="memDDM.html#cb82-21" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb82-22"><a href="memDDM.html#cb82-22" tabindex="-1"></a>    ]</span>
-<span id="cb82-23"><a href="memDDM.html#cb82-23" tabindex="-1"></a>  ),</span>
-<span id="cb82-24"><a href="memDDM.html#cb82-24" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb82-25"><a href="memDDM.html#cb82-25" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb82-26"><a href="memDDM.html#cb82-26" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb82-27"><a href="memDDM.html#cb82-27" tabindex="-1"></a>)</span>
-<span id="cb82-28"><a href="memDDM.html#cb82-28" tabindex="-1"></a>fit_model_sk_standard <span class="op">=</span> fit_adjust_model(</span>
-<span id="cb82-29"><a href="memDDM.html#cb82-29" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
-<span id="cb82-30"><a href="memDDM.html#cb82-30" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
-<span id="cb82-31"><a href="memDDM.html#cb82-31" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
-<span id="cb82-32"><a href="memDDM.html#cb82-32" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb82-33"><a href="memDDM.html#cb82-33" tabindex="-1"></a>display_model(fit_model_sk_standard)</span>
-<span id="cb82-34"><a href="memDDM.html#cb82-34" tabindex="-1"></a></span>
-<span id="cb82-35"><a href="memDDM.html#cb82-35" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-standard.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb82-36"><a href="memDDM.html#cb82-36" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_standard))</span></code></pre></div>
-</div>
-<div id="mem-ddm-where-drift-scales-with-previous-exposure-to-the-chosen-option" class="section level3 hasAnchor" number="4.4.3">
-<h3><span class="header-section-number">4.4.3</span> mem-DDM where drift scales with previous exposure to the chosen option<a href="memDDM.html#mem-ddm-where-drift-scales-with-previous-exposure-to-the-chosen-option" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Just double checking that we get similar DDM parameters to the previous chapter, even though we aren’t accounting for attentional biases here.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="memDDM.html#cb83-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference and previous exposure to the chosen item</span></span>
-<span id="cb83-2"><a href="memDDM.html#cb83-2" tabindex="-1"></a><span class="kw">class</span> DriftScaled(ddm.models.Drift):</span>
-<span id="cb83-3"><a href="memDDM.html#cb83-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
-<span id="cb83-4"><a href="memDDM.html#cb83-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>,<span class="st">&quot;driftprevexp&quot;</span>]</span>
-<span id="cb83-5"><a href="memDDM.html#cb83-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>,<span class="st">&quot;PreviousEncounterChosen&quot;</span>]</span>
-<span id="cb83-6"><a href="memDDM.html#cb83-6" tabindex="-1"></a>  </span>
-<span id="cb83-7"><a href="memDDM.html#cb83-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
-<span id="cb83-8"><a href="memDDM.html#cb83-8" tabindex="-1"></a>    <span class="cf">return</span> (<span class="va">self</span>.driftvaluediff <span class="op">+</span> <span class="va">self</span>.driftprevexp <span class="op">*</span> conditions[<span class="st">&quot;PreviousEncounterChosen&quot;</span>]) <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb83-9"><a href="memDDM.html#cb83-9" tabindex="-1"></a></span>
-<span id="cb83-10"><a href="memDDM.html#cb83-10" tabindex="-1"></a><span class="co"># fit the data</span></span>
-<span id="cb83-11"><a href="memDDM.html#cb83-11" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
-<span id="cb83-12"><a href="memDDM.html#cb83-12" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
-<span id="cb83-13"><a href="memDDM.html#cb83-13" tabindex="-1"></a>  drift <span class="op">=</span> DriftScaled(</span>
-<span id="cb83-14"><a href="memDDM.html#cb83-14" tabindex="-1"></a>    driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>),</span>
-<span id="cb83-15"><a href="memDDM.html#cb83-15" tabindex="-1"></a>    driftprevexp   <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb83-16"><a href="memDDM.html#cb83-16" tabindex="-1"></a>  ),</span>
-<span id="cb83-17"><a href="memDDM.html#cb83-17" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
-<span id="cb83-18"><a href="memDDM.html#cb83-18" tabindex="-1"></a>  bound <span class="op">=</span> BoundConstant(B<span class="op">=</span>Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="fl">1.5</span>)),</span>
-<span id="cb83-19"><a href="memDDM.html#cb83-19" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
-<span id="cb83-20"><a href="memDDM.html#cb83-20" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
-<span id="cb83-21"><a href="memDDM.html#cb83-21" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
-<span id="cb83-22"><a href="memDDM.html#cb83-22" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb83-23"><a href="memDDM.html#cb83-23" tabindex="-1"></a>    ]</span>
-<span id="cb83-24"><a href="memDDM.html#cb83-24" tabindex="-1"></a>  ),</span>
-<span id="cb83-25"><a href="memDDM.html#cb83-25" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb83-26"><a href="memDDM.html#cb83-26" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb83-27"><a href="memDDM.html#cb83-27" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb83-28"><a href="memDDM.html#cb83-28" tabindex="-1"></a>)</span>
-<span id="cb83-29"><a href="memDDM.html#cb83-29" tabindex="-1"></a>fit_model_sk_driftScaled <span class="op">=</span> fit_adjust_model(</span>
-<span id="cb83-30"><a href="memDDM.html#cb83-30" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
-<span id="cb83-31"><a href="memDDM.html#cb83-31" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
-<span id="cb83-32"><a href="memDDM.html#cb83-32" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
-<span id="cb83-33"><a href="memDDM.html#cb83-33" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb83-34"><a href="memDDM.html#cb83-34" tabindex="-1"></a>display_model(fit_model_sk_driftScaled)</span>
-<span id="cb83-35"><a href="memDDM.html#cb83-35" tabindex="-1"></a></span>
-<span id="cb83-36"><a href="memDDM.html#cb83-36" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-dirftScaled.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb83-37"><a href="memDDM.html#cb83-37" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_driftScaled))</span></code></pre></div>
-<p>Good news everyone! Drift rate, accounting for wider boundaries, is in the same ballpark as before.</p>
-</div>
-<div id="ddm-with-collpasing-bounds" class="section level3 hasAnchor" number="4.4.4">
-<h3><span class="header-section-number">4.4.4</span> DDM with collpasing bounds<a href="memDDM.html#ddm-with-collpasing-bounds" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Using exponential bounds to speed up fitting. Faster than <span class="citation">(<a href="#ref-hawkins2015">Hawkins et al. 2015</a>)</span> Weibull CDF since it has fewer parameters. After some conversations with Daeyeol Lee in Lake Arrowhead 2020, it also doesn’t seem like it makes much difference what the functional form of the collapsing bounds is. In terms of predictive accuracy, they don’t make much difference. Since this is just early exploration and isn’t going out to any peer-reviewed journals… why not just go with the faster functional form?</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb84-1"><a href="memDDM.html#cb84-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference</span></span>
-<span id="cb84-2"><a href="memDDM.html#cb84-2" tabindex="-1"></a><span class="kw">class</span> DriftRate(ddm.models.Drift):</span>
+<span id="cb84-2"><a href="memDDM.html#cb84-2" tabindex="-1"></a><span class="kw">class</span> DriftScaled(ddm.models.Drift):</span>
 <span id="cb84-3"><a href="memDDM.html#cb84-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
 <span id="cb84-4"><a href="memDDM.html#cb84-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>]</span>
 <span id="cb84-5"><a href="memDDM.html#cb84-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>]</span>
 <span id="cb84-6"><a href="memDDM.html#cb84-6" tabindex="-1"></a>  </span>
 <span id="cb84-7"><a href="memDDM.html#cb84-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
 <span id="cb84-8"><a href="memDDM.html#cb84-8" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.driftvaluediff <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb84-9"><a href="memDDM.html#cb84-9" tabindex="-1"></a>    </span>
-<span id="cb84-10"><a href="memDDM.html#cb84-10" tabindex="-1"></a><span class="co"># Let bounds collapse after a certain delay</span></span>
-<span id="cb84-11"><a href="memDDM.html#cb84-11" tabindex="-1"></a><span class="kw">class</span> BoundCollapsingExponentialDelay(Bound):</span>
-<span id="cb84-12"><a href="memDDM.html#cb84-12" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Bound collapses exponentially over time.</span></span>
-<span id="cb84-13"><a href="memDDM.html#cb84-13" tabindex="-1"></a></span>
-<span id="cb84-14"><a href="memDDM.html#cb84-14" tabindex="-1"></a><span class="co">    Takes three parameters: </span></span>
-<span id="cb84-15"><a href="memDDM.html#cb84-15" tabindex="-1"></a></span>
-<span id="cb84-16"><a href="memDDM.html#cb84-16" tabindex="-1"></a><span class="co">    `B` - the bound at time t = 0.</span></span>
-<span id="cb84-17"><a href="memDDM.html#cb84-17" tabindex="-1"></a><span class="co">    `tau` - the time constant for the collapse, should be greater than</span></span>
-<span id="cb84-18"><a href="memDDM.html#cb84-18" tabindex="-1"></a><span class="co">    zero.</span></span>
-<span id="cb84-19"><a href="memDDM.html#cb84-19" tabindex="-1"></a><span class="co">    `t1` - the time at which the collapse begins, in seconds</span></span>
-<span id="cb84-20"><a href="memDDM.html#cb84-20" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
-<span id="cb84-21"><a href="memDDM.html#cb84-21" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;Delayed exponential collapsing bound&quot;</span></span>
-<span id="cb84-22"><a href="memDDM.html#cb84-22" tabindex="-1"></a>    required_parameters <span class="op">=</span> [<span class="st">&quot;B&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;t1&quot;</span>]</span>
-<span id="cb84-23"><a href="memDDM.html#cb84-23" tabindex="-1"></a>    <span class="kw">def</span> get_bound(<span class="va">self</span>, t, conditions, <span class="op">**</span>kwargs):</span>
-<span id="cb84-24"><a href="memDDM.html#cb84-24" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&lt;=</span> <span class="va">self</span>.t1:</span>
-<span id="cb84-25"><a href="memDDM.html#cb84-25" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B</span>
-<span id="cb84-26"><a href="memDDM.html#cb84-26" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&gt;</span> <span class="va">self</span>.t1:</span>
-<span id="cb84-27"><a href="memDDM.html#cb84-27" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B <span class="op">*</span> np.exp(<span class="op">-</span><span class="va">self</span>.tau<span class="op">*</span>(t<span class="op">-</span><span class="va">self</span>.t1))</span>
-<span id="cb84-28"><a href="memDDM.html#cb84-28" tabindex="-1"></a></span>
-<span id="cb84-29"><a href="memDDM.html#cb84-29" tabindex="-1"></a><span class="co"># fit the data</span></span>
-<span id="cb84-30"><a href="memDDM.html#cb84-30" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
-<span id="cb84-31"><a href="memDDM.html#cb84-31" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
-<span id="cb84-32"><a href="memDDM.html#cb84-32" tabindex="-1"></a>  drift <span class="op">=</span> DriftRate(driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>)),</span>
-<span id="cb84-33"><a href="memDDM.html#cb84-33" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
-<span id="cb84-34"><a href="memDDM.html#cb84-34" tabindex="-1"></a>  bound <span class="op">=</span> BoundCollapsingExponentialDelay(</span>
-<span id="cb84-35"><a href="memDDM.html#cb84-35" tabindex="-1"></a>    B <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="fl">1.5</span>),</span>
-<span id="cb84-36"><a href="memDDM.html#cb84-36" tabindex="-1"></a>    tau <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="dv">5</span>),</span>
-<span id="cb84-37"><a href="memDDM.html#cb84-37" tabindex="-1"></a>    t1 <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb84-38"><a href="memDDM.html#cb84-38" tabindex="-1"></a>  ),</span>
-<span id="cb84-39"><a href="memDDM.html#cb84-39" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
-<span id="cb84-40"><a href="memDDM.html#cb84-40" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
-<span id="cb84-41"><a href="memDDM.html#cb84-41" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
-<span id="cb84-42"><a href="memDDM.html#cb84-42" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb84-43"><a href="memDDM.html#cb84-43" tabindex="-1"></a>    ]</span>
-<span id="cb84-44"><a href="memDDM.html#cb84-44" tabindex="-1"></a>  ),</span>
-<span id="cb84-45"><a href="memDDM.html#cb84-45" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb84-46"><a href="memDDM.html#cb84-46" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb84-47"><a href="memDDM.html#cb84-47" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb84-48"><a href="memDDM.html#cb84-48" tabindex="-1"></a>)</span>
-<span id="cb84-49"><a href="memDDM.html#cb84-49" tabindex="-1"></a>fit_model_sk_collapseBound <span class="op">=</span> fit_adjust_model(</span>
-<span id="cb84-50"><a href="memDDM.html#cb84-50" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
-<span id="cb84-51"><a href="memDDM.html#cb84-51" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
-<span id="cb84-52"><a href="memDDM.html#cb84-52" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
-<span id="cb84-53"><a href="memDDM.html#cb84-53" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb84-54"><a href="memDDM.html#cb84-54" tabindex="-1"></a>display_model(fit_model_sk_collapseBound)</span>
-<span id="cb84-55"><a href="memDDM.html#cb84-55" tabindex="-1"></a></span>
-<span id="cb84-56"><a href="memDDM.html#cb84-56" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-collapseBound.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb84-57"><a href="memDDM.html#cb84-57" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_collapseBound))</span></code></pre></div>
+<span id="cb84-9"><a href="memDDM.html#cb84-9" tabindex="-1"></a></span>
+<span id="cb84-10"><a href="memDDM.html#cb84-10" tabindex="-1"></a><span class="co"># fit the data</span></span>
+<span id="cb84-11"><a href="memDDM.html#cb84-11" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
+<span id="cb84-12"><a href="memDDM.html#cb84-12" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
+<span id="cb84-13"><a href="memDDM.html#cb84-13" tabindex="-1"></a>  drift <span class="op">=</span> DriftScaled(</span>
+<span id="cb84-14"><a href="memDDM.html#cb84-14" tabindex="-1"></a>    driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb84-15"><a href="memDDM.html#cb84-15" tabindex="-1"></a>  ),</span>
+<span id="cb84-16"><a href="memDDM.html#cb84-16" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
+<span id="cb84-17"><a href="memDDM.html#cb84-17" tabindex="-1"></a>  bound <span class="op">=</span> BoundConstant(B<span class="op">=</span>Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="fl">1.5</span>)),</span>
+<span id="cb84-18"><a href="memDDM.html#cb84-18" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
+<span id="cb84-19"><a href="memDDM.html#cb84-19" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
+<span id="cb84-20"><a href="memDDM.html#cb84-20" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
+<span id="cb84-21"><a href="memDDM.html#cb84-21" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb84-22"><a href="memDDM.html#cb84-22" tabindex="-1"></a>    ]</span>
+<span id="cb84-23"><a href="memDDM.html#cb84-23" tabindex="-1"></a>  ),</span>
+<span id="cb84-24"><a href="memDDM.html#cb84-24" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb84-25"><a href="memDDM.html#cb84-25" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb84-26"><a href="memDDM.html#cb84-26" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb84-27"><a href="memDDM.html#cb84-27" tabindex="-1"></a>)</span>
+<span id="cb84-28"><a href="memDDM.html#cb84-28" tabindex="-1"></a>fit_model_sk_standard <span class="op">=</span> fit_adjust_model(</span>
+<span id="cb84-29"><a href="memDDM.html#cb84-29" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
+<span id="cb84-30"><a href="memDDM.html#cb84-30" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
+<span id="cb84-31"><a href="memDDM.html#cb84-31" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
+<span id="cb84-32"><a href="memDDM.html#cb84-32" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb84-33"><a href="memDDM.html#cb84-33" tabindex="-1"></a>display_model(fit_model_sk_standard)</span>
+<span id="cb84-34"><a href="memDDM.html#cb84-34" tabindex="-1"></a></span>
+<span id="cb84-35"><a href="memDDM.html#cb84-35" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-standard.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb84-36"><a href="memDDM.html#cb84-36" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_standard))</span></code></pre></div>
+</div>
+<div id="mem-ddm-where-drift-scales-with-previous-exposure-to-the-chosen-option" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> mem-DDM where drift scales with previous exposure to the chosen option<a href="memDDM.html#mem-ddm-where-drift-scales-with-previous-exposure-to-the-chosen-option" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Just double checking that we get similar DDM parameters to the previous chapter, even though we aren’t accounting for attentional biases here.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="memDDM.html#cb85-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference and previous exposure to the chosen item</span></span>
+<span id="cb85-2"><a href="memDDM.html#cb85-2" tabindex="-1"></a><span class="kw">class</span> DriftScaled(ddm.models.Drift):</span>
+<span id="cb85-3"><a href="memDDM.html#cb85-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
+<span id="cb85-4"><a href="memDDM.html#cb85-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>,<span class="st">&quot;driftprevexp&quot;</span>]</span>
+<span id="cb85-5"><a href="memDDM.html#cb85-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>,<span class="st">&quot;PreviousEncounterChosen&quot;</span>]</span>
+<span id="cb85-6"><a href="memDDM.html#cb85-6" tabindex="-1"></a>  </span>
+<span id="cb85-7"><a href="memDDM.html#cb85-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
+<span id="cb85-8"><a href="memDDM.html#cb85-8" tabindex="-1"></a>    <span class="cf">return</span> (<span class="va">self</span>.driftvaluediff <span class="op">+</span> <span class="va">self</span>.driftprevexp <span class="op">*</span> conditions[<span class="st">&quot;PreviousEncounterChosen&quot;</span>]) <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
+<span id="cb85-9"><a href="memDDM.html#cb85-9" tabindex="-1"></a></span>
+<span id="cb85-10"><a href="memDDM.html#cb85-10" tabindex="-1"></a><span class="co"># fit the data</span></span>
+<span id="cb85-11"><a href="memDDM.html#cb85-11" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
+<span id="cb85-12"><a href="memDDM.html#cb85-12" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
+<span id="cb85-13"><a href="memDDM.html#cb85-13" tabindex="-1"></a>  drift <span class="op">=</span> DriftScaled(</span>
+<span id="cb85-14"><a href="memDDM.html#cb85-14" tabindex="-1"></a>    driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>),</span>
+<span id="cb85-15"><a href="memDDM.html#cb85-15" tabindex="-1"></a>    driftprevexp   <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb85-16"><a href="memDDM.html#cb85-16" tabindex="-1"></a>  ),</span>
+<span id="cb85-17"><a href="memDDM.html#cb85-17" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
+<span id="cb85-18"><a href="memDDM.html#cb85-18" tabindex="-1"></a>  bound <span class="op">=</span> BoundConstant(B<span class="op">=</span>Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="fl">1.5</span>)),</span>
+<span id="cb85-19"><a href="memDDM.html#cb85-19" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
+<span id="cb85-20"><a href="memDDM.html#cb85-20" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
+<span id="cb85-21"><a href="memDDM.html#cb85-21" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
+<span id="cb85-22"><a href="memDDM.html#cb85-22" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb85-23"><a href="memDDM.html#cb85-23" tabindex="-1"></a>    ]</span>
+<span id="cb85-24"><a href="memDDM.html#cb85-24" tabindex="-1"></a>  ),</span>
+<span id="cb85-25"><a href="memDDM.html#cb85-25" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb85-26"><a href="memDDM.html#cb85-26" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb85-27"><a href="memDDM.html#cb85-27" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb85-28"><a href="memDDM.html#cb85-28" tabindex="-1"></a>)</span>
+<span id="cb85-29"><a href="memDDM.html#cb85-29" tabindex="-1"></a>fit_model_sk_driftScaled <span class="op">=</span> fit_adjust_model(</span>
+<span id="cb85-30"><a href="memDDM.html#cb85-30" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
+<span id="cb85-31"><a href="memDDM.html#cb85-31" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
+<span id="cb85-32"><a href="memDDM.html#cb85-32" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
+<span id="cb85-33"><a href="memDDM.html#cb85-33" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb85-34"><a href="memDDM.html#cb85-34" tabindex="-1"></a>display_model(fit_model_sk_driftScaled)</span>
+<span id="cb85-35"><a href="memDDM.html#cb85-35" tabindex="-1"></a></span>
+<span id="cb85-36"><a href="memDDM.html#cb85-36" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-dirftScaled.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb85-37"><a href="memDDM.html#cb85-37" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_driftScaled))</span></code></pre></div>
+<p>Good news everyone! Drift rate, accounting for wider boundaries, is in the same ballpark as before.</p>
+</div>
+<div id="ddm-with-collpasing-bounds" class="section level3 hasAnchor" number="4.4.4">
+<h3><span class="header-section-number">4.4.4</span> DDM with collpasing bounds<a href="memDDM.html#ddm-with-collpasing-bounds" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Using exponential bounds to speed up fitting. Faster than <span class="citation">(<a href="#ref-hawkins2015">Hawkins et al. 2015</a>)</span> Weibull CDF since it has fewer parameters. After some conversations with Daeyeol Lee in Lake Arrowhead 2020, it also doesn’t seem like it makes much difference what the functional form of the collapsing bounds is. In terms of predictive accuracy, they don’t make much difference. Since this is just early exploration and isn’t going out to any peer-reviewed journals… why not just go with the faster functional form?</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="memDDM.html#cb86-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference</span></span>
+<span id="cb86-2"><a href="memDDM.html#cb86-2" tabindex="-1"></a><span class="kw">class</span> DriftRate(ddm.models.Drift):</span>
+<span id="cb86-3"><a href="memDDM.html#cb86-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
+<span id="cb86-4"><a href="memDDM.html#cb86-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>]</span>
+<span id="cb86-5"><a href="memDDM.html#cb86-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>]</span>
+<span id="cb86-6"><a href="memDDM.html#cb86-6" tabindex="-1"></a>  </span>
+<span id="cb86-7"><a href="memDDM.html#cb86-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
+<span id="cb86-8"><a href="memDDM.html#cb86-8" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.driftvaluediff <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
+<span id="cb86-9"><a href="memDDM.html#cb86-9" tabindex="-1"></a>    </span>
+<span id="cb86-10"><a href="memDDM.html#cb86-10" tabindex="-1"></a><span class="co"># Let bounds collapse after a certain delay</span></span>
+<span id="cb86-11"><a href="memDDM.html#cb86-11" tabindex="-1"></a><span class="kw">class</span> BoundCollapsingExponentialDelay(Bound):</span>
+<span id="cb86-12"><a href="memDDM.html#cb86-12" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Bound collapses exponentially over time.</span></span>
+<span id="cb86-13"><a href="memDDM.html#cb86-13" tabindex="-1"></a></span>
+<span id="cb86-14"><a href="memDDM.html#cb86-14" tabindex="-1"></a><span class="co">    Takes three parameters: </span></span>
+<span id="cb86-15"><a href="memDDM.html#cb86-15" tabindex="-1"></a></span>
+<span id="cb86-16"><a href="memDDM.html#cb86-16" tabindex="-1"></a><span class="co">    `B` - the bound at time t = 0.</span></span>
+<span id="cb86-17"><a href="memDDM.html#cb86-17" tabindex="-1"></a><span class="co">    `tau` - the time constant for the collapse, should be greater than</span></span>
+<span id="cb86-18"><a href="memDDM.html#cb86-18" tabindex="-1"></a><span class="co">    zero.</span></span>
+<span id="cb86-19"><a href="memDDM.html#cb86-19" tabindex="-1"></a><span class="co">    `t1` - the time at which the collapse begins, in seconds</span></span>
+<span id="cb86-20"><a href="memDDM.html#cb86-20" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb86-21"><a href="memDDM.html#cb86-21" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;Delayed exponential collapsing bound&quot;</span></span>
+<span id="cb86-22"><a href="memDDM.html#cb86-22" tabindex="-1"></a>    required_parameters <span class="op">=</span> [<span class="st">&quot;B&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;t1&quot;</span>]</span>
+<span id="cb86-23"><a href="memDDM.html#cb86-23" tabindex="-1"></a>    <span class="kw">def</span> get_bound(<span class="va">self</span>, t, conditions, <span class="op">**</span>kwargs):</span>
+<span id="cb86-24"><a href="memDDM.html#cb86-24" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&lt;=</span> <span class="va">self</span>.t1:</span>
+<span id="cb86-25"><a href="memDDM.html#cb86-25" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B</span>
+<span id="cb86-26"><a href="memDDM.html#cb86-26" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&gt;</span> <span class="va">self</span>.t1:</span>
+<span id="cb86-27"><a href="memDDM.html#cb86-27" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B <span class="op">*</span> np.exp(<span class="op">-</span><span class="va">self</span>.tau<span class="op">*</span>(t<span class="op">-</span><span class="va">self</span>.t1))</span>
+<span id="cb86-28"><a href="memDDM.html#cb86-28" tabindex="-1"></a></span>
+<span id="cb86-29"><a href="memDDM.html#cb86-29" tabindex="-1"></a><span class="co"># fit the data</span></span>
+<span id="cb86-30"><a href="memDDM.html#cb86-30" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
+<span id="cb86-31"><a href="memDDM.html#cb86-31" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
+<span id="cb86-32"><a href="memDDM.html#cb86-32" tabindex="-1"></a>  drift <span class="op">=</span> DriftRate(driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">2</span>)),</span>
+<span id="cb86-33"><a href="memDDM.html#cb86-33" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
+<span id="cb86-34"><a href="memDDM.html#cb86-34" tabindex="-1"></a>  bound <span class="op">=</span> BoundCollapsingExponentialDelay(</span>
+<span id="cb86-35"><a href="memDDM.html#cb86-35" tabindex="-1"></a>    B <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="fl">1.5</span>),</span>
+<span id="cb86-36"><a href="memDDM.html#cb86-36" tabindex="-1"></a>    tau <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="dv">5</span>),</span>
+<span id="cb86-37"><a href="memDDM.html#cb86-37" tabindex="-1"></a>    t1 <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb86-38"><a href="memDDM.html#cb86-38" tabindex="-1"></a>  ),</span>
+<span id="cb86-39"><a href="memDDM.html#cb86-39" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
+<span id="cb86-40"><a href="memDDM.html#cb86-40" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
+<span id="cb86-41"><a href="memDDM.html#cb86-41" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
+<span id="cb86-42"><a href="memDDM.html#cb86-42" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb86-43"><a href="memDDM.html#cb86-43" tabindex="-1"></a>    ]</span>
+<span id="cb86-44"><a href="memDDM.html#cb86-44" tabindex="-1"></a>  ),</span>
+<span id="cb86-45"><a href="memDDM.html#cb86-45" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb86-46"><a href="memDDM.html#cb86-46" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb86-47"><a href="memDDM.html#cb86-47" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb86-48"><a href="memDDM.html#cb86-48" tabindex="-1"></a>)</span>
+<span id="cb86-49"><a href="memDDM.html#cb86-49" tabindex="-1"></a>fit_model_sk_collapseBound <span class="op">=</span> fit_adjust_model(</span>
+<span id="cb86-50"><a href="memDDM.html#cb86-50" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
+<span id="cb86-51"><a href="memDDM.html#cb86-51" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
+<span id="cb86-52"><a href="memDDM.html#cb86-52" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
+<span id="cb86-53"><a href="memDDM.html#cb86-53" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb86-54"><a href="memDDM.html#cb86-54" tabindex="-1"></a>display_model(fit_model_sk_collapseBound)</span>
+<span id="cb86-55"><a href="memDDM.html#cb86-55" tabindex="-1"></a></span>
+<span id="cb86-56"><a href="memDDM.html#cb86-56" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-collapseBound.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb86-57"><a href="memDDM.html#cb86-57" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_collapseBound))</span></code></pre></div>
 <ul>
 <li>Drift rate = 0.35</li>
 <li>Noise = 1</li>
@@ -523,67 +531,67 @@ div.csl-indent {
 <div id="mem-ddm-where-boundary-collapse-shape-scales-with-previous-exposure-to-both-items" class="section level3 hasAnchor" number="4.4.5">
 <h3><span class="header-section-number">4.4.5</span> mem-DDM where boundary collapse shape scales with previous exposure to both items<a href="memDDM.html#mem-ddm-where-boundary-collapse-shape-scales-with-previous-exposure-to-both-items" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Using exponential bounds where delay is scaled by previous exposure to both items.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="memDDM.html#cb85-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference</span></span>
-<span id="cb85-2"><a href="memDDM.html#cb85-2" tabindex="-1"></a><span class="kw">class</span> DriftRate(ddm.models.Drift):</span>
-<span id="cb85-3"><a href="memDDM.html#cb85-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
-<span id="cb85-4"><a href="memDDM.html#cb85-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>]</span>
-<span id="cb85-5"><a href="memDDM.html#cb85-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb85-6"><a href="memDDM.html#cb85-6" tabindex="-1"></a>  </span>
-<span id="cb85-7"><a href="memDDM.html#cb85-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
-<span id="cb85-8"><a href="memDDM.html#cb85-8" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.driftvaluediff <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb85-9"><a href="memDDM.html#cb85-9" tabindex="-1"></a>    </span>
-<span id="cb85-10"><a href="memDDM.html#cb85-10" tabindex="-1"></a><span class="co"># Let bounds collapse after a certain delay scaled by previous exposure</span></span>
-<span id="cb85-11"><a href="memDDM.html#cb85-11" tabindex="-1"></a><span class="kw">class</span> BoundCollapsingExponentialDelay(Bound):</span>
-<span id="cb85-12"><a href="memDDM.html#cb85-12" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Bound collapses exponentially over time.</span></span>
-<span id="cb85-13"><a href="memDDM.html#cb85-13" tabindex="-1"></a></span>
-<span id="cb85-14"><a href="memDDM.html#cb85-14" tabindex="-1"></a><span class="co">    Takes three parameters: </span></span>
-<span id="cb85-15"><a href="memDDM.html#cb85-15" tabindex="-1"></a></span>
-<span id="cb85-16"><a href="memDDM.html#cb85-16" tabindex="-1"></a><span class="co">    `B` - the bound at time t = 0.</span></span>
-<span id="cb85-17"><a href="memDDM.html#cb85-17" tabindex="-1"></a><span class="co">    `tau` - the time constant for the collapse, should be greater than</span></span>
-<span id="cb85-18"><a href="memDDM.html#cb85-18" tabindex="-1"></a><span class="co">    zero.</span></span>
-<span id="cb85-19"><a href="memDDM.html#cb85-19" tabindex="-1"></a><span class="co">    `t1` - the time at which the collapse begins, in seconds</span></span>
-<span id="cb85-20"><a href="memDDM.html#cb85-20" tabindex="-1"></a><span class="co">    `gam` - how does delay scale with previous exposure to both options</span></span>
-<span id="cb85-21"><a href="memDDM.html#cb85-21" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
-<span id="cb85-22"><a href="memDDM.html#cb85-22" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;Delayed exponential collapsing bound&quot;</span></span>
-<span id="cb85-23"><a href="memDDM.html#cb85-23" tabindex="-1"></a>    required_parameters <span class="op">=</span> [<span class="st">&quot;B&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;t1&quot;</span>, <span class="st">&quot;gam&quot;</span>]</span>
-<span id="cb85-24"><a href="memDDM.html#cb85-24" tabindex="-1"></a>    required_conditions <span class="op">=</span> [<span class="st">&quot;PreviousEncounterBoth&quot;</span>]</span>
-<span id="cb85-25"><a href="memDDM.html#cb85-25" tabindex="-1"></a>    <span class="kw">def</span> get_bound(<span class="va">self</span>, t, conditions, <span class="op">**</span>kwargs):</span>
-<span id="cb85-26"><a href="memDDM.html#cb85-26" tabindex="-1"></a>        scaledDelay <span class="op">=</span> <span class="va">self</span>.t1 <span class="op">+</span> <span class="va">self</span>.gam <span class="op">*</span> conditions[<span class="st">&quot;PreviousEncounterBoth&quot;</span>]</span>
-<span id="cb85-27"><a href="memDDM.html#cb85-27" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&lt;=</span> scaledDelay:</span>
-<span id="cb85-28"><a href="memDDM.html#cb85-28" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B</span>
-<span id="cb85-29"><a href="memDDM.html#cb85-29" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&gt;</span> scaledDelay:</span>
-<span id="cb85-30"><a href="memDDM.html#cb85-30" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B <span class="op">*</span> np.exp(<span class="op">-</span><span class="va">self</span>.tau<span class="op">*</span>(t<span class="op">-</span>scaledDelay))</span>
-<span id="cb85-31"><a href="memDDM.html#cb85-31" tabindex="-1"></a></span>
-<span id="cb85-32"><a href="memDDM.html#cb85-32" tabindex="-1"></a><span class="co"># fit the data</span></span>
-<span id="cb85-33"><a href="memDDM.html#cb85-33" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
-<span id="cb85-34"><a href="memDDM.html#cb85-34" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
-<span id="cb85-35"><a href="memDDM.html#cb85-35" tabindex="-1"></a>  drift <span class="op">=</span> DriftRate(driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.2</span>, maxval<span class="op">=</span><span class="fl">.5</span>)),</span>
-<span id="cb85-36"><a href="memDDM.html#cb85-36" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
-<span id="cb85-37"><a href="memDDM.html#cb85-37" tabindex="-1"></a>  bound <span class="op">=</span> BoundCollapsingExponentialDelay(</span>
-<span id="cb85-38"><a href="memDDM.html#cb85-38" tabindex="-1"></a>    B <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">1</span>, maxval<span class="op">=</span><span class="fl">1.4</span>),</span>
-<span id="cb85-39"><a href="memDDM.html#cb85-39" tabindex="-1"></a>    tau <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="dv">3</span>),</span>
-<span id="cb85-40"><a href="memDDM.html#cb85-40" tabindex="-1"></a>    t1 <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">10</span>),</span>
-<span id="cb85-41"><a href="memDDM.html#cb85-41" tabindex="-1"></a>    gam <span class="op">=</span> Fittable(minval<span class="op">=-</span><span class="dv">10</span>, maxval<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb85-42"><a href="memDDM.html#cb85-42" tabindex="-1"></a>  ),</span>
-<span id="cb85-43"><a href="memDDM.html#cb85-43" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
-<span id="cb85-44"><a href="memDDM.html#cb85-44" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
-<span id="cb85-45"><a href="memDDM.html#cb85-45" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
-<span id="cb85-46"><a href="memDDM.html#cb85-46" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb85-47"><a href="memDDM.html#cb85-47" tabindex="-1"></a>    ]</span>
-<span id="cb85-48"><a href="memDDM.html#cb85-48" tabindex="-1"></a>  ),</span>
-<span id="cb85-49"><a href="memDDM.html#cb85-49" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb85-50"><a href="memDDM.html#cb85-50" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
-<span id="cb85-51"><a href="memDDM.html#cb85-51" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb85-52"><a href="memDDM.html#cb85-52" tabindex="-1"></a>)</span>
-<span id="cb85-53"><a href="memDDM.html#cb85-53" tabindex="-1"></a>fit_model_sk_collapseBoundScaled <span class="op">=</span> fit_adjust_model(</span>
-<span id="cb85-54"><a href="memDDM.html#cb85-54" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
-<span id="cb85-55"><a href="memDDM.html#cb85-55" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
-<span id="cb85-56"><a href="memDDM.html#cb85-56" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
-<span id="cb85-57"><a href="memDDM.html#cb85-57" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb85-58"><a href="memDDM.html#cb85-58" tabindex="-1"></a>display_model(fit_model_sk_collapseBoundScaled)</span>
-<span id="cb85-59"><a href="memDDM.html#cb85-59" tabindex="-1"></a></span>
-<span id="cb85-60"><a href="memDDM.html#cb85-60" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-boundsScaled-additive.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb85-61"><a href="memDDM.html#cb85-61" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_collapseBoundScaled))</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a href="memDDM.html#cb87-1" tabindex="-1"></a><span class="co"># Let drift rate vary with value difference</span></span>
+<span id="cb87-2"><a href="memDDM.html#cb87-2" tabindex="-1"></a><span class="kw">class</span> DriftRate(ddm.models.Drift):</span>
+<span id="cb87-3"><a href="memDDM.html#cb87-3" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&quot;Drift depends linearly on value difference&quot;</span></span>
+<span id="cb87-4"><a href="memDDM.html#cb87-4" tabindex="-1"></a>  required_parameters <span class="op">=</span> [<span class="st">&quot;driftvaluediff&quot;</span>]</span>
+<span id="cb87-5"><a href="memDDM.html#cb87-5" tabindex="-1"></a>  required_conditions <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>]</span>
+<span id="cb87-6"><a href="memDDM.html#cb87-6" tabindex="-1"></a>  </span>
+<span id="cb87-7"><a href="memDDM.html#cb87-7" tabindex="-1"></a>  <span class="kw">def</span> get_drift(<span class="va">self</span>, conditions, <span class="op">**</span>kwargs):</span>
+<span id="cb87-8"><a href="memDDM.html#cb87-8" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.driftvaluediff <span class="op">*</span> conditions[<span class="st">&quot;vdiff&quot;</span>]</span>
+<span id="cb87-9"><a href="memDDM.html#cb87-9" tabindex="-1"></a>    </span>
+<span id="cb87-10"><a href="memDDM.html#cb87-10" tabindex="-1"></a><span class="co"># Let bounds collapse after a certain delay scaled by previous exposure</span></span>
+<span id="cb87-11"><a href="memDDM.html#cb87-11" tabindex="-1"></a><span class="kw">class</span> BoundCollapsingExponentialDelay(Bound):</span>
+<span id="cb87-12"><a href="memDDM.html#cb87-12" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Bound collapses exponentially over time.</span></span>
+<span id="cb87-13"><a href="memDDM.html#cb87-13" tabindex="-1"></a></span>
+<span id="cb87-14"><a href="memDDM.html#cb87-14" tabindex="-1"></a><span class="co">    Takes three parameters: </span></span>
+<span id="cb87-15"><a href="memDDM.html#cb87-15" tabindex="-1"></a></span>
+<span id="cb87-16"><a href="memDDM.html#cb87-16" tabindex="-1"></a><span class="co">    `B` - the bound at time t = 0.</span></span>
+<span id="cb87-17"><a href="memDDM.html#cb87-17" tabindex="-1"></a><span class="co">    `tau` - the time constant for the collapse, should be greater than</span></span>
+<span id="cb87-18"><a href="memDDM.html#cb87-18" tabindex="-1"></a><span class="co">    zero.</span></span>
+<span id="cb87-19"><a href="memDDM.html#cb87-19" tabindex="-1"></a><span class="co">    `t1` - the time at which the collapse begins, in seconds</span></span>
+<span id="cb87-20"><a href="memDDM.html#cb87-20" tabindex="-1"></a><span class="co">    `gam` - how does delay scale with previous exposure to both options</span></span>
+<span id="cb87-21"><a href="memDDM.html#cb87-21" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb87-22"><a href="memDDM.html#cb87-22" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;Delayed exponential collapsing bound&quot;</span></span>
+<span id="cb87-23"><a href="memDDM.html#cb87-23" tabindex="-1"></a>    required_parameters <span class="op">=</span> [<span class="st">&quot;B&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;t1&quot;</span>, <span class="st">&quot;gam&quot;</span>]</span>
+<span id="cb87-24"><a href="memDDM.html#cb87-24" tabindex="-1"></a>    required_conditions <span class="op">=</span> [<span class="st">&quot;PreviousEncounterBoth&quot;</span>]</span>
+<span id="cb87-25"><a href="memDDM.html#cb87-25" tabindex="-1"></a>    <span class="kw">def</span> get_bound(<span class="va">self</span>, t, conditions, <span class="op">**</span>kwargs):</span>
+<span id="cb87-26"><a href="memDDM.html#cb87-26" tabindex="-1"></a>        scaledDelay <span class="op">=</span> <span class="va">self</span>.t1 <span class="op">+</span> <span class="va">self</span>.gam <span class="op">*</span> conditions[<span class="st">&quot;PreviousEncounterBoth&quot;</span>]</span>
+<span id="cb87-27"><a href="memDDM.html#cb87-27" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&lt;=</span> scaledDelay:</span>
+<span id="cb87-28"><a href="memDDM.html#cb87-28" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B</span>
+<span id="cb87-29"><a href="memDDM.html#cb87-29" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&gt;</span> scaledDelay:</span>
+<span id="cb87-30"><a href="memDDM.html#cb87-30" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.B <span class="op">*</span> np.exp(<span class="op">-</span><span class="va">self</span>.tau<span class="op">*</span>(t<span class="op">-</span>scaledDelay))</span>
+<span id="cb87-31"><a href="memDDM.html#cb87-31" tabindex="-1"></a></span>
+<span id="cb87-32"><a href="memDDM.html#cb87-32" tabindex="-1"></a><span class="co"># fit the data</span></span>
+<span id="cb87-33"><a href="memDDM.html#cb87-33" tabindex="-1"></a>model_sk <span class="op">=</span> Model(</span>
+<span id="cb87-34"><a href="memDDM.html#cb87-34" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">&#39;SmithKrajbich2018 data, drift varies with value difference&#39;</span>,</span>
+<span id="cb87-35"><a href="memDDM.html#cb87-35" tabindex="-1"></a>  drift <span class="op">=</span> DriftRate(driftvaluediff <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.2</span>, maxval<span class="op">=</span><span class="fl">.5</span>)),</span>
+<span id="cb87-36"><a href="memDDM.html#cb87-36" tabindex="-1"></a>  noise <span class="op">=</span> NoiseConstant(noise <span class="op">=</span> <span class="dv">1</span>),</span>
+<span id="cb87-37"><a href="memDDM.html#cb87-37" tabindex="-1"></a>  bound <span class="op">=</span> BoundCollapsingExponentialDelay(</span>
+<span id="cb87-38"><a href="memDDM.html#cb87-38" tabindex="-1"></a>    B <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">1</span>, maxval<span class="op">=</span><span class="fl">1.4</span>),</span>
+<span id="cb87-39"><a href="memDDM.html#cb87-39" tabindex="-1"></a>    tau <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="fl">.1</span>, maxval<span class="op">=</span><span class="dv">3</span>),</span>
+<span id="cb87-40"><a href="memDDM.html#cb87-40" tabindex="-1"></a>    t1 <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">10</span>),</span>
+<span id="cb87-41"><a href="memDDM.html#cb87-41" tabindex="-1"></a>    gam <span class="op">=</span> Fittable(minval<span class="op">=-</span><span class="dv">10</span>, maxval<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb87-42"><a href="memDDM.html#cb87-42" tabindex="-1"></a>  ),</span>
+<span id="cb87-43"><a href="memDDM.html#cb87-43" tabindex="-1"></a>  overlay<span class="op">=</span>OverlayChain(</span>
+<span id="cb87-44"><a href="memDDM.html#cb87-44" tabindex="-1"></a>    overlays<span class="op">=</span>[</span>
+<span id="cb87-45"><a href="memDDM.html#cb87-45" tabindex="-1"></a>      OverlayNonDecision(nondectime <span class="op">=</span> Fittable(minval<span class="op">=</span><span class="dv">0</span>, maxval<span class="op">=</span><span class="dv">1</span>)), </span>
+<span id="cb87-46"><a href="memDDM.html#cb87-46" tabindex="-1"></a>      OverlayPoissonMixture(pmixturecoef<span class="op">=</span><span class="fl">.02</span>,rate<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb87-47"><a href="memDDM.html#cb87-47" tabindex="-1"></a>    ]</span>
+<span id="cb87-48"><a href="memDDM.html#cb87-48" tabindex="-1"></a>  ),</span>
+<span id="cb87-49"><a href="memDDM.html#cb87-49" tabindex="-1"></a>  dx<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb87-50"><a href="memDDM.html#cb87-50" tabindex="-1"></a>  dt<span class="op">=</span><span class="fl">.01</span>, </span>
+<span id="cb87-51"><a href="memDDM.html#cb87-51" tabindex="-1"></a>  T_dur<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb87-52"><a href="memDDM.html#cb87-52" tabindex="-1"></a>)</span>
+<span id="cb87-53"><a href="memDDM.html#cb87-53" tabindex="-1"></a>fit_model_sk_collapseBoundScaled <span class="op">=</span> fit_adjust_model(</span>
+<span id="cb87-54"><a href="memDDM.html#cb87-54" tabindex="-1"></a>  sample <span class="op">=</span> sk_sample, </span>
+<span id="cb87-55"><a href="memDDM.html#cb87-55" tabindex="-1"></a>  model <span class="op">=</span> model_sk,</span>
+<span id="cb87-56"><a href="memDDM.html#cb87-56" tabindex="-1"></a>  lossfunction <span class="op">=</span> LossRobustBIC,</span>
+<span id="cb87-57"><a href="memDDM.html#cb87-57" tabindex="-1"></a>  verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb87-58"><a href="memDDM.html#cb87-58" tabindex="-1"></a>display_model(fit_model_sk_collapseBoundScaled)</span>
+<span id="cb87-59"><a href="memDDM.html#cb87-59" tabindex="-1"></a></span>
+<span id="cb87-60"><a href="memDDM.html#cb87-60" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-boundsScaled-additive.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb87-61"><a href="memDDM.html#cb87-61" tabindex="-1"></a>    f.write(<span class="bu">repr</span>(fit_model_sk_collapseBoundScaled))</span></code></pre></div>
 <ul>
 <li>Drift rate = 0.37</li>
 <li>Noise = 1</li>
@@ -600,166 +608,166 @@ div.csl-indent {
 <p>Simulating the memDDM to see if it can predict the behavior we see in the data.</p>
 <div id="read-the-stored-models" class="section level3 hasAnchor" number="4.5.1">
 <h3><span class="header-section-number">4.5.1</span> Read the stored models<a href="memDDM.html#read-the-stored-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="memDDM.html#cb86-1" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-standard.txt&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb86-2"><a href="memDDM.html#cb86-2" tabindex="-1"></a>    fit_model_sk_standard <span class="op">=</span> <span class="bu">eval</span>(f.read())</span>
-<span id="cb86-3"><a href="memDDM.html#cb86-3" tabindex="-1"></a></span>
-<span id="cb86-4"><a href="memDDM.html#cb86-4" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-boundsScaled-additive.txt&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> f:</span>
-<span id="cb86-5"><a href="memDDM.html#cb86-5" tabindex="-1"></a>    fit_model_sk_collapseBoundScaled <span class="op">=</span> <span class="bu">eval</span>(f.read())</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb88-1"><a href="memDDM.html#cb88-1" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-standard.txt&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb88-2"><a href="memDDM.html#cb88-2" tabindex="-1"></a>    fit_model_sk_standard <span class="op">=</span> <span class="bu">eval</span>(f.read())</span>
+<span id="cb88-3"><a href="memDDM.html#cb88-3" tabindex="-1"></a></span>
+<span id="cb88-4"><a href="memDDM.html#cb88-4" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;temp/memDDM-boundsScaled-additive.txt&quot;</span>, <span class="st">&quot;r&quot;</span>) <span class="im">as</span> f:</span>
+<span id="cb88-5"><a href="memDDM.html#cb88-5" tabindex="-1"></a>    fit_model_sk_collapseBoundScaled <span class="op">=</span> <span class="bu">eval</span>(f.read())</span></code></pre></div>
 </div>
 <div id="define-a-function-to-get-mean-response-time." class="section level3 hasAnchor" number="4.5.2">
 <h3><span class="header-section-number">4.5.2</span> Define a function to get mean response time.<a href="memDDM.html#define-a-function-to-get-mean-response-time." class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This will be for a given a value difference and previous encounter since that’s how the simulations are generated.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a href="memDDM.html#cb87-1" tabindex="-1"></a><span class="kw">def</span> get_rt(solutionObj, modelObj):</span>
-<span id="cb87-2"><a href="memDDM.html#cb87-2" tabindex="-1"></a>  <span class="cf">return</span>(</span>
-<span id="cb87-3"><a href="memDDM.html#cb87-3" tabindex="-1"></a>    <span class="co"># top: mean RT for left choices * probability of left</span></span>
-<span id="cb87-4"><a href="memDDM.html#cb87-4" tabindex="-1"></a>    <span class="co"># bottom: mean RT for right choices * probability of right</span></span>
-<span id="cb87-5"><a href="memDDM.html#cb87-5" tabindex="-1"></a>    np.mean(</span>
-<span id="cb87-6"><a href="memDDM.html#cb87-6" tabindex="-1"></a>      <span class="bu">sum</span>(solutionObj.corr<span class="op">*</span>modelObj.t_domain()) <span class="op">+</span></span>
-<span id="cb87-7"><a href="memDDM.html#cb87-7" tabindex="-1"></a>      <span class="bu">sum</span>(solutionObj.err<span class="op">*</span>modelObj.t_domain())</span>
-<span id="cb87-8"><a href="memDDM.html#cb87-8" tabindex="-1"></a>    )</span>
-<span id="cb87-9"><a href="memDDM.html#cb87-9" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb89-1"><a href="memDDM.html#cb89-1" tabindex="-1"></a><span class="kw">def</span> get_rt(solutionObj, modelObj):</span>
+<span id="cb89-2"><a href="memDDM.html#cb89-2" tabindex="-1"></a>  <span class="cf">return</span>(</span>
+<span id="cb89-3"><a href="memDDM.html#cb89-3" tabindex="-1"></a>    <span class="co"># top: mean RT for left choices * probability of left</span></span>
+<span id="cb89-4"><a href="memDDM.html#cb89-4" tabindex="-1"></a>    <span class="co"># bottom: mean RT for right choices * probability of right</span></span>
+<span id="cb89-5"><a href="memDDM.html#cb89-5" tabindex="-1"></a>    np.mean(</span>
+<span id="cb89-6"><a href="memDDM.html#cb89-6" tabindex="-1"></a>      <span class="bu">sum</span>(solutionObj.corr<span class="op">*</span>modelObj.t_domain()) <span class="op">+</span></span>
+<span id="cb89-7"><a href="memDDM.html#cb89-7" tabindex="-1"></a>      <span class="bu">sum</span>(solutionObj.err<span class="op">*</span>modelObj.t_domain())</span>
+<span id="cb89-8"><a href="memDDM.html#cb89-8" tabindex="-1"></a>    )</span>
+<span id="cb89-9"><a href="memDDM.html#cb89-9" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="simulate-choices-and-response-times" class="section level3 hasAnchor" number="4.5.3">
 <h3><span class="header-section-number">4.5.3</span> Simulate choices and response times<a href="memDDM.html#simulate-choices-and-response-times" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Use unique combinations of value difference and previous encounters with both stimuli from the data.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb88-1"><a href="memDDM.html#cb88-1" tabindex="-1"></a>conditions <span class="op">=</span> [<span class="st">&quot;PreviousEncounterBoth&quot;</span>,<span class="st">&quot;vdiff&quot;</span>]</span>
-<span id="cb88-2"><a href="memDDM.html#cb88-2" tabindex="-1"></a>pe_unique <span class="op">=</span> np.unique(df_rt[conditions[<span class="dv">0</span>]])</span>
-<span id="cb88-3"><a href="memDDM.html#cb88-3" tabindex="-1"></a>vdiff_unique <span class="op">=</span> np.unique(df_rt[conditions[<span class="dv">1</span>]])</span>
-<span id="cb88-4"><a href="memDDM.html#cb88-4" tabindex="-1"></a>nObs <span class="op">=</span> <span class="bu">len</span>(pe_unique)<span class="op">*</span><span class="bu">len</span>(vdiff_unique)</span>
-<span id="cb88-5"><a href="memDDM.html#cb88-5" tabindex="-1"></a>placeholder <span class="op">=</span> np.repeat(<span class="fl">0.0</span>, nObs)</span>
-<span id="cb88-6"><a href="memDDM.html#cb88-6" tabindex="-1"></a>df_sim_standard <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb88-7"><a href="memDDM.html#cb88-7" tabindex="-1"></a>  data <span class="op">=</span> np.matrix([placeholder, placeholder, placeholder, placeholder]).T,</span>
-<span id="cb88-8"><a href="memDDM.html#cb88-8" tabindex="-1"></a>  columns <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>,<span class="st">&quot;pe&quot;</span>,<span class="st">&quot;choice&quot;</span>,<span class="st">&quot;rt&quot;</span>]</span>
-<span id="cb88-9"><a href="memDDM.html#cb88-9" tabindex="-1"></a>)</span>
-<span id="cb88-10"><a href="memDDM.html#cb88-10" tabindex="-1"></a>df_sim_CBS <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb88-11"><a href="memDDM.html#cb88-11" tabindex="-1"></a>  data <span class="op">=</span> np.matrix([placeholder, placeholder, placeholder, placeholder]).T,</span>
-<span id="cb88-12"><a href="memDDM.html#cb88-12" tabindex="-1"></a>  columns <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>,<span class="st">&quot;pe&quot;</span>,<span class="st">&quot;choice&quot;</span>,<span class="st">&quot;rt&quot;</span>]</span>
-<span id="cb88-13"><a href="memDDM.html#cb88-13" tabindex="-1"></a>)</span>
-<span id="cb88-14"><a href="memDDM.html#cb88-14" tabindex="-1"></a></span>
-<span id="cb88-15"><a href="memDDM.html#cb88-15" tabindex="-1"></a>ind <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb88-16"><a href="memDDM.html#cb88-16" tabindex="-1"></a><span class="cf">for</span> vd <span class="kw">in</span> vdiff_unique:</span>
-<span id="cb88-17"><a href="memDDM.html#cb88-17" tabindex="-1"></a>  <span class="cf">for</span> pe <span class="kw">in</span> pe_unique:</span>
-<span id="cb88-18"><a href="memDDM.html#cb88-18" tabindex="-1"></a>      </span>
-<span id="cb88-19"><a href="memDDM.html#cb88-19" tabindex="-1"></a>      ind <span class="op">=</span> ind <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb88-20"><a href="memDDM.html#cb88-20" tabindex="-1"></a>      </span>
-<span id="cb88-21"><a href="memDDM.html#cb88-21" tabindex="-1"></a>      sol_standard <span class="op">=</span> fit_model_sk_standard.solve(</span>
-<span id="cb88-22"><a href="memDDM.html#cb88-22" tabindex="-1"></a>        conditions <span class="op">=</span> {</span>
-<span id="cb88-23"><a href="memDDM.html#cb88-23" tabindex="-1"></a>          <span class="st">&quot;vdiff&quot;</span>:vd,</span>
-<span id="cb88-24"><a href="memDDM.html#cb88-24" tabindex="-1"></a>          <span class="st">&quot;PreviousEncounterBoth&quot;</span>:pe</span>
-<span id="cb88-25"><a href="memDDM.html#cb88-25" tabindex="-1"></a>        }</span>
-<span id="cb88-26"><a href="memDDM.html#cb88-26" tabindex="-1"></a>      )</span>
-<span id="cb88-27"><a href="memDDM.html#cb88-27" tabindex="-1"></a>      </span>
-<span id="cb88-28"><a href="memDDM.html#cb88-28" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;vdiff&quot;</span>][ind] <span class="op">=</span> vd</span>
-<span id="cb88-29"><a href="memDDM.html#cb88-29" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;pe&quot;</span>][ind] <span class="op">=</span> pe</span>
-<span id="cb88-30"><a href="memDDM.html#cb88-30" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;choice&quot;</span>][ind] <span class="op">=</span> sol_standard.prob_correct()</span>
-<span id="cb88-31"><a href="memDDM.html#cb88-31" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;rt&quot;</span>][ind] <span class="op">=</span> get_rt(sol_standard, model_sk)</span>
-<span id="cb88-32"><a href="memDDM.html#cb88-32" tabindex="-1"></a>      </span>
-<span id="cb88-33"><a href="memDDM.html#cb88-33" tabindex="-1"></a>      sol_collapseBoundScaled <span class="op">=</span> fit_model_sk_collapseBoundScaled.solve(</span>
-<span id="cb88-34"><a href="memDDM.html#cb88-34" tabindex="-1"></a>        conditions <span class="op">=</span> {</span>
-<span id="cb88-35"><a href="memDDM.html#cb88-35" tabindex="-1"></a>          <span class="st">&quot;vdiff&quot;</span>:vd,</span>
-<span id="cb88-36"><a href="memDDM.html#cb88-36" tabindex="-1"></a>          <span class="st">&quot;PreviousEncounterBoth&quot;</span>:pe</span>
-<span id="cb88-37"><a href="memDDM.html#cb88-37" tabindex="-1"></a>        }</span>
-<span id="cb88-38"><a href="memDDM.html#cb88-38" tabindex="-1"></a>      )</span>
-<span id="cb88-39"><a href="memDDM.html#cb88-39" tabindex="-1"></a>      </span>
-<span id="cb88-40"><a href="memDDM.html#cb88-40" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;vdiff&quot;</span>][ind] <span class="op">=</span> vd</span>
-<span id="cb88-41"><a href="memDDM.html#cb88-41" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;pe&quot;</span>][ind] <span class="op">=</span> pe</span>
-<span id="cb88-42"><a href="memDDM.html#cb88-42" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;choice&quot;</span>][ind] <span class="op">=</span> sol_collapseBoundScaled.prob_correct()</span>
-<span id="cb88-43"><a href="memDDM.html#cb88-43" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;rt&quot;</span>][ind] <span class="op">=</span> get_rt(sol_collapseBoundScaled, model_sk)</span>
-<span id="cb88-44"><a href="memDDM.html#cb88-44" tabindex="-1"></a>      </span>
-<span id="cb88-45"><a href="memDDM.html#cb88-45" tabindex="-1"></a>df_sim_standard.to_csv(<span class="st">&quot;temp/memDDM-sim-standard.csv&quot;</span>)</span>
-<span id="cb88-46"><a href="memDDM.html#cb88-46" tabindex="-1"></a>df_sim_CBS.to_csv(<span class="st">&quot;temp/memDDM-sim-collapseBoundScaled.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb90-1"><a href="memDDM.html#cb90-1" tabindex="-1"></a>conditions <span class="op">=</span> [<span class="st">&quot;PreviousEncounterBoth&quot;</span>,<span class="st">&quot;vdiff&quot;</span>]</span>
+<span id="cb90-2"><a href="memDDM.html#cb90-2" tabindex="-1"></a>pe_unique <span class="op">=</span> np.unique(df_rt[conditions[<span class="dv">0</span>]])</span>
+<span id="cb90-3"><a href="memDDM.html#cb90-3" tabindex="-1"></a>vdiff_unique <span class="op">=</span> np.unique(df_rt[conditions[<span class="dv">1</span>]])</span>
+<span id="cb90-4"><a href="memDDM.html#cb90-4" tabindex="-1"></a>nObs <span class="op">=</span> <span class="bu">len</span>(pe_unique)<span class="op">*</span><span class="bu">len</span>(vdiff_unique)</span>
+<span id="cb90-5"><a href="memDDM.html#cb90-5" tabindex="-1"></a>placeholder <span class="op">=</span> np.repeat(<span class="fl">0.0</span>, nObs)</span>
+<span id="cb90-6"><a href="memDDM.html#cb90-6" tabindex="-1"></a>df_sim_standard <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb90-7"><a href="memDDM.html#cb90-7" tabindex="-1"></a>  data <span class="op">=</span> np.matrix([placeholder, placeholder, placeholder, placeholder]).T,</span>
+<span id="cb90-8"><a href="memDDM.html#cb90-8" tabindex="-1"></a>  columns <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>,<span class="st">&quot;pe&quot;</span>,<span class="st">&quot;choice&quot;</span>,<span class="st">&quot;rt&quot;</span>]</span>
+<span id="cb90-9"><a href="memDDM.html#cb90-9" tabindex="-1"></a>)</span>
+<span id="cb90-10"><a href="memDDM.html#cb90-10" tabindex="-1"></a>df_sim_CBS <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb90-11"><a href="memDDM.html#cb90-11" tabindex="-1"></a>  data <span class="op">=</span> np.matrix([placeholder, placeholder, placeholder, placeholder]).T,</span>
+<span id="cb90-12"><a href="memDDM.html#cb90-12" tabindex="-1"></a>  columns <span class="op">=</span> [<span class="st">&quot;vdiff&quot;</span>,<span class="st">&quot;pe&quot;</span>,<span class="st">&quot;choice&quot;</span>,<span class="st">&quot;rt&quot;</span>]</span>
+<span id="cb90-13"><a href="memDDM.html#cb90-13" tabindex="-1"></a>)</span>
+<span id="cb90-14"><a href="memDDM.html#cb90-14" tabindex="-1"></a></span>
+<span id="cb90-15"><a href="memDDM.html#cb90-15" tabindex="-1"></a>ind <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb90-16"><a href="memDDM.html#cb90-16" tabindex="-1"></a><span class="cf">for</span> vd <span class="kw">in</span> vdiff_unique:</span>
+<span id="cb90-17"><a href="memDDM.html#cb90-17" tabindex="-1"></a>  <span class="cf">for</span> pe <span class="kw">in</span> pe_unique:</span>
+<span id="cb90-18"><a href="memDDM.html#cb90-18" tabindex="-1"></a>      </span>
+<span id="cb90-19"><a href="memDDM.html#cb90-19" tabindex="-1"></a>      ind <span class="op">=</span> ind <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb90-20"><a href="memDDM.html#cb90-20" tabindex="-1"></a>      </span>
+<span id="cb90-21"><a href="memDDM.html#cb90-21" tabindex="-1"></a>      sol_standard <span class="op">=</span> fit_model_sk_standard.solve(</span>
+<span id="cb90-22"><a href="memDDM.html#cb90-22" tabindex="-1"></a>        conditions <span class="op">=</span> {</span>
+<span id="cb90-23"><a href="memDDM.html#cb90-23" tabindex="-1"></a>          <span class="st">&quot;vdiff&quot;</span>:vd,</span>
+<span id="cb90-24"><a href="memDDM.html#cb90-24" tabindex="-1"></a>          <span class="st">&quot;PreviousEncounterBoth&quot;</span>:pe</span>
+<span id="cb90-25"><a href="memDDM.html#cb90-25" tabindex="-1"></a>        }</span>
+<span id="cb90-26"><a href="memDDM.html#cb90-26" tabindex="-1"></a>      )</span>
+<span id="cb90-27"><a href="memDDM.html#cb90-27" tabindex="-1"></a>      </span>
+<span id="cb90-28"><a href="memDDM.html#cb90-28" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;vdiff&quot;</span>][ind] <span class="op">=</span> vd</span>
+<span id="cb90-29"><a href="memDDM.html#cb90-29" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;pe&quot;</span>][ind] <span class="op">=</span> pe</span>
+<span id="cb90-30"><a href="memDDM.html#cb90-30" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;choice&quot;</span>][ind] <span class="op">=</span> sol_standard.prob_correct()</span>
+<span id="cb90-31"><a href="memDDM.html#cb90-31" tabindex="-1"></a>      df_sim_standard[<span class="st">&quot;rt&quot;</span>][ind] <span class="op">=</span> get_rt(sol_standard, model_sk)</span>
+<span id="cb90-32"><a href="memDDM.html#cb90-32" tabindex="-1"></a>      </span>
+<span id="cb90-33"><a href="memDDM.html#cb90-33" tabindex="-1"></a>      sol_collapseBoundScaled <span class="op">=</span> fit_model_sk_collapseBoundScaled.solve(</span>
+<span id="cb90-34"><a href="memDDM.html#cb90-34" tabindex="-1"></a>        conditions <span class="op">=</span> {</span>
+<span id="cb90-35"><a href="memDDM.html#cb90-35" tabindex="-1"></a>          <span class="st">&quot;vdiff&quot;</span>:vd,</span>
+<span id="cb90-36"><a href="memDDM.html#cb90-36" tabindex="-1"></a>          <span class="st">&quot;PreviousEncounterBoth&quot;</span>:pe</span>
+<span id="cb90-37"><a href="memDDM.html#cb90-37" tabindex="-1"></a>        }</span>
+<span id="cb90-38"><a href="memDDM.html#cb90-38" tabindex="-1"></a>      )</span>
+<span id="cb90-39"><a href="memDDM.html#cb90-39" tabindex="-1"></a>      </span>
+<span id="cb90-40"><a href="memDDM.html#cb90-40" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;vdiff&quot;</span>][ind] <span class="op">=</span> vd</span>
+<span id="cb90-41"><a href="memDDM.html#cb90-41" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;pe&quot;</span>][ind] <span class="op">=</span> pe</span>
+<span id="cb90-42"><a href="memDDM.html#cb90-42" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;choice&quot;</span>][ind] <span class="op">=</span> sol_collapseBoundScaled.prob_correct()</span>
+<span id="cb90-43"><a href="memDDM.html#cb90-43" tabindex="-1"></a>      df_sim_CBS[<span class="st">&quot;rt&quot;</span>][ind] <span class="op">=</span> get_rt(sol_collapseBoundScaled, model_sk)</span>
+<span id="cb90-44"><a href="memDDM.html#cb90-44" tabindex="-1"></a>      </span>
+<span id="cb90-45"><a href="memDDM.html#cb90-45" tabindex="-1"></a>df_sim_standard.to_csv(<span class="st">&quot;temp/memDDM-sim-standard.csv&quot;</span>)</span>
+<span id="cb90-46"><a href="memDDM.html#cb90-46" tabindex="-1"></a>df_sim_CBS.to_csv(<span class="st">&quot;temp/memDDM-sim-collapseBoundScaled.csv&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="compare-simulations-and-data" class="section level2 hasAnchor" number="4.6">
 <h2><span class="header-section-number">4.6</span> Compare simulations and data<a href="memDDM.html#compare-simulations-and-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="choices" class="section level3 hasAnchor" number="4.6.1">
 <h3><span class="header-section-number">4.6.1</span> Choices<a href="memDDM.html#choices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="memDDM.html#cb89-1" tabindex="-1"></a><span class="co">#sim.DDM &lt;- read.csv(&quot;temp/memDDM-sim-standard.csv&quot;)</span></span>
-<span id="cb89-2"><a href="memDDM.html#cb89-2" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;temp/memDDM-sim-collapseBoundScaled.csv&quot;</span>)</span>
-<span id="cb89-3"><a href="memDDM.html#cb89-3" tabindex="-1"></a></span>
-<span id="cb89-4"><a href="memDDM.html#cb89-4" tabindex="-1"></a><span class="co"># sim.DDM &lt;- sim.DDM %&gt;%</span></span>
-<span id="cb89-5"><a href="memDDM.html#cb89-5" tabindex="-1"></a><span class="co">#   group_by(vdiff) %&gt;%</span></span>
-<span id="cb89-6"><a href="memDDM.html#cb89-6" tabindex="-1"></a><span class="co">#   summarize(</span></span>
-<span id="cb89-7"><a href="memDDM.html#cb89-7" tabindex="-1"></a><span class="co">#     y = mean(choice),</span></span>
-<span id="cb89-8"><a href="memDDM.html#cb89-8" tabindex="-1"></a><span class="co">#     Dataset = &quot;DDM&quot;,</span></span>
-<span id="cb89-9"><a href="memDDM.html#cb89-9" tabindex="-1"></a><span class="co">#     se = NA</span></span>
-<span id="cb89-10"><a href="memDDM.html#cb89-10" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb89-11"><a href="memDDM.html#cb89-11" tabindex="-1"></a></span>
-<span id="cb89-12"><a href="memDDM.html#cb89-12" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> sim.memDDM <span class="sc">%&gt;%</span></span>
-<span id="cb89-13"><a href="memDDM.html#cb89-13" tabindex="-1"></a>  <span class="fu">group_by</span>(vdiff) <span class="sc">%&gt;%</span></span>
-<span id="cb89-14"><a href="memDDM.html#cb89-14" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb89-15"><a href="memDDM.html#cb89-15" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(choice),</span>
-<span id="cb89-16"><a href="memDDM.html#cb89-16" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="st">&quot;memDDM&quot;</span>,</span>
-<span id="cb89-17"><a href="memDDM.html#cb89-17" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">NA</span></span>
-<span id="cb89-18"><a href="memDDM.html#cb89-18" tabindex="-1"></a>  )</span>
-<span id="cb89-19"><a href="memDDM.html#cb89-19" tabindex="-1"></a></span>
-<span id="cb89-20"><a href="memDDM.html#cb89-20" tabindex="-1"></a>pdata.choice<span class="sc">$</span>Dataset <span class="ot">&lt;-</span> <span class="st">&quot;Data&quot;</span></span>
-<span id="cb89-21"><a href="memDDM.html#cb89-21" tabindex="-1"></a></span>
-<span id="cb89-22"><a href="memDDM.html#cb89-22" tabindex="-1"></a>pdata.compare.choice <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(sim.memDDM, pdata.choice)</span>
-<span id="cb89-23"><a href="memDDM.html#cb89-23" tabindex="-1"></a></span>
-<span id="cb89-24"><a href="memDDM.html#cb89-24" tabindex="-1"></a>plot.compare.choice <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.compare.choice, <span class="fu">aes</span>(<span class="at">x=</span>vdiff, <span class="at">y=</span>y, <span class="at">color=</span>Dataset, <span class="at">linetype=</span>Dataset)) <span class="sc">+</span></span>
-<span id="cb89-25"><a href="memDDM.html#cb89-25" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb89-26"><a href="memDDM.html#cb89-26" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb89-27"><a href="memDDM.html#cb89-27" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb89-28"><a href="memDDM.html#cb89-28" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se, <span class="at">fill=</span>Dataset), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb89-29"><a href="memDDM.html#cb89-29" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Pr(choose left)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Left - right rating&quot;</span>) <span class="sc">+</span></span>
-<span id="cb89-30"><a href="memDDM.html#cb89-30" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb89-31"><a href="memDDM.html#cb89-31" tabindex="-1"></a>  <span class="fu">scale_color_futurama</span>() <span class="sc">+</span></span>
-<span id="cb89-32"><a href="memDDM.html#cb89-32" tabindex="-1"></a>  <span class="fu">scale_fill_futurama</span>()</span>
-<span id="cb89-33"><a href="memDDM.html#cb89-33" tabindex="-1"></a>plot.compare.choice</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="memDDM.html#cb91-1" tabindex="-1"></a><span class="co">#sim.DDM &lt;- read.csv(&quot;temp/memDDM-sim-standard.csv&quot;)</span></span>
+<span id="cb91-2"><a href="memDDM.html#cb91-2" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;temp/memDDM-sim-collapseBoundScaled.csv&quot;</span>)</span>
+<span id="cb91-3"><a href="memDDM.html#cb91-3" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="memDDM.html#cb91-4" tabindex="-1"></a><span class="co"># sim.DDM &lt;- sim.DDM %&gt;%</span></span>
+<span id="cb91-5"><a href="memDDM.html#cb91-5" tabindex="-1"></a><span class="co">#   group_by(vdiff) %&gt;%</span></span>
+<span id="cb91-6"><a href="memDDM.html#cb91-6" tabindex="-1"></a><span class="co">#   summarize(</span></span>
+<span id="cb91-7"><a href="memDDM.html#cb91-7" tabindex="-1"></a><span class="co">#     y = mean(choice),</span></span>
+<span id="cb91-8"><a href="memDDM.html#cb91-8" tabindex="-1"></a><span class="co">#     Dataset = &quot;DDM&quot;,</span></span>
+<span id="cb91-9"><a href="memDDM.html#cb91-9" tabindex="-1"></a><span class="co">#     se = NA</span></span>
+<span id="cb91-10"><a href="memDDM.html#cb91-10" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb91-11"><a href="memDDM.html#cb91-11" tabindex="-1"></a></span>
+<span id="cb91-12"><a href="memDDM.html#cb91-12" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> sim.memDDM <span class="sc">%&gt;%</span></span>
+<span id="cb91-13"><a href="memDDM.html#cb91-13" tabindex="-1"></a>  <span class="fu">group_by</span>(vdiff) <span class="sc">%&gt;%</span></span>
+<span id="cb91-14"><a href="memDDM.html#cb91-14" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb91-15"><a href="memDDM.html#cb91-15" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(choice),</span>
+<span id="cb91-16"><a href="memDDM.html#cb91-16" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="st">&quot;memDDM&quot;</span>,</span>
+<span id="cb91-17"><a href="memDDM.html#cb91-17" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">NA</span></span>
+<span id="cb91-18"><a href="memDDM.html#cb91-18" tabindex="-1"></a>  )</span>
+<span id="cb91-19"><a href="memDDM.html#cb91-19" tabindex="-1"></a></span>
+<span id="cb91-20"><a href="memDDM.html#cb91-20" tabindex="-1"></a>pdata.choice<span class="sc">$</span>Dataset <span class="ot">&lt;-</span> <span class="st">&quot;Data&quot;</span></span>
+<span id="cb91-21"><a href="memDDM.html#cb91-21" tabindex="-1"></a></span>
+<span id="cb91-22"><a href="memDDM.html#cb91-22" tabindex="-1"></a>pdata.compare.choice <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(sim.memDDM, pdata.choice)</span>
+<span id="cb91-23"><a href="memDDM.html#cb91-23" tabindex="-1"></a></span>
+<span id="cb91-24"><a href="memDDM.html#cb91-24" tabindex="-1"></a>plot.compare.choice <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.compare.choice, <span class="fu">aes</span>(<span class="at">x=</span>vdiff, <span class="at">y=</span>y, <span class="at">color=</span>Dataset, <span class="at">linetype=</span>Dataset)) <span class="sc">+</span></span>
+<span id="cb91-25"><a href="memDDM.html#cb91-25" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb91-26"><a href="memDDM.html#cb91-26" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">&quot;grey&quot;</span>, <span class="at">alpha=</span>.<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb91-27"><a href="memDDM.html#cb91-27" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb91-28"><a href="memDDM.html#cb91-28" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se, <span class="at">fill=</span>Dataset), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb91-29"><a href="memDDM.html#cb91-29" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Pr(choose left)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Left - right rating&quot;</span>) <span class="sc">+</span></span>
+<span id="cb91-30"><a href="memDDM.html#cb91-30" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb91-31"><a href="memDDM.html#cb91-31" tabindex="-1"></a>  <span class="fu">scale_color_futurama</span>() <span class="sc">+</span></span>
+<span id="cb91-32"><a href="memDDM.html#cb91-32" tabindex="-1"></a>  <span class="fu">scale_fill_futurama</span>()</span>
+<span id="cb91-33"><a href="memDDM.html#cb91-33" tabindex="-1"></a>plot.compare.choice</span></code></pre></div>
 <p><img src="LateNightBayes_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
 <p>The memDDM does quite a poor job with predicting choices.</p>
 </div>
 <div id="rts" class="section level3 hasAnchor" number="4.6.2">
 <h3><span class="header-section-number">4.6.2</span> RTs<a href="memDDM.html#rts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="memDDM.html#cb90-1" tabindex="-1"></a><span class="co">#sim.DDM &lt;- read.csv(&quot;temp/memDDM-sim-standard.csv&quot;)</span></span>
-<span id="cb90-2"><a href="memDDM.html#cb90-2" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;temp/memDDM-sim-collapseBoundScaled.csv&quot;</span>)</span>
-<span id="cb90-3"><a href="memDDM.html#cb90-3" tabindex="-1"></a></span>
-<span id="cb90-4"><a href="memDDM.html#cb90-4" tabindex="-1"></a>pe.med <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unique</span>(data[data<span class="sc">$</span>SubjectNumber<span class="sc">==</span><span class="dv">1</span>,]<span class="sc">$</span>pe.median))</span>
-<span id="cb90-5"><a href="memDDM.html#cb90-5" tabindex="-1"></a></span>
-<span id="cb90-6"><a href="memDDM.html#cb90-6" tabindex="-1"></a><span class="co"># sim.DDM &lt;- sim.DDM %&gt;%</span></span>
-<span id="cb90-7"><a href="memDDM.html#cb90-7" tabindex="-1"></a><span class="co">#   mutate(</span></span>
-<span id="cb90-8"><a href="memDDM.html#cb90-8" tabindex="-1"></a><span class="co">#     Familiarity = factor(</span></span>
-<span id="cb90-9"><a href="memDDM.html#cb90-9" tabindex="-1"></a><span class="co">#       ifelse(pe&gt;pe.med, 1, 0), </span></span>
-<span id="cb90-10"><a href="memDDM.html#cb90-10" tabindex="-1"></a><span class="co">#       levels=c(0,1),</span></span>
-<span id="cb90-11"><a href="memDDM.html#cb90-11" tabindex="-1"></a><span class="co">#       labels=c(&quot;Low&quot;,&quot;High&quot;)</span></span>
-<span id="cb90-12"><a href="memDDM.html#cb90-12" tabindex="-1"></a><span class="co">#     ),</span></span>
-<span id="cb90-13"><a href="memDDM.html#cb90-13" tabindex="-1"></a><span class="co">#     difficulty = abs(vdiff)</span></span>
-<span id="cb90-14"><a href="memDDM.html#cb90-14" tabindex="-1"></a><span class="co">#   ) %&gt;%</span></span>
-<span id="cb90-15"><a href="memDDM.html#cb90-15" tabindex="-1"></a><span class="co">#   group_by(difficulty, Familiarity) %&gt;%</span></span>
-<span id="cb90-16"><a href="memDDM.html#cb90-16" tabindex="-1"></a><span class="co">#   summarize(</span></span>
-<span id="cb90-17"><a href="memDDM.html#cb90-17" tabindex="-1"></a><span class="co">#     y = mean(rt),</span></span>
-<span id="cb90-18"><a href="memDDM.html#cb90-18" tabindex="-1"></a><span class="co">#     se = NA,</span></span>
-<span id="cb90-19"><a href="memDDM.html#cb90-19" tabindex="-1"></a><span class="co">#     Dataset = &quot;DDM&quot;</span></span>
-<span id="cb90-20"><a href="memDDM.html#cb90-20" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb90-21"><a href="memDDM.html#cb90-21" tabindex="-1"></a></span>
-<span id="cb90-22"><a href="memDDM.html#cb90-22" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> sim.memDDM <span class="sc">%&gt;%</span></span>
-<span id="cb90-23"><a href="memDDM.html#cb90-23" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb90-24"><a href="memDDM.html#cb90-24" tabindex="-1"></a>    <span class="at">pe.med =</span> pe.med,</span>
-<span id="cb90-25"><a href="memDDM.html#cb90-25" tabindex="-1"></a>    <span class="at">Familiarity =</span> <span class="fu">factor</span>(</span>
-<span id="cb90-26"><a href="memDDM.html#cb90-26" tabindex="-1"></a>      <span class="fu">ifelse</span>(pe<span class="sc">&gt;</span>pe.med, <span class="dv">1</span>, <span class="dv">0</span>), </span>
-<span id="cb90-27"><a href="memDDM.html#cb90-27" tabindex="-1"></a>      <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb90-28"><a href="memDDM.html#cb90-28" tabindex="-1"></a>      <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>,<span class="st">&quot;High&quot;</span>)</span>
-<span id="cb90-29"><a href="memDDM.html#cb90-29" tabindex="-1"></a>    ),</span>
-<span id="cb90-30"><a href="memDDM.html#cb90-30" tabindex="-1"></a>    <span class="at">difficulty =</span> <span class="fu">abs</span>(vdiff)</span>
-<span id="cb90-31"><a href="memDDM.html#cb90-31" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb90-32"><a href="memDDM.html#cb90-32" tabindex="-1"></a>  <span class="fu">group_by</span>(difficulty, Familiarity) <span class="sc">%&gt;%</span></span>
-<span id="cb90-33"><a href="memDDM.html#cb90-33" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb90-34"><a href="memDDM.html#cb90-34" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(rt),</span>
-<span id="cb90-35"><a href="memDDM.html#cb90-35" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">NA</span>,</span>
-<span id="cb90-36"><a href="memDDM.html#cb90-36" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="st">&quot;memDDM&quot;</span></span>
-<span id="cb90-37"><a href="memDDM.html#cb90-37" tabindex="-1"></a>  )</span>
-<span id="cb90-38"><a href="memDDM.html#cb90-38" tabindex="-1"></a></span>
-<span id="cb90-39"><a href="memDDM.html#cb90-39" tabindex="-1"></a>pdata.rt<span class="sc">$</span>Dataset <span class="ot">&lt;-</span> <span class="st">&quot;Data&quot;</span></span>
-<span id="cb90-40"><a href="memDDM.html#cb90-40" tabindex="-1"></a></span>
-<span id="cb90-41"><a href="memDDM.html#cb90-41" tabindex="-1"></a>pdata.compare.rt <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(sim.memDDM, pdata.rt)</span>
-<span id="cb90-42"><a href="memDDM.html#cb90-42" tabindex="-1"></a></span>
-<span id="cb90-43"><a href="memDDM.html#cb90-43" tabindex="-1"></a>plot.compare.rt <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.compare.rt, <span class="fu">aes</span>(<span class="at">x=</span>difficulty, <span class="at">y=</span>y, <span class="at">color=</span>Familiarity, <span class="at">linetype=</span>Dataset)) <span class="sc">+</span></span>
-<span id="cb90-44"><a href="memDDM.html#cb90-44" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb90-45"><a href="memDDM.html#cb90-45" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se, <span class="at">fill=</span>Familiarity), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb90-46"><a href="memDDM.html#cb90-46" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Response time (s)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Best - worst rating&quot;</span>) <span class="sc">+</span></span>
-<span id="cb90-47"><a href="memDDM.html#cb90-47" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb90-48"><a href="memDDM.html#cb90-48" tabindex="-1"></a>plot.compare.rt</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="memDDM.html#cb92-1" tabindex="-1"></a><span class="co">#sim.DDM &lt;- read.csv(&quot;temp/memDDM-sim-standard.csv&quot;)</span></span>
+<span id="cb92-2"><a href="memDDM.html#cb92-2" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;temp/memDDM-sim-collapseBoundScaled.csv&quot;</span>)</span>
+<span id="cb92-3"><a href="memDDM.html#cb92-3" tabindex="-1"></a></span>
+<span id="cb92-4"><a href="memDDM.html#cb92-4" tabindex="-1"></a>pe.med <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unique</span>(data[data<span class="sc">$</span>SubjectNumber<span class="sc">==</span><span class="dv">1</span>,]<span class="sc">$</span>pe.median))</span>
+<span id="cb92-5"><a href="memDDM.html#cb92-5" tabindex="-1"></a></span>
+<span id="cb92-6"><a href="memDDM.html#cb92-6" tabindex="-1"></a><span class="co"># sim.DDM &lt;- sim.DDM %&gt;%</span></span>
+<span id="cb92-7"><a href="memDDM.html#cb92-7" tabindex="-1"></a><span class="co">#   mutate(</span></span>
+<span id="cb92-8"><a href="memDDM.html#cb92-8" tabindex="-1"></a><span class="co">#     Familiarity = factor(</span></span>
+<span id="cb92-9"><a href="memDDM.html#cb92-9" tabindex="-1"></a><span class="co">#       ifelse(pe&gt;pe.med, 1, 0), </span></span>
+<span id="cb92-10"><a href="memDDM.html#cb92-10" tabindex="-1"></a><span class="co">#       levels=c(0,1),</span></span>
+<span id="cb92-11"><a href="memDDM.html#cb92-11" tabindex="-1"></a><span class="co">#       labels=c(&quot;Low&quot;,&quot;High&quot;)</span></span>
+<span id="cb92-12"><a href="memDDM.html#cb92-12" tabindex="-1"></a><span class="co">#     ),</span></span>
+<span id="cb92-13"><a href="memDDM.html#cb92-13" tabindex="-1"></a><span class="co">#     difficulty = abs(vdiff)</span></span>
+<span id="cb92-14"><a href="memDDM.html#cb92-14" tabindex="-1"></a><span class="co">#   ) %&gt;%</span></span>
+<span id="cb92-15"><a href="memDDM.html#cb92-15" tabindex="-1"></a><span class="co">#   group_by(difficulty, Familiarity) %&gt;%</span></span>
+<span id="cb92-16"><a href="memDDM.html#cb92-16" tabindex="-1"></a><span class="co">#   summarize(</span></span>
+<span id="cb92-17"><a href="memDDM.html#cb92-17" tabindex="-1"></a><span class="co">#     y = mean(rt),</span></span>
+<span id="cb92-18"><a href="memDDM.html#cb92-18" tabindex="-1"></a><span class="co">#     se = NA,</span></span>
+<span id="cb92-19"><a href="memDDM.html#cb92-19" tabindex="-1"></a><span class="co">#     Dataset = &quot;DDM&quot;</span></span>
+<span id="cb92-20"><a href="memDDM.html#cb92-20" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb92-21"><a href="memDDM.html#cb92-21" tabindex="-1"></a></span>
+<span id="cb92-22"><a href="memDDM.html#cb92-22" tabindex="-1"></a>sim.memDDM <span class="ot">&lt;-</span> sim.memDDM <span class="sc">%&gt;%</span></span>
+<span id="cb92-23"><a href="memDDM.html#cb92-23" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb92-24"><a href="memDDM.html#cb92-24" tabindex="-1"></a>    <span class="at">pe.med =</span> pe.med,</span>
+<span id="cb92-25"><a href="memDDM.html#cb92-25" tabindex="-1"></a>    <span class="at">Familiarity =</span> <span class="fu">factor</span>(</span>
+<span id="cb92-26"><a href="memDDM.html#cb92-26" tabindex="-1"></a>      <span class="fu">ifelse</span>(pe<span class="sc">&gt;</span>pe.med, <span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb92-27"><a href="memDDM.html#cb92-27" tabindex="-1"></a>      <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb92-28"><a href="memDDM.html#cb92-28" tabindex="-1"></a>      <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>,<span class="st">&quot;High&quot;</span>)</span>
+<span id="cb92-29"><a href="memDDM.html#cb92-29" tabindex="-1"></a>    ),</span>
+<span id="cb92-30"><a href="memDDM.html#cb92-30" tabindex="-1"></a>    <span class="at">difficulty =</span> <span class="fu">abs</span>(vdiff)</span>
+<span id="cb92-31"><a href="memDDM.html#cb92-31" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb92-32"><a href="memDDM.html#cb92-32" tabindex="-1"></a>  <span class="fu">group_by</span>(difficulty, Familiarity) <span class="sc">%&gt;%</span></span>
+<span id="cb92-33"><a href="memDDM.html#cb92-33" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb92-34"><a href="memDDM.html#cb92-34" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">mean</span>(rt),</span>
+<span id="cb92-35"><a href="memDDM.html#cb92-35" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">NA</span>,</span>
+<span id="cb92-36"><a href="memDDM.html#cb92-36" tabindex="-1"></a>    <span class="at">Dataset =</span> <span class="st">&quot;memDDM&quot;</span></span>
+<span id="cb92-37"><a href="memDDM.html#cb92-37" tabindex="-1"></a>  )</span>
+<span id="cb92-38"><a href="memDDM.html#cb92-38" tabindex="-1"></a></span>
+<span id="cb92-39"><a href="memDDM.html#cb92-39" tabindex="-1"></a>pdata.rt<span class="sc">$</span>Dataset <span class="ot">&lt;-</span> <span class="st">&quot;Data&quot;</span></span>
+<span id="cb92-40"><a href="memDDM.html#cb92-40" tabindex="-1"></a></span>
+<span id="cb92-41"><a href="memDDM.html#cb92-41" tabindex="-1"></a>pdata.compare.rt <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(sim.memDDM, pdata.rt)</span>
+<span id="cb92-42"><a href="memDDM.html#cb92-42" tabindex="-1"></a></span>
+<span id="cb92-43"><a href="memDDM.html#cb92-43" tabindex="-1"></a>plot.compare.rt <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>pdata.compare.rt, <span class="fu">aes</span>(<span class="at">x=</span>difficulty, <span class="at">y=</span>y, <span class="at">color=</span>Familiarity, <span class="at">linetype=</span>Dataset)) <span class="sc">+</span></span>
+<span id="cb92-44"><a href="memDDM.html#cb92-44" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb92-45"><a href="memDDM.html#cb92-45" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>y<span class="sc">-</span>se, <span class="at">ymax=</span>y<span class="sc">+</span>se, <span class="at">fill=</span>Familiarity), <span class="at">alpha=</span>.<span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb92-46"><a href="memDDM.html#cb92-46" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Response time (s)&quot;</span>, <span class="at">x=</span><span class="st">&quot;Best - worst rating&quot;</span>) <span class="sc">+</span></span>
+<span id="cb92-47"><a href="memDDM.html#cb92-47" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb92-48"><a href="memDDM.html#cb92-48" tabindex="-1"></a>plot.compare.rt</span></code></pre></div>
 <p><img src="LateNightBayes_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
 <p>For high difficulty trials, looks like we can get slight downward shifts in response time with high familiarity. This difference gradually falls to 0 as trials get easier. Predictions are nowhere near observed response times at higher difficulties. It seems that boundary collapse delay scaled by repeated encounters with both stimuli is unable to generate the level shifts in response time with familiarity that we see in data.</p>
 
@@ -784,7 +792,7 @@ Smith, Stephanie M., and Ian Krajbich. 2018. <span>“Attention and Choice Acros
         </div>
       </div>
 <a href="mem-aDDM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="addmvariants.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ddm-first-order-stochastic-dominance.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

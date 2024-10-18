@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes</title>
+  <title>Chapter 9 Single Agent Simulations | Late Night Bayes</title>
   <meta name="description" content="A collection of reports about interesting side projects." />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta property="og:title" content="Chapter 9 Single Agent Simulations | Late Night Bayes" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="A collection of reports about interesting side projects." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta name="twitter:title" content="Chapter 9 Single Agent Simulations | Late Night Bayes" />
   
   <meta name="twitter:description" content="A collection of reports about interesting side projects." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="memDDM.html"/>
-<link rel="next" href="preamble.html"/>
+<link rel="prev" href="lotteries.html"/>
+<link rel="next" href="multi-agent-simulations.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -227,23 +227,58 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="addmvariants" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> aDDM Variants in Aversive Choice<a href="addmvariants.html#addmvariants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Coming soon.</p>
-
-<p>Author: Brenden Eum (2024)</p>
-<p>This notebook is for Charly Hervy at UPF in Barcelona. She finds that some of her subjects violate first-order stochastic dominance (FOSD) in a risky choice task.</p>
-<p>I argue that this can be modeled by the Drift-Diffusion-Model (DDM) from cognitive neuroscience. It is one of the most famous models to come out of this literature, cited in literally over a million papers (also goes by “Diffusion Decision Model”, so named by members of the Psychology and Economics departments at OSU). The model considers the speed-accuracy trade-off in decisions, and therefore requires data on both choices and response times. Larbi might like this idea since he has a working paper on response times, I believe. The intuition behind the model is this: (1) If two options are similarly valued, the decision is hard, takes more time, and is made with a higher error rate. (2) As the difference in value between the two options grows, the decision becomes easier, takes less time, and is made with a lower error rate. There is an element of stochasticity in choices that originates from evidence in neuroscience, but is implemented in a very simple manner in the DDM. This stochasticity is the source of errors in decisions, and is one of TWO features of the DDM that may explain violations of FOSD. I’ll only focus on this feature here. Patrick is aware of the model too, so I’m sure he can help if I failed to clearly explain the intuition here.</p>
-<p>In the past, the DDM (and the class of models it belongs to called “sequential sampling models”) has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I’m not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done).</p>
-<p>I think (a) the DDM may offer a potential explanation of your data, and (b) your experiment may offer something novel for the DDM literature. If you add a paragraph or small section on response time patterns, expected value differences, and the DDM, I can spread the word to all the sequential sampling modelers + neuroeconomists, and you may get citations from the psychology and neuroscience fields too!</p>
+<div id="single-agent-simulations" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Single Agent Simulations<a href="single-agent-simulations.html#single-agent-simulations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="single-agent" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Single Agent<a href="single-agent-simulations.html#single-agent" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Take a single DDM agent with default parameters. What is the rate at which they violate FOSD?</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="single-agent-simulations.html#cb101-1" tabindex="-1"></a>single_agent <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb101-2"><a href="single-agent-simulations.html#cb101-2" tabindex="-1"></a>evidence <span class="ot">=</span> pdata<span class="sc">$</span>L_ev <span class="sc">-</span> pdata<span class="sc">$</span>R_ev</span>
+<span id="cb101-3"><a href="single-agent-simulations.html#cb101-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(evidence)) {</span>
+<span id="cb101-4"><a href="single-agent-simulations.html#cb101-4" tabindex="-1"></a>  single_trial <span class="ot">=</span> <span class="fu">simulate_ddm</span>(evidence[i]) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span>
+<span id="cb101-5"><a href="single-agent-simulations.html#cb101-5" tabindex="-1"></a>  single_trial<span class="sc">$</span>evidence <span class="ot">=</span> evidence[i]</span>
+<span id="cb101-6"><a href="single-agent-simulations.html#cb101-6" tabindex="-1"></a>  single_agent <span class="ot">=</span> <span class="fu">bind_rows</span>(single_agent, single_trial)</span>
+<span id="cb101-7"><a href="single-agent-simulations.html#cb101-7" tabindex="-1"></a>}</span>
+<span id="cb101-8"><a href="single-agent-simulations.html#cb101-8" tabindex="-1"></a></span>
+<span id="cb101-9"><a href="single-agent-simulations.html#cb101-9" tabindex="-1"></a><span class="co"># Some cleaning</span></span>
+<span id="cb101-10"><a href="single-agent-simulations.html#cb101-10" tabindex="-1"></a>single_agent<span class="sc">$</span>rnd_evid <span class="ot">=</span> single_agent<span class="sc">$</span>evidence <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
+<span id="cb101-11"><a href="single-agent-simulations.html#cb101-11" tabindex="-1"></a>single_agent<span class="sc">$</span>error <span class="ot">=</span> <span class="fu">ifelse</span>(single_agent<span class="sc">$</span>choice<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+</div>
+<div id="expected-value-differences-and-error-rate" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Expected Value Differences and Error Rate<a href="single-agent-simulations.html#expected-value-differences-and-error-rate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="single-agent-simulations.html#cb102-1" tabindex="-1"></a>pdata.error_ev <span class="ot">=</span> single_agent <span class="sc">%&gt;%</span></span>
+<span id="cb102-2"><a href="single-agent-simulations.html#cb102-2" tabindex="-1"></a>  <span class="fu">group_by</span>(rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb102-3"><a href="single-agent-simulations.html#cb102-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">error =</span> <span class="fu">mean</span>(error))</span>
+<span id="cb102-4"><a href="single-agent-simulations.html#cb102-4" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="single-agent-simulations.html#cb102-5" tabindex="-1"></a><span class="fu">ggplot</span>(pdata.error_ev, <span class="fu">aes</span>(<span class="at">x=</span>rnd_evid, <span class="at">y=</span>error)) <span class="sc">+</span></span>
+<span id="cb102-6"><a href="single-agent-simulations.html#cb102-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb102-7"><a href="single-agent-simulations.html#cb102-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb102-8"><a href="single-agent-simulations.html#cb102-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Rate of Violations of FOSD&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Rounded Expected Value Difference (L-R)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb102-9"><a href="single-agent-simulations.html#cb102-9" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+</div>
+<div id="response-times-and-value-differences." class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Response Times and Value Differences.<a href="single-agent-simulations.html#response-times-and-value-differences." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It’s well established in the literature that response times will increase as Expected Value Differences go to 0 (see Forstmann et al. 2016 for a great review). This is typically replicated in every dataset that wants to explain data with DDM since it’s so robust. Think of it as a sanity check that the model can be applied to this data.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="single-agent-simulations.html#cb103-1" tabindex="-1"></a>pdata.rt_ev <span class="ot">=</span> single_agent <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="single-agent-simulations.html#cb103-2" tabindex="-1"></a>  <span class="fu">group_by</span>(rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="single-agent-simulations.html#cb103-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">rt =</span> <span class="fu">mean</span>(rt)<span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb103-4"><a href="single-agent-simulations.html#cb103-4" tabindex="-1"></a></span>
+<span id="cb103-5"><a href="single-agent-simulations.html#cb103-5" tabindex="-1"></a><span class="fu">ggplot</span>(pdata.rt_ev, <span class="fu">aes</span>(<span class="at">x=</span>rnd_evid, <span class="at">y=</span>rt)) <span class="sc">+</span></span>
+<span id="cb103-6"><a href="single-agent-simulations.html#cb103-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb103-7"><a href="single-agent-simulations.html#cb103-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb103-8"><a href="single-agent-simulations.html#cb103-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Response Time (Seconds)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Rounded Expected Value Difference (L-R)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb103-9"><a href="single-agent-simulations.html#cb103-9" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="cn">NA</span>))</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="memDDM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="preamble.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="lotteries.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multi-agent-simulations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +309,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-ddm-collapse.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-ddm-fosd.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -1,15 +1,18 @@
+# DDM & First-Order Stochastic Dominance
+
+## Introduction: The DDM Can Explain Violations of First-Order Stochastic Dominance
+
 Author: Brenden Eum (2024)
 
 This notebook is for Charly Hervy at UPF in Barcelona. She finds that some of her subjects violate first-order stochastic dominance (FOSD) in a risky choice task.
 
 I argue that this can be modeled by the Drift-Diffusion-Model (DDM) from cognitive neuroscience. It is one of the most famous models to come out of this literature, cited in literally over a million papers (also goes by "Diffusion Decision Model", so named by members of the Psychology and Economics departments at OSU). The model considers the speed-accuracy trade-off in decisions, and therefore requires data on both choices and response times. Larbi might like this idea since he has a working paper on response times, I believe. The intuition behind the model is this: (1) If two options are similarly valued, the decision is hard, takes more time, and is made with a higher error rate. (2) As the difference in value between the two options grows, the decision becomes easier, takes less time, and is made with a lower error rate. There is an element of stochasticity in choices that originates from evidence in neuroscience, but is implemented in a very simple manner in the DDM. This stochasticity is the source of errors in decisions, and is one of TWO features of the DDM that may explain violations of FOSD. I'll only focus on this feature here. Patrick is aware of the model too, so I'm sure he can help if I failed to clearly explain the intuition here.
 
-In the past, the DDM (and the class of models it belongs to called "sequential sampling models") has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I'm not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done). 
+In the past, the DDM (and the class of models it belongs to called "sequential sampling models") has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I'm not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done).
 
 I think (a) the DDM may offer a potential explanation of your data, and (b) your experiment may offer something novel for the DDM literature. If you add a paragraph or small section on response time patterns, expected value differences, and the DDM, I can spread the word to all the sequential sampling modelers + neuroeconomists, and you may get citations from the psychology and neuroscience fields too!
 
-
-# Preamble
+## Preamble
 
 ```{r, tidy=TRUE, results="hide"}
 rm(list=ls())
@@ -19,8 +22,7 @@ library(patchwork)
 library(plotrix)
 ```
 
-
-# DDM Simulation Function
+## DDM Simulation Function
 
 Simulate the DDM for a single trial. Simulation will stop and report NA if subject takes longer than 2 minutes for a single trial
 
@@ -50,8 +52,7 @@ simulate_ddm <- function(evidence, a = 1.0, d = 0.001, s = 0.03, b = 0.0, c = 0.
 }
 ```
 
-
-# Lotteries
+## Lotteries
 
 Generate vectors of lotteries. Lottery L will FOSD Lottery R.
 
@@ -66,9 +67,9 @@ for (i in 1:100) {
 }
 ```
 
-## Expected Value
+### Expected Value
 
-There are different ways to compare the lotteries. (Not Recommended) Since the DDM is a sequential sampling model, the order in which information (attribute values) enter into the decision process matters (Yang and Krajbich 2023, Fisher 2021). That being said, this would require eye-tracking and a whole bunch of other assumptions, so it may not be the simple explanation you're looking for. (Recommended) You can just compare the expected values of the lotteries (Eum et al. 2024). 
+There are different ways to compare the lotteries. (Not Recommended) Since the DDM is a sequential sampling model, the order in which information (attribute values) enter into the decision process matters (Yang and Krajbich 2023, Fisher 2021). That being said, this would require eye-tracking and a whole bunch of other assumptions, so it may not be the simple explanation you're looking for. (Recommended) You can just compare the expected values of the lotteries (Eum et al. 2024).
 
 ```{r, tidy=TRUE}
 pdata = data.frame(L_lottery = "L", L_ev = L_prb*L_amt, R_lottery = "R", R_ev = R_prb*R_amt)
@@ -81,10 +82,9 @@ ggplot(pdata) +
   labs(y = "Expected Value", x = "Lottery", title = "All slopes are strictly negative, indicating FOSD.")
 ```
 
+## Single Agent Simulations
 
-# Single Agent Simulations
-
-## Single Agent
+### Single Agent
 
 Take a single DDM agent with default parameters. What is the rate at which they violate FOSD?
 
@@ -102,7 +102,7 @@ single_agent$rnd_evid = single_agent$evidence %>% round()
 single_agent$error = ifelse(single_agent$choice==1, 0, 1)
 ```
 
-## Expected Value Differences and Error Rate
+### Expected Value Differences and Error Rate
 
 ```{r, tidy=TRUE}
 pdata.error_ev = single_agent %>%
@@ -116,7 +116,7 @@ ggplot(pdata.error_ev, aes(x=rnd_evid, y=error)) +
   coord_cartesian(ylim=c(0,1))
 ```
 
-## Response Times and Value Differences.
+### Response Times and Value Differences.
 
 It's well established in the literature that response times will increase as Expected Value Differences go to 0 (see Forstmann et al. 2016 for a great review). This is typically replicated in every dataset that wants to explain data with DDM since it's so robust. Think of it as a sanity check that the model can be applied to this data.
 
@@ -132,10 +132,9 @@ ggplot(pdata.rt_ev, aes(x=rnd_evid, y=rt)) +
   coord_cartesian(ylim=c(0,NA))
 ```
 
+## Multi-Agent Simulations
 
-# Multi-Agent Simulations
-
-## Distributions of agents
+### Distributions of agents
 
 Suppose we have N agents who make decisions using DDM. Draw their parameters from some reasonable distribution, given previous literature. I'll work off of my last paper (Eum et al. 2023).
 
@@ -167,7 +166,7 @@ for (n in 1:N) {
 }
 ```
 
-## Expected Value Differences and Error Rate
+### Expected Value Differences and Error Rate
 
 This is the main dish. What you came to see. ARE YOU NOT ENTERTAINED?! It works!!!
 

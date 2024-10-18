@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes</title>
+  <title>Chapter 10 Multi-Agent Simulations | Late Night Bayes</title>
   <meta name="description" content="A collection of reports about interesting side projects." />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta property="og:title" content="Chapter 10 Multi-Agent Simulations | Late Night Bayes" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="A collection of reports about interesting side projects." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta name="twitter:title" content="Chapter 10 Multi-Agent Simulations | Late Night Bayes" />
   
   <meta name="twitter:description" content="A collection of reports about interesting side projects." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="memDDM.html"/>
-<link rel="next" href="preamble.html"/>
+<link rel="prev" href="single-agent-simulations.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -227,23 +227,67 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="addmvariants" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> aDDM Variants in Aversive Choice<a href="addmvariants.html#addmvariants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Coming soon.</p>
+<div id="multi-agent-simulations" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Multi-Agent Simulations<a href="multi-agent-simulations.html#multi-agent-simulations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="distributions-of-agents" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Distributions of agents<a href="multi-agent-simulations.html#distributions-of-agents" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose we have N agents who make decisions using DDM. Draw their parameters from some reasonable distribution, given previous literature. I’ll work off of my last paper (Eum et al. 2023).</p>
+<p>This may take a few seconds to a minute depending on your computer.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="multi-agent-simulations.html#cb104-1" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb104-2"><a href="multi-agent-simulations.html#cb104-2" tabindex="-1"></a>multi_agent <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb104-3"><a href="multi-agent-simulations.html#cb104-3" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="multi-agent-simulations.html#cb104-4" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb104-5"><a href="multi-agent-simulations.html#cb104-5" tabindex="-1"></a>  <span class="co"># Together, the drift rate and noise determine signal-to-noise ratio in this decision process.</span></span>
+<span id="cb104-6"><a href="multi-agent-simulations.html#cb104-6" tabindex="-1"></a>  d <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min=</span><span class="fl">0.0001</span>, <span class="at">max=</span><span class="fl">0.009</span>) <span class="co"># drift rate</span></span>
+<span id="cb104-7"><a href="multi-agent-simulations.html#cb104-7" tabindex="-1"></a>  s <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min=</span><span class="fl">0.01</span>, <span class="at">max=</span><span class="fl">0.09</span>) <span class="co"># noise</span></span>
+<span id="cb104-8"><a href="multi-agent-simulations.html#cb104-8" tabindex="-1"></a>  </span>
+<span id="cb104-9"><a href="multi-agent-simulations.html#cb104-9" tabindex="-1"></a>  agent_n <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb104-10"><a href="multi-agent-simulations.html#cb104-10" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(evidence)) { <span class="co"># Evidence vector is same as in above cells.</span></span>
+<span id="cb104-11"><a href="multi-agent-simulations.html#cb104-11" tabindex="-1"></a>    single_trial <span class="ot">=</span> <span class="fu">simulate_ddm</span>(evidence[i], <span class="at">d=</span>d, <span class="at">s=</span>s) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>()</span>
+<span id="cb104-12"><a href="multi-agent-simulations.html#cb104-12" tabindex="-1"></a>    single_trial<span class="sc">$</span>evidence <span class="ot">=</span> evidence[i]</span>
+<span id="cb104-13"><a href="multi-agent-simulations.html#cb104-13" tabindex="-1"></a>    agent_n <span class="ot">=</span> <span class="fu">bind_rows</span>(agent_n, single_trial)</span>
+<span id="cb104-14"><a href="multi-agent-simulations.html#cb104-14" tabindex="-1"></a>  }</span>
+<span id="cb104-15"><a href="multi-agent-simulations.html#cb104-15" tabindex="-1"></a>  </span>
+<span id="cb104-16"><a href="multi-agent-simulations.html#cb104-16" tabindex="-1"></a>  <span class="co"># Some cleaning</span></span>
+<span id="cb104-17"><a href="multi-agent-simulations.html#cb104-17" tabindex="-1"></a>  agent_n<span class="sc">$</span>n <span class="ot">=</span> n</span>
+<span id="cb104-18"><a href="multi-agent-simulations.html#cb104-18" tabindex="-1"></a>  agent_n<span class="sc">$</span>rnd_evid <span class="ot">=</span> agent_n<span class="sc">$</span>evidence <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
+<span id="cb104-19"><a href="multi-agent-simulations.html#cb104-19" tabindex="-1"></a>  agent_n<span class="sc">$</span>error <span class="ot">=</span> <span class="fu">ifelse</span>(agent_n<span class="sc">$</span>choice<span class="sc">==</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb104-20"><a href="multi-agent-simulations.html#cb104-20" tabindex="-1"></a>  </span>
+<span id="cb104-21"><a href="multi-agent-simulations.html#cb104-21" tabindex="-1"></a>  <span class="co"># Combine into placeholder</span></span>
+<span id="cb104-22"><a href="multi-agent-simulations.html#cb104-22" tabindex="-1"></a>  multi_agent <span class="ot">=</span> <span class="fu">bind_rows</span>(multi_agent, agent_n)</span>
+<span id="cb104-23"><a href="multi-agent-simulations.html#cb104-23" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="expected-value-differences-and-error-rate-1" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Expected Value Differences and Error Rate<a href="multi-agent-simulations.html#expected-value-differences-and-error-rate-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This is the main dish. What you came to see. ARE YOU NOT ENTERTAINED?! It works!!!</p>
+<p>Let’s plot the mean and standard deviation across the MEANS of the agents.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="multi-agent-simulations.html#cb105-1" tabindex="-1"></a>pdata.multi_error_ev <span class="ot">=</span> multi_agent <span class="sc">%&gt;%</span></span>
+<span id="cb105-2"><a href="multi-agent-simulations.html#cb105-2" tabindex="-1"></a>  <span class="fu">group_by</span>(n, rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb105-3"><a href="multi-agent-simulations.html#cb105-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">error =</span> <span class="fu">mean</span>(error, <span class="at">na.rm=</span>T)) <span class="sc">%&gt;%</span></span>
+<span id="cb105-4"><a href="multi-agent-simulations.html#cb105-4" tabindex="-1"></a>  <span class="fu">group_by</span>(rnd_evid) <span class="sc">%&gt;%</span></span>
+<span id="cb105-5"><a href="multi-agent-simulations.html#cb105-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb105-6"><a href="multi-agent-simulations.html#cb105-6" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(error, <span class="at">na.rm=</span>T),</span>
+<span id="cb105-7"><a href="multi-agent-simulations.html#cb105-7" tabindex="-1"></a>    <span class="at">error =</span> <span class="fu">mean</span>(error, <span class="at">na.rm=</span>T)</span>
+<span id="cb105-8"><a href="multi-agent-simulations.html#cb105-8" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;n&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="multi-agent-simulations.html#cb107-1" tabindex="-1"></a><span class="fu">ggplot</span>(pdata.multi_error_ev, <span class="fu">aes</span>(<span class="at">x=</span>rnd_evid, <span class="at">y=</span>error)) <span class="sc">+</span></span>
+<span id="cb107-2"><a href="multi-agent-simulations.html#cb107-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb107-3"><a href="multi-agent-simulations.html#cb107-3" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">pmax</span>(error<span class="sc">-</span>sd,<span class="dv">0</span>), <span class="at">ymax=</span>error<span class="sc">+</span>sd), <span class="at">width=</span><span class="dv">0</span>, <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb107-4"><a href="multi-agent-simulations.html#cb107-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb107-5"><a href="multi-agent-simulations.html#cb107-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Rate of Violations of FOSD (SD Errorbars)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Rounded Expected Value Difference (L-R)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb107-6"><a href="multi-agent-simulations.html#cb107-6" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="LateNightBayes_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 
-<p>Author: Brenden Eum (2024)</p>
-<p>This notebook is for Charly Hervy at UPF in Barcelona. She finds that some of her subjects violate first-order stochastic dominance (FOSD) in a risky choice task.</p>
-<p>I argue that this can be modeled by the Drift-Diffusion-Model (DDM) from cognitive neuroscience. It is one of the most famous models to come out of this literature, cited in literally over a million papers (also goes by “Diffusion Decision Model”, so named by members of the Psychology and Economics departments at OSU). The model considers the speed-accuracy trade-off in decisions, and therefore requires data on both choices and response times. Larbi might like this idea since he has a working paper on response times, I believe. The intuition behind the model is this: (1) If two options are similarly valued, the decision is hard, takes more time, and is made with a higher error rate. (2) As the difference in value between the two options grows, the decision becomes easier, takes less time, and is made with a lower error rate. There is an element of stochasticity in choices that originates from evidence in neuroscience, but is implemented in a very simple manner in the DDM. This stochasticity is the source of errors in decisions, and is one of TWO features of the DDM that may explain violations of FOSD. I’ll only focus on this feature here. Patrick is aware of the model too, so I’m sure he can help if I failed to clearly explain the intuition here.</p>
-<p>In the past, the DDM (and the class of models it belongs to called “sequential sampling models”) has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I’m not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done).</p>
-<p>I think (a) the DDM may offer a potential explanation of your data, and (b) your experiment may offer something novel for the DDM literature. If you add a paragraph or small section on response time patterns, expected value differences, and the DDM, I can spread the word to all the sequential sampling modelers + neuroeconomists, and you may get citations from the psychology and neuroscience fields too!</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="memDDM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="preamble.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="single-agent-simulations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +318,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-ddm-collapse.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-ddm-fosd.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes</title>
+  <title>Chapter 6 Preamble | Late Night Bayes</title>
   <meta name="description" content="A collection of reports about interesting side projects." />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta property="og:title" content="Chapter 6 Preamble | Late Night Bayes" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="A collection of reports about interesting side projects." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 aDDM Variants in Aversive Choice | Late Night Bayes" />
+  <meta name="twitter:title" content="Chapter 6 Preamble | Late Night Bayes" />
   
   <meta name="twitter:description" content="A collection of reports about interesting side projects." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="memDDM.html"/>
-<link rel="next" href="preamble.html"/>
+<link rel="prev" href="addmvariants.html"/>
+<link rel="next" href="ddm-simulation-function.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -227,23 +227,54 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="addmvariants" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Chapter 5</span> aDDM Variants in Aversive Choice<a href="addmvariants.html#addmvariants" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Coming soon.</p>
-
-<p>Author: Brenden Eum (2024)</p>
-<p>This notebook is for Charly Hervy at UPF in Barcelona. She finds that some of her subjects violate first-order stochastic dominance (FOSD) in a risky choice task.</p>
-<p>I argue that this can be modeled by the Drift-Diffusion-Model (DDM) from cognitive neuroscience. It is one of the most famous models to come out of this literature, cited in literally over a million papers (also goes by “Diffusion Decision Model”, so named by members of the Psychology and Economics departments at OSU). The model considers the speed-accuracy trade-off in decisions, and therefore requires data on both choices and response times. Larbi might like this idea since he has a working paper on response times, I believe. The intuition behind the model is this: (1) If two options are similarly valued, the decision is hard, takes more time, and is made with a higher error rate. (2) As the difference in value between the two options grows, the decision becomes easier, takes less time, and is made with a lower error rate. There is an element of stochasticity in choices that originates from evidence in neuroscience, but is implemented in a very simple manner in the DDM. This stochasticity is the source of errors in decisions, and is one of TWO features of the DDM that may explain violations of FOSD. I’ll only focus on this feature here. Patrick is aware of the model too, so I’m sure he can help if I failed to clearly explain the intuition here.</p>
-<p>In the past, the DDM (and the class of models it belongs to called “sequential sampling models”) has been used to explain preference reversals, violations of transitivity, non-linear probability reweighting, etc. (Tsetsos et al. 2012, Testsos et al. 2016, Zilker and Pachur 2022). While I’m not alone in thinking that it can be used to explain violations of FOSD, nobody has actually collected data to test this (I asked around to see if it had been done).</p>
-<p>I think (a) the DDM may offer a potential explanation of your data, and (b) your experiment may offer something novel for the DDM literature. If you add a paragraph or small section on response time patterns, expected value differences, and the DDM, I can spread the word to all the sequential sampling modelers + neuroeconomists, and you may get citations from the psychology and neuroscience fields too!</p>
+<div id="preamble" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Preamble<a href="preamble.html#preamble" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="preamble.html#cb93-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb93-2"><a href="preamble.html#cb93-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb93-3"><a href="preamble.html#cb93-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────── tidyverse 2.0.0 ──
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
+## ✔ readr     2.1.5     
+## ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ data.table::between() masks dplyr::between()
+## ✖ gridExtra::combine()  masks dplyr::combine()
+## ✖ tidyr::extract()      masks runjags::extract()
+## ✖ dplyr::filter()       masks stats::filter()
+## ✖ data.table::first()   masks dplyr::first()
+## ✖ lubridate::hour()     masks data.table::hour()
+## ✖ lubridate::isoweek()  masks data.table::isoweek()
+## ✖ dplyr::lag()          masks stats::lag()
+## ✖ data.table::last()    masks dplyr::last()
+## ✖ lubridate::mday()     masks data.table::mday()
+## ✖ lubridate::minute()   masks data.table::minute()
+## ✖ lubridate::month()    masks data.table::month()
+## ✖ lubridate::quarter()  masks data.table::quarter()
+## ✖ lubridate::second()   masks data.table::second()
+## ✖ MASS::select()        masks dplyr::select()
+## ✖ purrr::transpose()    masks data.table::transpose()
+## ✖ lubridate::wday()     masks data.table::wday()
+## ✖ lubridate::week()     masks data.table::week()
+## ✖ lubridate::yday()     masks data.table::yday()
+## ✖ lubridate::year()     masks data.table::year()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="preamble.html#cb95-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;patchwork&#39;
+## 
+## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     area</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="preamble.html#cb97-1" tabindex="-1"></a><span class="fu">library</span>(plotrix)</span></code></pre></div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="memDDM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="preamble.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="addmvariants.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ddm-simulation-function.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +305,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-ddm-collapse.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-ddm-fosd.Rmd",
 "text": "Edit"
 },
 "history": {
